@@ -1,0 +1,5 @@
+[[redirects]]
+  # 配置 SPA 重定向，防止刷新页面时出现 404
+  from = "/*"
+  to = "/index.html"
+  status = 200
