@@ -11,10 +11,11 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "element-plus": "^2.9.3",
     "marked": "^15.0.6",
     "pinia": "^2.3.0",
-    "vite-plugin-md": "^0.21.5",
     "vue": "^3.5.13",
+    "vue-i18n": "^11.0.1",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
