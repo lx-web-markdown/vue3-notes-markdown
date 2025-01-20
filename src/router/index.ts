@@ -19,7 +19,7 @@ const allRouters = [
       {
         path: "/vue-home",
         name: "vueHome",
-        component: () => import("@/views/VueHome/Section1-Demos/index.vue"),
+        component: () => import("@/views/VueHome/RightView/index.vue"),
       },
       // {
       //   path: "/vue3-home",
