@@ -1,3 +1,13 @@
-// 常量
-$lx-color-primary: #00a971; // 全局主色
-$lx-space-40: 40px;
+// 项目提供scss全局变量
+// 定义项目主题颜色
+
+/** 全局 CSS 变量，这种变量不仅可以在 CSS 和 SCSS 中使用，还可以导入到 JS 中使用 */
+:root {
+  // 颜色  
+  --lx-color-bg: #F5F5F5;
+  --lx-color-green: #e3ad1a;
+
+  // 宽度 + 高度
+  --lx-header-height: 60px;
+  --lx-main-container-height: calc(100vh - var(--lx-header-height));
+}

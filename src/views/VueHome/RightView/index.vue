@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import MarkdownView from '@/components/MarkdownComp.vue'
@@ -14,16 +13,20 @@ const change = () => {
 </script>
 
 <template>
-  <div>
-    我是ddd
+  <div class="right-main-view">
+    <div>
+      我是ddd
+    </div>
+
+    <button @click="change">切换</button>
+
+    <!-- <MarkdownView :markdown-file-path="markdownFilePath" /> -->
   </div>
 
-  <button @click="change">切换</button>
-
-  <MarkdownView :markdown-file-path="markdownFilePath" />
 </template>
 
-
-<style scoped>
-
+<style scoped lang="scss">
+.right-main-view {
+  background-color: aqua;
+}
 </style>

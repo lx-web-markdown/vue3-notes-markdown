@@ -1,5 +1,5 @@
 const zh = {
-  title: '西山',
+  appTitle: '祥的 Web Zone',
   navi: {
     home: '首页',
     books: '《书籍》',

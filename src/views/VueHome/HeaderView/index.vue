@@ -173,15 +173,12 @@ const openPDFViewr = (command: string) => {
   justify-content: space-between;
 
   width: 100%;
-  height: 100%;
-
-  padding: 0 20px;
-  background-color: #f5f5f5;
-
+  height: var(--lx-header-height);
+  background-color: var(--lx-color-bg);
 
   .left-view {
     display: flex;
-    margin-left: 10px;
+    margin-left: 20px;
 
     img {
       height: 80%;
@@ -205,6 +202,7 @@ const openPDFViewr = (command: string) => {
     justify-content: right;
     align-items: center; // 垂直居中
     gap: 15px;
+    margin-right: 20px;
 
     .el-dropdown-cls {
       :hover {

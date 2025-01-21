@@ -1,12 +1,16 @@
-@use './reset.scss' as *;
-@use './base';
-@use './variable';
+// @use './base';
+@use './constant';
 
-h1 {
-  text-decoration: none;
-  background-color: green;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-html.dark {
-  --lx-color-green: #000;
-}
+// h1 {
+//   text-decoration: none;
+//   background-color: green;
+// }
+
+// html.dark {
+//   --lx-color-green: #000;
+// }

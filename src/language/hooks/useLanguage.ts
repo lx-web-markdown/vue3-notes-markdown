@@ -12,11 +12,11 @@ export default function useLanguage() {
     // 检查 language 是否为 "zh" 或 "en"
     if (language === "zh" || language === "en") {
       myI18n.global.locale.value = language;
-      document.title = translate('title') || '西山123';
+      document.title = translate('appTitle') || '';
     } else {
       myI18n.global.locale.value = 'zh';
       console.error("Invalid language value:", language);
-      document.title = translate('title') ?? '西山123';
+      document.title = translate('appTitle') ?? '';
     }
   }
 

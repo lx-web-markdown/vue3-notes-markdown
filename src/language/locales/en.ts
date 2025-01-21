@@ -1,5 +1,5 @@
 const en = {
-  title: 'XiShan',
+  appTitle: 'Lionsom Web Zone',
   navi: {
     home: 'HomePage',
     books: 'BOOKS',
