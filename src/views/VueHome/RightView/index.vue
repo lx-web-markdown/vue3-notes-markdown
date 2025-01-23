@@ -1,28 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import MarkdownView from '@/components/MarkdownComp.vue'
+import { ref } from "vue";
+import MarkdownView from "@/components/MarkdownComp.vue";
 
-const markdownFilePath = ref('')
+import myBus from "@/utils/myBus.ts";
 
-markdownFilePath.value = '/Vue3基础/Vue3 env.d.ts文件/Vue3中env.d.ts文件.md';
+const markdownFilePath = ref("");
 
-const change = () => {
-  markdownFilePath.value = '/Vue3基础/defineProps/defineProps.md';
-}
 
+myBus.on("showFilePath", (data: any) => {
+  console.log("Event Received:", data, data.fullPath);
+  if (data.type === 'file') {
+    let result = data.fullPath.replace("./public/", "");
+    markdownFilePath.value = result;
+  }
+});
 </script>
 
 <template>
   <div class="right-main-view">
-    <div>
-      我是ddd
-    </div>
-
-    <button @click="change">切换</button>
-
-    <!-- <MarkdownView :markdown-file-path="markdownFilePath" /> -->
+    <MarkdownView :markdown-file-path="markdownFilePath" />
   </div>
-
 </template>
 
 <style scoped lang="scss">

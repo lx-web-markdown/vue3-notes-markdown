@@ -19,9 +19,15 @@ const tempOutputFile = path.join(publicDir, "fileList.txt");
 console.log("===> publicDir =", publicDir, tempOutputFile);
 
 // 输出文件路径
-const outputFile = "./public/fileList.txt";
+const outputFilePath = "./public/fileList.txt";
 
-const getAllFilesInPublicDir111 = async (_filePath) => {
+/**
+ * 获取某个目录下的所有文件
+ * @param {string} _filePath : 文件路径
+ * @param {number} _level : 文件层级，从1开始
+ * @returns 列表
+ */
+const getAllFilesInPublicDir111 = async (_filePath, _level) => {
   const files = await fs.readdirSync(_filePath);
   // console.log("===> files =", files);
   const result = [];
@@ -34,15 +40,13 @@ const getAllFilesInPublicDir111 = async (_filePath) => {
     // 判断是否为文件夹
     if (stat.isDirectory()) {
       // 文件夹递归
-      // getAllFilesInPublicDir111(itemPath);
-      // console.log("===> isDirectory =", itemPath, item);
-
       let data = {
-        // 文件夹
         type: "folder",
         name: item,
+        levle: _level,
+        fullPath: itemPath,
       };
-      let children = await getAllFilesInPublicDir111(itemPath);
+      let children = await getAllFilesInPublicDir111(itemPath, _level + 1);
       if (children && children.length) {
         data.children = children;
       }
@@ -69,34 +73,36 @@ const getAllFilesInPublicDir111 = async (_filePath) => {
       ) {
         break;
       }
-      console.log("===> isFile =", itemPath, extname);
-      result.push({
-        type: "file",
-        name: item,
-      });
+      if (item !== ".DS_Store") {
+        console.log("===> isFile =", itemPath, extname);
+        result.push({
+          type: "file",
+          name: item,
+          levle: _level,
+          fullPath: itemPath,
+        });
+      }
     }
   }
 
   return result;
 };
 
-
-
 // 获取public目录下所有文件
 const getAllFilesInPublicDir = async () => {
+  const res = await getAllFilesInPublicDir111("./public", 1);
+  // console.log('res =', res);
 
-  const res = await getAllFilesInPublicDir111("./public");
-// console.log('res =', res);
-
-  // 具有文件名，内容和回调函数的writeFile函数
-  fs.writeFile(
-    "./public/fileList.txt",
-    JSON.stringify(res),
-    function (err) {
+  if (res && res.length > 0) {
+    // 具有文件名，内容和回调函数的writeFile函数
+    fs.writeFile(outputFilePath, JSON.stringify(res), function (err) {
       if (err) throw err;
       console.log("File is created successfully.");
-    }
-  );
+    });
+  } else {
+    console.error("获取文件列表失败！！！");
+  }
 };
 
+// 调用
 getAllFilesInPublicDir();

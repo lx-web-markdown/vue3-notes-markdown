@@ -1,26 +1,70 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import myBus from "@/utils/myBus.ts";
 
+interface Tree {
+  name: string;
+  type: string;
+  level: number;
+  fullPath: string;
+  children?: Tree[];
+}
+
+const defaultProps = {
+  children: "children",
+  label: "name",
+};
+
+const dataSrouce = ref<Tree[]>([]);
+
+const getFileList = async () => {
+  try {
+    const response = await fetch("/fileList.txt"); // 根据 public 下的路径加载文件
+    if (response.ok) {
+      const text = await response.text();
+      const fileList = JSON.parse(text);
+      if (text && fileList && fileList.length > 0) {
+        dataSrouce.value = fileList;
+      } else {
+        throw new Error("Failed to load fileList.txt");
+      }
+    } else {
+      console.error("Failed to load markdown file:", response.status);
+    }
+  } catch (error) {
+    console.error("Error loading markdown file:", error);
+  }
+};
+
+getFileList();
+
+const handleNodeClick = (item: Tree) => {
+  // console.log("handleNodeClick", item);
+  if (item.type === "file") {
+    // 发射事件
+    myBus.emit("showFilePath", item);
+  }
+};
 </script>
 
 <template>
   <div class="left-sidebar">
     <el-scrollbar class="scrollbar-container">
-      <!-- 回到顶部 -->
-      <!-- <el-backtop target=".scrollbar-container" :right="50" :bottom="50" /> -->
-
-      <div class="scrollbar-item" v-for="item in 100" :key="item">
-        {{ item }}
-      </div>
+      <el-tree
+        style="max-width: 600px"
+        :data="dataSrouce"
+        :props="defaultProps"
+        @node-click="handleNodeClick"
+      />
     </el-scrollbar>
   </div>
 </template>
-
 
 <style scoped lang="scss">
 .left-sidebar {
   width: 100%;
   height: 100%;
-  background-color: #FFF;
+  background-color: #fff;
 
   .scrollbar-container {
     background-color: lightcyan;
