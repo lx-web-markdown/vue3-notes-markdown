@@ -27,7 +27,7 @@ const outputFilePath = "./public/fileList.txt";
  * @param {number} _level : 文件层级，从1开始
  * @returns 列表
  */
-const getAllFilesInPublicDir111 = async (_filePath, _level) => {
+const getAllFilesInPublicDir_Core = async (_filePath, _level) => {
   const files = await fs.readdirSync(_filePath);
   // console.log("===> files =", files);
   const result = [];
@@ -46,11 +46,12 @@ const getAllFilesInPublicDir111 = async (_filePath, _level) => {
         levle: _level,
         fullPath: itemPath,
       };
-      let children = await getAllFilesInPublicDir111(itemPath, _level + 1);
+      let children = await getAllFilesInPublicDir_Core(itemPath, _level + 1);
+      // 空文件夹不返回
       if (children && children.length) {
         data.children = children;
+        result.push(data);
       }
-      result.push(data);
     } else {
       //获取文件的后缀名
       var extname = path.extname(itemPath);
@@ -74,7 +75,7 @@ const getAllFilesInPublicDir111 = async (_filePath, _level) => {
         break;
       }
       if (item !== ".DS_Store") {
-        console.log("===> isFile =", itemPath, extname);
+        // console.log("===> isFile =", itemPath, extname);
         result.push({
           type: "file",
           name: item,
@@ -90,7 +91,7 @@ const getAllFilesInPublicDir111 = async (_filePath, _level) => {
 
 // 获取public目录下所有文件
 const getAllFilesInPublicDir = async () => {
-  const res = await getAllFilesInPublicDir111("./public", 1);
+  const res = await getAllFilesInPublicDir_Core("./public", 1);
   // console.log('res =', res);
 
   if (res && res.length > 0) {

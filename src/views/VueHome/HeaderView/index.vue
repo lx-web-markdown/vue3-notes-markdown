@@ -1,91 +1,89 @@
 <script lang="ts">
 export default {
-  name: 'HeaderView'
-}
+  name: "HeaderView",
+};
 </script>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
-import { ElMessage } from 'element-plus'
+import { onMounted, ref, watch } from "vue";
+// import { ElMessage } from 'element-plus'
 // router
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from "vue-router";
 // hooks
-import useHooks from './hooks/useHooks'
+import useHooks from "./hooks/useHooks";
 // language
-import useLanguage from '@/language/hooks/useLanguage';
+import useLanguage from "@/language/hooks/useLanguage";
 //
-const { handleDropdownCommand, handleChangeLanguage, changeTheme } = useHooks();
-const { currentLocale } = useLanguage()
+const { handleDropdownCommand, changeTheme } = useHooks();
+const { currentLocale } = useLanguage();
 
 // router
-const router = useRouter()
-const route = useRoute()
-
-const switchValue = ref(true)
+const router = useRouter();
+const route = useRoute();
 
 const srcList = [
-  'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-  'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-  'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-  'https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg',
-  'https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg',
-  'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
-  'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
-]
+  "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
+  "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg",
+  "https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg",
+  "https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg",
+  "https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg",
+  "https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg",
+  "https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg",
+];
 
-const currentLanguageName = ref('中文')
+const currentLanguageName = ref("中文");
 watch(currentLocale, (newValue: any) => {
-  newValue === 'zh' ? currentLanguageName.value = '中文' : currentLanguageName.value = 'English';
-  newValue === 'zh' ? switchValue.value = true : switchValue.value = false;
-})
+  newValue === "zh"
+    ? (currentLanguageName.value = "中文")
+    : (currentLanguageName.value = "English");
+});
 
 onMounted(() => {
   //
-  console.log('currentIndex', currentLocale.value);
-})
+  console.log("currentIndex", currentLocale.value);
+});
 
 const showLinks = () => {
-  router.push('/demo')
-}
+  router.push("/demo");
+};
 
-const avatarClick = () => {
-
-}
+const avatarClick = () => {};
 
 const openPDFViewr = (command: string) => {
   console.log(command);
   console.log(route, router);
-  if (command === '五') {
-    router.push('/pdf-all-view');
-  } else if (command === '六') {
+  if (command === "五") {
+    router.push("/pdf-all-view");
+  } else if (command === "六") {
     // 打开本地PDF样本
     // window.open(import.meta.env.VITE_BASE_API_URL + "pdfjs-4.8.69-dist/web/viewer.html");
     window.open(import.meta.env.BASE_URL + "pdfjs-4.8.69-dist/web/viewer.html");
-  } else if (command === '七') {
+  } else if (command === "七") {
     // 打开远程PDF样本
-    window.open(import.meta.env.VITE_BASE_API_URL + "pdfjs-4.8.69-dist/web/viewer.html?file=https://raw.githubusercontent.com/xishan-lin/resourcesRepo/main/genealogy/莆田林氏西山本支族谱(卷一).pdf");
+    window.open(
+      import.meta.env.VITE_BASE_API_URL +
+        "pdfjs-4.8.69-dist/web/viewer.html?file=https://raw.githubusercontent.com/xishan-lin/resourcesRepo/main/genealogy/莆田林氏西山本支族谱(卷一).pdf"
+    );
   } else {
-    router.push('/pdf-once-view');
+    router.push("/pdf-once-view");
   }
-}
-
+};
 </script>
 
 <template>
   <div class="main-view">
     <div class="left-view">
-      <img src="@/assets/images/common/logo.svg" alt="">
+      <img src="@/assets/images/common/favicon.jpeg" alt="" />
       <div class="title">
-        {{ $t('title') }}
+        {{ $t("appTitle") }}
       </div>
     </div>
     <div class="right-view">
-
       <el-button @click="showLinks" link>链接</el-button>
 
       <el-dropdown class="el-dropdown-cls" @command="openPDFViewr">
         <span class="el-dropdown-link">
-          {{ $t('navi.books') }}
+          {{ $t("navi.books") }}
           <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon>
@@ -106,7 +104,7 @@ const openPDFViewr = (command: string) => {
       <!-- 主题色 -->
       <el-dropdown class="el-dropdown-cls" @command="handleDropdownCommand">
         <span class="el-dropdown-link">
-          {{ currentLanguageName }}
+          {{ $t("navi.theme") }}
           <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon>
@@ -120,17 +118,7 @@ const openPDFViewr = (command: string) => {
         </template>
       </el-dropdown>
 
-      <!-- language 方式一 -->
-      <el-switch v-model="switchValue" @change="handleChangeLanguage">
-        <template #active-action>
-          <span>中</span>
-        </template>
-        <template #inactive-action>
-          <span>En</span>
-        </template>
-      </el-switch>
-
-      <!-- language 方式二 -->
+      <!-- language -->
       <el-dropdown class="el-dropdown-cls" @command="handleDropdownCommand">
         <span class="el-dropdown-link">
           <!-- {{ $t('common.changeLanguage') }} -->
@@ -149,18 +137,28 @@ const openPDFViewr = (command: string) => {
       </el-dropdown>
 
       <!-- avatar -->
-      <el-image class="avatar-cls" :src="srcList[0]" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2"
-        :preview-src-list="srcList" :initial-index="4" :z-index=9999 :preview-teleported=true fit="cover"
-        @click="avatarClick" circle />
-
+      <el-image
+        class="avatar-cls"
+        :src="srcList[0]"
+        :zoom-rate="1.2"
+        :max-scale="7"
+        :min-scale="0.2"
+        :preview-src-list="srcList"
+        :initial-index="4"
+        :z-index="9999"
+        :preview-teleported="true"
+        fit="cover"
+        @click="avatarClick"
+        circle
+      />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@use '@/assets/styles/element-plus-styles/el-button-scoped.scss';
-@use '@/assets/styles/element-plus-styles/el-dropdown-scoped.scss';
-@use '@/assets/styles/element-plus-styles/el-switch-scoped.scss';
+@use "@/assets/styles/element-plus-styles/el-button-scoped.scss";
+@use "@/assets/styles/element-plus-styles/el-dropdown-scoped.scss";
+@use "@/assets/styles/element-plus-styles/el-switch-scoped.scss";
 </style>
 
 <style scoped lang="scss">
@@ -178,6 +176,7 @@ const openPDFViewr = (command: string) => {
 
   .left-view {
     display: flex;
+    align-items: center;
     margin-left: 20px;
 
     img {
@@ -193,7 +192,6 @@ const openPDFViewr = (command: string) => {
       line-height: var(--header-height);
       margin-left: 15px;
       background-color: transparent;
-      width: 100px;
     }
   }
 

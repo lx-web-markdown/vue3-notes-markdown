@@ -3,6 +3,7 @@ const en = {
   navi: {
     home: 'HomePage',
     books: 'BOOKS',
+    theme: 'Theme',
   },
   common: {
     changeLanguage: 'change Language',

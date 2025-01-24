@@ -28,6 +28,7 @@ console.log('Route Info =', route, router);
 
 <style lang="scss" scoped>
 @import url('@/assets/styles/element-plus-styles/el-header-scoped.scss');
+@import url('@/assets/styles/element-plus-styles/el-main-scoped.scss');
 </style>
 
 <style lang="scss" scoped>
@@ -43,7 +44,7 @@ console.log('Route Info =', route, router);
     }
 
     .right-main {
-      background-color: yellow;
+      background-color: lightcyan;
     }
   }
 }

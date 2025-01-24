@@ -64,10 +64,11 @@ const handleNodeClick = (item: Tree) => {
 .left-sidebar {
   width: 100%;
   height: 100%;
-  background-color: #fff;
+  background-color: #FFF;
 
   .scrollbar-container {
-    background-color: lightcyan;
+    border-right: 1px solid green;
+    background-color: transparent;
     height: var(--lx-main-container-height);
 
     .scrollbar-item {
