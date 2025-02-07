@@ -10,29 +10,38 @@ const allRouters = [
   },
   {
     path: "/",
-    redirect: "/vue-home",
+    redirect: "/notelist/vue3",
   },
   {
-    path: "/",
+    path: "/notelist",
+    redirect: "/notelist/vue3",
     component: () => import("@/views/VueHome/index.vue"),
     children: [
       {
-        path: "/vue-home",
-        name: "vueHome",
-        component: () => import("@/views/VueHome/RightView/index.vue"),
+        path: "html",
+        name: "HTMLHome",
+        component: () => import("@/views/VueHome/MKMainView/index.vue"),
       },
-      // {
-      //   path: "/vue3-home",
-      //   name: "vue3Home",
-      //   component: () => import("@/views/Vue3Home/Section1-Demos/index.vue"),
-      //   children: [
-      //     {
-      //       path: "/index",
-      //       name: "md",
-      //       component: () => import("@/views/Section1-Demos/MarkdownView/MarkdownComp111.vue"),
-      //     },
-      //   ]
-      // },
+      {
+        path: "css",
+        name: "CSSHome",
+        component: () => import("@/views/VueHome/MKMainView/index.vue"),
+      },
+      {
+        path: "js",
+        name: "JSHome",
+        component: () => import("@/views/VueHome/MKMainView/index.vue"),
+      },
+      {
+        path: "vue2",
+        name: "Vue2Home",
+        component: () => import("@/views/VueHome/MKMainView/index.vue"),
+      },
+      {
+        path: "vue3",
+        name: "Vue3Home",
+        component: () => import("@/views/VueHome/MKMainView/index.vue"),
+      },
     ],
   },
   {

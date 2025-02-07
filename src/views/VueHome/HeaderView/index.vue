@@ -47,25 +47,28 @@ const showLinks = () => {
   router.push("/demo");
 };
 
-const avatarClick = () => {};
+const avatarClick = () => { };
 
-const openPDFViewr = (command: string) => {
+const openMKViewr = (command: string) => {
   console.log(command);
-  console.log(route, router);
-  if (command === "五") {
-    router.push("/pdf-all-view");
-  } else if (command === "六") {
-    // 打开本地PDF样本
-    // window.open(import.meta.env.VITE_BASE_API_URL + "pdfjs-4.8.69-dist/web/viewer.html");
-    window.open(import.meta.env.BASE_URL + "pdfjs-4.8.69-dist/web/viewer.html");
-  } else if (command === "七") {
-    // 打开远程PDF样本
-    window.open(
-      import.meta.env.VITE_BASE_API_URL +
-        "pdfjs-4.8.69-dist/web/viewer.html?file=https://raw.githubusercontent.com/xishan-lin/resourcesRepo/main/genealogy/莆田林氏西山本支族谱(卷一).pdf"
-    );
-  } else {
-    router.push("/pdf-once-view");
+  switch (command) {
+    case "HTML":
+      router.push("/notelist/html");
+      break;
+    case "CSS":
+      router.push("/notelist/css");
+      break;
+    case "JS":
+      router.push("/notelist/js");
+      break;
+    case "Vue2":
+      router.push("/notelist/vue2");
+      break;
+    case "Vue3":
+      router.push("/notelist/vue3");
+      break;
+    default:
+      break;
   }
 };
 </script>
@@ -81,7 +84,7 @@ const openPDFViewr = (command: string) => {
     <div class="right-view">
       <el-button @click="showLinks" link>链接</el-button>
 
-      <el-dropdown class="el-dropdown-cls" @command="openPDFViewr">
+      <el-dropdown class="el-dropdown-cls" @command="openMKViewr">
         <span class="el-dropdown-link">
           {{ $t("navi.books") }}
           <el-icon class="el-icon--right">
@@ -90,13 +93,11 @@ const openPDFViewr = (command: string) => {
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="一">《第一卷》</el-dropdown-item>
-            <el-dropdown-item command="二">《第二卷》</el-dropdown-item>
-            <el-dropdown-item command="三">《第三卷》</el-dropdown-item>
-            <el-dropdown-item command="四">《第四卷》</el-dropdown-item>
-            <el-dropdown-item command="五">《全卷》</el-dropdown-item>
-            <el-dropdown-item command="六">《全卷》本地</el-dropdown-item>
-            <el-dropdown-item command="七">《全卷》远程</el-dropdown-item>
+            <el-dropdown-item command="HTML">HTML</el-dropdown-item>
+            <el-dropdown-item command="CSS">CSS</el-dropdown-item>
+            <el-dropdown-item command="JS">JS</el-dropdown-item>
+            <el-dropdown-item command="Vue2">Vue2</el-dropdown-item>
+            <el-dropdown-item command="Vue3">Vue3</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -137,20 +138,9 @@ const openPDFViewr = (command: string) => {
       </el-dropdown>
 
       <!-- avatar -->
-      <el-image
-        class="avatar-cls"
-        :src="srcList[0]"
-        :zoom-rate="1.2"
-        :max-scale="7"
-        :min-scale="0.2"
-        :preview-src-list="srcList"
-        :initial-index="4"
-        :z-index="9999"
-        :preview-teleported="true"
-        fit="cover"
-        @click="avatarClick"
-        circle
-      />
+      <el-image class="avatar-cls" :src="srcList[0]" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2"
+        :preview-src-list="srcList" :initial-index="4" :z-index="9999" :preview-teleported="true" fit="cover"
+        @click="avatarClick" circle />
     </div>
   </div>
 </template>

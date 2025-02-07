@@ -18,9 +18,6 @@ const publicDir = path.resolve(__dirname, "public");
 const tempOutputFile = path.join(publicDir, "fileList.txt");
 console.log("===> publicDir =", publicDir, tempOutputFile);
 
-// 输出文件路径
-const outputFilePath = "./public/fileList.txt";
-
 /**
  * 获取某个目录下的所有文件
  * @param {string} _filePath : 文件路径
@@ -90,13 +87,13 @@ const getAllFilesInPublicDir_Core = async (_filePath, _level) => {
 };
 
 // 获取public目录下所有文件
-const getAllFilesInPublicDir = async () => {
-  const res = await getAllFilesInPublicDir_Core("./public", 1);
+const getAllFilesInPublicDir = async (_filePath, _outputFilePath) => {
+  const res = await getAllFilesInPublicDir_Core(_filePath, 1);
   // console.log('res =', res);
 
   if (res && res.length > 0) {
     // 具有文件名，内容和回调函数的writeFile函数
-    fs.writeFile(outputFilePath, JSON.stringify(res), function (err) {
+    fs.writeFile(_outputFilePath, JSON.stringify(res), function (err) {
       if (err) throw err;
       console.log("File is created successfully.");
     });
@@ -105,5 +102,36 @@ const getAllFilesInPublicDir = async () => {
   }
 };
 
+/**
+ *******************************************************************************************
+ */
+
+// 输出文件路径 - Vue文件夹
+const outputFilePath_HTML = "./public/fileList_HTML.txt";
+const outputFilePath_CSS = "./public/fileList_CSS.txt";
+const outputFilePath_JS = "./public/fileList_JS.txt";
+const outputFilePath_Vue2 = "./public/fileList_Vue2.txt";
+const outputFilePath_Vue3 = "./public/fileList_Vue3.txt";
+
+const getAllFilesInPublicDir_HTML = async () => {
+  getAllFilesInPublicDir("./public/HTML", outputFilePath_HTML);
+};
+const getAllFilesInPublicDir_CSS = async () => {
+  getAllFilesInPublicDir("./public/CSS", outputFilePath_CSS);
+};
+const getAllFilesInPublicDir_JS = async () => {
+  getAllFilesInPublicDir("./public/JS", outputFilePath_JS);
+};
+const getAllFilesInPublicDir_Vue2 = async () => {
+  getAllFilesInPublicDir("./public/Vue/Vue2", outputFilePath_Vue2);
+};
+const getAllFilesInPublicDir_Vue3 = async () => {
+  getAllFilesInPublicDir("./public/Vue/Vue3", outputFilePath_Vue3);
+};
+
 // 调用
-getAllFilesInPublicDir();
+getAllFilesInPublicDir_HTML();
+getAllFilesInPublicDir_CSS();
+getAllFilesInPublicDir_JS();
+getAllFilesInPublicDir_Vue2();
+getAllFilesInPublicDir_Vue3();

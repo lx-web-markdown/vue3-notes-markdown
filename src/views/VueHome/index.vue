@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import HeaderView from "@/views/VueHome/HeaderView/index.vue";
-import LeftView from "@/views/VueHome/LeftView/index.vue";
 //
-import { useRoute, useRouter } from 'vue-router'
-const route = useRoute()
-const router = useRouter()
-console.log('Route Info =', route, router);
+// import { useRoute, useRouter } from 'vue-router'
+// const route = useRoute()
+// const router = useRouter()
+// console.log('Route Info =', route, router);
 
 </script>
 
@@ -15,12 +14,8 @@ console.log('Route Info =', route, router);
       <HeaderView />
     </el-header>
     <el-container class="home-container-main">
-      <el-aside class="left-aside">
-        <LeftView />
-      </el-aside>
-      <el-main class="right-main">
-        <RouterView />
-      </el-main>
+      <!-- 路由窗口 -->
+      <router-view />
     </el-container>
   </el-container>
 
@@ -37,15 +32,7 @@ console.log('Route Info =', route, router);
   height: 100%;
 
   .home-container-main {
-    .left-aside {
-      width: 250px;
-      height: var(--lx-main-container-height);
-      background-color: red;
-    }
-
-    .right-main {
-      background-color: lightcyan;
-    }
+    background-color: #FFF;
   }
 }
 </style>
