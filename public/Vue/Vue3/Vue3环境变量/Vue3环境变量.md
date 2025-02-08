@@ -16,7 +16,7 @@ Vite 在一个特殊的 **`import.meta.env`** 对象上暴露环境变量，这�
 
 
 
-![](images/001.png)
+![](/Vue/Vue3/Vue3环境变量/images/001.png)
 
 
 
@@ -177,7 +177,7 @@ Property 'VITE_API_URL' does not exist on type 'ImportMetaEnv'.
 
 可以使用 `process.cwd()` 获取 `envDir`，该函数返回 node 的工作目录，一般为项目的根目录。
 
-![](images/002.png)
+![](./images/002.png)
 
 
 
