@@ -87,7 +87,7 @@ const handleNodeClick = (item: Tree) => {
   background-color: #FFF;
 
   .scrollbar-container {
-    border-right: 1px solid green;
+    // border-right: 1px solid green;
     background-color: transparent;
     height: var(--lx-main-container-height);
 

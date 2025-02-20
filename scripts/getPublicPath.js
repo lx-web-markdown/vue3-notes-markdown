@@ -26,7 +26,7 @@ console.log("===> publicDir =", publicDir, tempOutputFile);
  */
 const getAllFilesInPublicDir_Core = async (_filePath, _level) => {
   const files = await fs.readdirSync(_filePath);
-  // console.log("===> files =", files);
+  console.log("===> files =", files);
   const result = [];
 
   for (let index = 0; index < files.length; index++) {

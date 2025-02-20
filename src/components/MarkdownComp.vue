@@ -75,7 +75,6 @@ function getTitle() {
 
       // 将 NodeList 转换为数组（如果需要进行数组方法操作）
       const headingsArray = Array.from(headingsNodeList);
-      debugger;
 
       console.log('所有标题元素数组：', headingsArray);
     }
