@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "script:public-path": "node scripts/getPublicPath.js",
-    "dev": "node scripts/getPublicPath.js && vite --open",
+    "dev:script": "node scripts/getPublicPath.js",
+    "dev:all": "node scripts/getPublicPath.js && vite --open",
+    "dev": "vite --open",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",

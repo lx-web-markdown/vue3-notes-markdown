@@ -1,1 +1,0 @@
-https://www.runoob.com/js/js-void.html

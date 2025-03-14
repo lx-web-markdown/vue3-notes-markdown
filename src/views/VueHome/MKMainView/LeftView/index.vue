@@ -19,20 +19,22 @@ const defaultProps = {
 const route = useRoute();
 const dataSrouce = ref<Tree[]>([]);
 
-watch(() => route.fullPath, () => {
-  let tempFilePath = '/fileList_Vue3.txt';
+watch(() => route.fullPath, () => {  
+  let tempFilePath = '/FileListTXT/fileList_Vue3.txt';
   // 根据路由，来区分不同的文件加载
   if (route.fullPath.indexOf("vue2") !== -1) {
-    tempFilePath = '/fileList_Vue2.txt';
+    tempFilePath = '/FileListTXT/fileList_Vue2.txt';
   } else if (route.fullPath.indexOf("vue3") !== -1) {
-    tempFilePath = '/fileList_Vue3.txt';
+    tempFilePath = '/FileListTXT/fileList_Vue3.txt';
   } else if (route.fullPath.indexOf("html") !== -1) {
-    tempFilePath = '/fileList_HTML.txt';
+    tempFilePath = '/FileListTXT/fileList_HTML.txt';
   } else if (route.fullPath.indexOf("css") !== -1) {
-    tempFilePath = '/fileList_CSS.txt';
+    tempFilePath = '/FileListTXT/fileList_CSS.txt';
   } else if (route.fullPath.indexOf("js") !== -1) {
-    tempFilePath = '/fileList_JS.txt';
+    tempFilePath = '/FileListTXT/fileList_JS.txt';
   }
+  console.log("route.fullPath", route.fullPath);
+  console.log("tempFilePath", tempFilePath);
   //
   getFileList(tempFilePath);
 });

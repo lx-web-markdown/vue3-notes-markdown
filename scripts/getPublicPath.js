@@ -1,4 +1,3 @@
-import { log } from "console";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -103,35 +102,169 @@ const getAllFilesInPublicDir = async (_filePath, _outputFilePath) => {
 };
 
 /**
+ * 遍历目录下所有的md文件，并替换文件中的图片路径
+ * @param {string} dirPath 要遍历的目录路径
+ * @param {string} baseDir 基础目录，用于计算相对路径
+ */
+const processMarkdownFiles = async (dirPath, baseDir) => {
+  try {
+    // 读取目录下的所有文件和文件夹
+    const items = await fs.readdirSync(dirPath);
+
+    for (const item of items) {
+      const itemPath = path.join(dirPath, item);
+      const stat = fs.statSync(itemPath);
+
+      if (stat.isDirectory()) {
+        // 如果是目录，递归处理
+        await processMarkdownFiles(itemPath, baseDir);
+      } else if (path.extname(itemPath).toLowerCase() === '.md') {
+        // 如果是md文件，处理图片路径
+        await replaceImagePathsInMarkdown(itemPath, baseDir);
+      }
+    }
+
+    console.log(`处理完成目录: ${dirPath}`);
+  } catch (error) {
+    console.error(`处理目录 ${dirPath} 时出错:`, error);
+  }
+};
+
+/**
  *******************************************************************************************
  */
 
-// 输出文件路径 - Vue文件夹
-const outputFilePath_HTML = "./public/fileList_HTML.txt";
-const outputFilePath_CSS = "./public/fileList_CSS.txt";
-const outputFilePath_JS = "./public/fileList_JS.txt";
-const outputFilePath_Vue2 = "./public/fileList_Vue2.txt";
-const outputFilePath_Vue3 = "./public/fileList_Vue3.txt";
+/**
+ * 替换Markdown文件中的图片路径
+ * @param {string} filePath Markdown文件路径
+ * @param {string} baseDir 基础目录，用于计算相对路径
+ */
+const replaceImagePathsInMarkdown = async (filePath, baseDir) => {
+  try {
+    // 读取文件内容
+    let content = fs.readFileSync(filePath, 'utf8');
 
-const getAllFilesInPublicDir_HTML = async () => {
-  getAllFilesInPublicDir("./public/HTML", outputFilePath_HTML);
-};
-const getAllFilesInPublicDir_CSS = async () => {
-  getAllFilesInPublicDir("./public/CSS", outputFilePath_CSS);
-};
-const getAllFilesInPublicDir_JS = async () => {
-  getAllFilesInPublicDir("./public/JS", outputFilePath_JS);
-};
-const getAllFilesInPublicDir_Vue2 = async () => {
-  getAllFilesInPublicDir("./public/Vue/Vue2", outputFilePath_Vue2);
-};
-const getAllFilesInPublicDir_Vue3 = async () => {
-  getAllFilesInPublicDir("./public/Vue/Vue3", outputFilePath_Vue3);
+    // 获取文件所在目录的相对路径（相对于baseDir）
+    const fileDir = path.dirname(filePath);
+    const relativePath = path.relative(baseDir, fileDir);
+
+    console.log("AA===> filePath =", filePath);
+    console.log("AA===> baseDir =", baseDir);
+    console.log("AA===> fileDir =", fileDir);
+    console.log("AA===> relativePath =", relativePath);
+
+    // 使用正则表达式匹配Markdown中的图片语法 ![alt](path)
+    // const imgRegex = /!\[(.*?)\]\((\.\/.*?)\)/g;
+
+    // 匹配 ![alt](path) 或 ![alt](./path)
+    const imgRegex  = /!\[(.*?)\]\((.*?)\)/g;
+
+    // 替换所有匹配项
+    let match;
+    let modified = false;
+    let newContent = content;
+
+    while ((match = imgRegex.exec(content)) !== null) {
+      const [fullMatch, altText, imgPath] = match;
+
+      console.log("===> fullMatch =", fullMatch);
+      console.log("===> altText =", altText);
+      console.log("===> imgPath =", imgPath);
+
+      // 只处理相对路径的图片（以./开头）
+      if (imgPath.startsWith('./')) {
+        // 构建新的图片路径
+        // 例如：将 ./images/pic.png 替换为 /AllFiles/Vue/Vue3/xxx/images/pic.png
+        const newImgPath = `/${relativePath}${imgPath.substring(1)}`;
+        const newImgMarkdown = `![${altText}](${newImgPath})`;
+
+        // 替换内容
+        newContent = newContent.replace(fullMatch, newImgMarkdown);
+        modified = true;
+      }
+
+      if (imgPath.startsWith('./')) {
+        // 构建新的图片路径
+        // 例如：将 ./images/pic.png 替换为 /AllFiles/Vue/Vue3/xxx/images/pic.png
+        const newImgPath = `/${relativePath}${imgPath.substring(1)}`;
+        const newImgMarkdown = `![${altText}](${newImgPath})`;
+
+        // 替换内容
+        newContent = newContent.replace(fullMatch, newImgMarkdown);
+        modified = true;
+      }
+      else if (imgPath.startsWith('images') || imgPath.startsWith('asset')) {
+        // 构建新的图片路径
+        // 例如：将 ./images/pic.png 替换为 /AllFiles/Vue/Vue3/xxx/images/pic.png
+        const newImgPath = `/${relativePath}/${imgPath}`;
+        const newImgMarkdown = `![${altText}](${newImgPath})`;
+
+        // 替换内容
+        newContent = newContent.replace(fullMatch, newImgMarkdown);
+        modified = true;
+      }
+    }
+
+    // 如果有修改，写回文件
+    if (modified) {
+      fs.writeFileSync(filePath, newContent, 'utf8');
+      console.log(`已更新图片路径: ${filePath}`);
+    }
+  } catch (error) {
+    console.error(`处理文件 ${filePath} 时出错:`, error);
+  }
 };
 
-// 调用
-getAllFilesInPublicDir_HTML();
-getAllFilesInPublicDir_CSS();
-getAllFilesInPublicDir_JS();
-getAllFilesInPublicDir_Vue2();
-getAllFilesInPublicDir_Vue3();
+
+/** 
+ *******************************************************************************************
+ */
+
+/**
+ * 处理所有目录的文件列表生成
+ */
+const processAllFileListsInPublic = async () => {
+  // 定义目录和输出文件的映射关系
+  const dirConfigs = [
+    // { name: "HTML", path: "./public/AllFiles/HTML" },
+    // { name: "CSS", path: "./public/AllFiles/CSS" },
+    // { name: "JS", path: "./public/AllFiles/JS" },
+    // { name: "Vue2", path: "./public/AllFiles/Vue/Vue2" },
+    { name: "Vue3", path: "./public/AllFiles/Vue/Vue3" }
+  ];
+  
+  // 遍历处理每个目录
+  for (const config of dirConfigs) {
+    const outputFilePath = `./public/FileListTXT/fileList_${config.name}.txt`;
+    console.log(`处理目录: ${config.path} -> ${outputFilePath}`);
+    await getAllFilesInPublicDir(config.path, outputFilePath);
+  }
+  
+  console.log("所有文件列表生成完成！");
+};
+
+
+// 处理所有目录下的Markdown文件，替换图片路径
+const processAllMarkdownInPublic = async () => {
+  const publicPath = "./public";
+  console.log("开始处理所有Markdown文件中的图片路径...");
+
+  // 处理各个目录
+  // await processMarkdownFiles(`${publicPath}/AllFiles/HTML`, publicPath);
+  // await processMarkdownFiles(`${publicPath}/AllFiles/CSS`, publicPath);
+  // await processMarkdownFiles(`${publicPath}/AllFiles/JS`, publicPath);
+  // await processMarkdownFiles(`${publicPath}/AllFiles/Vue/Vue2`, publicPath);
+  await processMarkdownFiles(`${publicPath}/AllFiles/Vue/Vue3`, publicPath);
+
+  console.log("所有Markdown文件处理完成！");
+};
+
+/** 
+ *******************************************************************************************
+ */
+
+// 生成所有目录的文件列表
+processAllFileListsInPublic();
+
+// 处理Markdown文件中的图片路径
+processAllMarkdownInPublic();

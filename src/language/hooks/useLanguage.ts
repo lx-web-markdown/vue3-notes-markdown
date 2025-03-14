@@ -1,34 +1,15 @@
-import myI18n from "../index";
-import { computed } from 'vue';
+import { ref } from 'vue';
 
 export default function useLanguage() {
-
-  const currentLocale = computed(() => {
-    return myI18n.global.locale.value;
-  });
-
-  // 语言切换
-  const changeLanguage = (language: string) => {
-    // 检查 language 是否为 "zh" 或 "en"
-    if (language === "zh" || language === "en") {
-      myI18n.global.locale.value = language;
-      document.title = translate('appTitle') || '';
-    } else {
-      myI18n.global.locale.value = 'zh';
-      console.error("Invalid language value:", language);
-      document.title = translate('appTitle') ?? '';
-    }
-  }
-
-  //翻译
-  const translate = (text: string) => {
-    if (!text) return
-    return myI18n.global.t(text)
-  }
+  const currentLocale = ref('zh-CN');
+  
+  const translate = (key: string): string => {
+    // TODO: 实现实际的翻译逻辑
+    return key;
+  };
 
   return {
     currentLocale,
-    changeLanguage,
     translate
-  }
+  };
 }
