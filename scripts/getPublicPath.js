@@ -226,10 +226,10 @@ const replaceImagePathsInMarkdown = async (filePath, baseDir) => {
 const processAllFileListsInPublic = async () => {
   // 定义目录和输出文件的映射关系
   const dirConfigs = [
-    // { name: "HTML", path: "./public/AllFiles/HTML" },
-    // { name: "CSS", path: "./public/AllFiles/CSS" },
-    // { name: "JS", path: "./public/AllFiles/JS" },
-    // { name: "Vue2", path: "./public/AllFiles/Vue/Vue2" },
+    { name: "HTML", path: "./public/AllFiles/HTML" },
+    { name: "CSS", path: "./public/AllFiles/CSS" },
+    { name: "JS", path: "./public/AllFiles/JS" },
+    { name: "Vue2", path: "./public/AllFiles/Vue/Vue2" },
     { name: "Vue3", path: "./public/AllFiles/Vue/Vue3" }
   ];
   
@@ -250,10 +250,10 @@ const processAllMarkdownInPublic = async () => {
   console.log("开始处理所有Markdown文件中的图片路径...");
 
   // 处理各个目录
-  // await processMarkdownFiles(`${publicPath}/AllFiles/HTML`, publicPath);
-  // await processMarkdownFiles(`${publicPath}/AllFiles/CSS`, publicPath);
-  // await processMarkdownFiles(`${publicPath}/AllFiles/JS`, publicPath);
-  // await processMarkdownFiles(`${publicPath}/AllFiles/Vue/Vue2`, publicPath);
+  await processMarkdownFiles(`${publicPath}/AllFiles/HTML`, publicPath);
+  await processMarkdownFiles(`${publicPath}/AllFiles/CSS`, publicPath);
+  await processMarkdownFiles(`${publicPath}/AllFiles/JS`, publicPath);
+  await processMarkdownFiles(`${publicPath}/AllFiles/Vue/Vue2`, publicPath);
   await processMarkdownFiles(`${publicPath}/AllFiles/Vue/Vue3`, publicPath);
 
   console.log("所有Markdown文件处理完成！");

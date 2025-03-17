@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev:script": "node scripts/getPublicPath.js",
-    "dev:all": "node scripts/getPublicPath.js && vite --open",
+    "dev:copyFiles": "node scripts/copyFiles.js",
+    "dev:getPublicPath": "node scripts/getPublicPath.js",
+    "dev:all": "node scripts/copyFiles.js && node scripts/getPublicPath.js && vite --open",
     "dev": "vite --open",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
@@ -15,7 +16,9 @@
   "dependencies": {
     "element-plus": "^2.9.3",
     "github-markdown-css": "^5.8.1",
+    "highlight.js": "^11.11.1",
     "marked": "^15.0.6",
+    "marked-highlight": "^2.2.1",
     "mitt": "^3.0.1",
     "moment": "^2.30.1",
     "pinia": "^2.3.0",

@@ -1,5 +1,5 @@
-// src/utils/markedCustom.ts
 import { marked, Renderer } from 'marked';
+import hljs from 'highlight.js'; // 如果需要代码高亮
 
 // 创建一个自定义 Renderer 实例
 const customRenderer = new Renderer();
@@ -29,22 +29,36 @@ const customRenderer = new Renderer();
 //   return out;
 // };
 
+/**
+ * 自定义渲染器 - 标题定制
+ */
+customRenderer.heading = (item: any) => {
+  // 匹配[]()
+  const regex = /\[(.*?)\]\((.*?)\)/g;
+
+  // 匹配到的每个匹配项，替换为链接
+  const replaced = item.text.replace(regex, (match: any, text: any, url: any) => {
+    console.log("BBBBBBBBBBBBBBBBBBBBBBb", match, text, url);
+    // 打开新页面
+    return `<a href="${url}" target="_blank">${text}</a>`;
+  });
+
+  // console.log("customRenderer.heading", item);
+  return `<h${item.depth}>${replaced}</h${item.depth}>`;
+};
+
 // 配置 marked 选项
 marked.setOptions({
   renderer: customRenderer, // 使用定制的 renderer
-  // breaks: true, // 开启换行符转为 <br> 标签
-  // gfm: true, // 启用 GitHub Flavored Markdown
+  breaks: true, // 开启换行符转为 <br> 标签
+  gfm: true, // 启用 GitHub Flavored Markdown
   // smartLists: true, // 更好的列表渲染
   // smartypants: false, // 不开启智能标点转换
 });
 
-
 // 导出一个转换 Markdown 的函数
-function parseMarkdown(markdownText: string) {
+function myMarked(markdownText: string) {
   return marked(markdownText);
 }
 
-export {
-  customRenderer,
-  parseMarkdown
-};
+export default myMarked;

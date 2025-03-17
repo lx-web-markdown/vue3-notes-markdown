@@ -2,33 +2,35 @@
 import { nextTick, ref, watch } from "vue";
 // import { marked } from "marked";
 
-import { customRenderer, parseMarkdown } from '@/utils/markedCustom'
+// import { customRenderer, parseMarkdown } from '@/utils/markedConfig'
+
+import marked from '@/utils/markedConfig'
 
 /**
  * 自定义渲染器 - 代码片段
  */
-customRenderer.code = (item: any) => {
-  // console.log("customRenderer.code", item);
-  return `<pre><code class="language-${item.lang}">${item.text}</code></pre>`;
-};
+// customRenderer.code = (item: any) => {
+//   // console.log("customRenderer.code", item);
+//   return `<pre><code class="language-${item.lang}">${item.text}</code></pre>`;
+// };
 
-/**
- * 自定义渲染器 - 标题定制
- */
-customRenderer.heading = (item: any) => {
-  // 匹配[]()
-  const regex = /\[(.*?)\]\((.*?)\)/g;
+// /**
+//  * 自定义渲染器 - 标题定制
+//  */
+// customRenderer.heading = (item: any) => {
+//   // 匹配[]()
+//   const regex = /\[(.*?)\]\((.*?)\)/g;
 
-  // 匹配到的每个匹配项，替换为链接
-  const replaced = item.text.replace(regex, (match: any, text: any, url: any) => {
-    //console.log("match", match, text, url);
-    // 打开新页面
-    return `<a href="${url}" target="_blank">${text}</a>`;
-  });
+//   // 匹配到的每个匹配项，替换为链接
+//   const replaced = item.text.replace(regex, (match: any, text: any, url: any) => {
+//     console.log("match", match, text, url);
+//     // 打开新页面
+//     return `<a href="${url}" target="_blank">${text}</a>`;
+//   });
 
-  // console.log("customRenderer.heading", item);
-  return `<h${item.depth}>${replaced}</h${item.depth}>`;
-};
+//   // console.log("customRenderer.heading", item);
+//   return `<h${item.depth}>${replaced}</h${item.depth}>`;
+// };
 
 const props = defineProps<{
   markdownFilePath: string;
@@ -46,7 +48,7 @@ const loadMarkdown = async () => {
   if (response.ok) {
     const text = await response.text();
     // 确保 marked 解析完成后再赋值
-    markdownContent.value = await parseMarkdown(text); // 将 Markdown 转换为 HTML
+    markdownContent.value = await marked(text); // 将 Markdown 转换为 HTML
   } else {
     console.error("Failed to load markdown file:", response.status);
   }

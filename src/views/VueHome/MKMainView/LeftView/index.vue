@@ -58,7 +58,7 @@ const getFileList = async (_fileListPath: string) => {
   }
 };
 
-getFileList('/fileList_Vue3.txt');
+getFileList('/FileListTXT/fileList_Vue3.txt');
 
 const handleNodeClick = (item: Tree) => {
   // console.log("handleNodeClick", item);

@@ -2,7 +2,6 @@
 
 dist
 node_modules
-public_origin
 .git
 .gitignore
 .cursor
