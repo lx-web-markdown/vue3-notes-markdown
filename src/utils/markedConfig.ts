@@ -17,9 +17,22 @@ customRenderer.heading = (item: any) => {
   const replaced = item.text.replace(regex, (match: any, text: any, url: any) => {
     return `<a href="${url}" target="_blank">${text}</a>`;
   });
-  
+
+  // 生成唯一ID
+  // 1. 移除HTML标签
+  const plainText = item.text.replace(/<[^>]+>/g, '');
+  // 2. 转为小写
+  const lowerText = plainText.toLowerCase();
+  // 3. 将非字母数字字符替换为横线
+  const dashedText = lowerText.replace(/[^\w\u4e00-\u9fa5]+/g, '-');
+  // 4. 添加时间戳确保唯一性
+  const uniqueId = `${dashedText}-${Date.now()}`;
+  // 5. 再拼接4位随机数
+  const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+  const finalId = `${uniqueId}-${randomNum}`;
+
   // 添加id属性，支持锚点跳转
-  return `<h${item.depth} id="${item.text.toLowerCase().replace(/[^\w]+/g, '-')}">${replaced}</h${item.depth}>`;
+  return `<h${item.depth} id="${finalId}">${replaced}</h${item.depth}>`;
 };
 
 /**

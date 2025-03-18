@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, ref, watch } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import { renderMarkdown } from '@/utils/markedConfig'
 
 const props = defineProps<{
@@ -9,6 +9,30 @@ const props = defineProps<{
 // 用于存储 Markdown 文件内容
 const markdownContent = ref("");
 const mdContentRef = ref<HTMLElement | null>(null);
+
+// 存储标题列表
+interface HeadingItem {
+  id: string;
+  text: string;
+  level: number;
+}
+const headings = ref<HeadingItem[]>([]);
+
+// 屏幕宽度响应式
+const isSmallScreen = ref(window.innerWidth < 1200);
+
+// 监听窗口大小变化
+const handleResize = () => {
+  isSmallScreen.value = window.innerWidth < 1200;
+};
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+});
 
 const loadMarkdown = async () => {
   try {
@@ -26,41 +50,73 @@ const loadMarkdown = async () => {
 
 watch(() => props.markdownFilePath, async (newFile) => {
   if (newFile && newFile !== '') {
-    loadMarkdown();
-    getTitle();
+    // 重置标题列表
+    headings.value = [];
+    // 加载Markdown文件
+    await loadMarkdown();
+    // 在渲染完成后再获取标题
+    setTimeout(() => {
+      getTitle();
+    }, 100);
   }
 });
 
 // 获取Markdown文件中的标题列表
 function getTitle() {
-  nextTick(() => {
-    if (mdContentRef.value) {
-      // 使用 querySelectorAll 查询容器内所有 h1 至 h6 元素
-      const headingsNodeList = mdContentRef.value.querySelectorAll('h1, h2, h3, h4, h5, h6');
-      // 将 NodeList 转换为数组
-      const headingsArray = Array.from(headingsNodeList);
-      // 这里可以进一步处理标题数组，例如生成目录等
-      console.log('所有标题元素数组：', headingsArray);
-      // 遍历标题数组，获取标题内容和id
-      headingsArray.forEach(heading => {
-        const title = heading.textContent;
-        const id = heading.id;
-        console.log('标题内容：', title, '标题id：', id);
+  if (mdContentRef.value) {
+    // 使用 querySelectorAll 查询容器内所有 h1 至 h6 元素
+    const headingsNodeList = mdContentRef.value.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    // 将 NodeList 转换为数组
+    const headingsArray = Array.from(headingsNodeList);
+    // 清空现有标题列表
+    headings.value = [];
+    // 处理标题数组
+    headingsArray.forEach(heading => {
+      const title = heading.textContent || '';
+      const id = heading.id;
+      const level = parseInt(heading.tagName.substring(1)); // 获取标题级别 (1-6)
+      headings.value.push({
+        id,
+        text: title,
+        level
       });
-    }
-  });
+    });
+    console.log('标题列表已更新:', headings.value);
+  }
 }
 
-// 初始加载
-loadMarkdown();
-getTitle();
+// 点击目录项跳转到对应标题
+function scrollToHeading(id: string) {
+  console.log('AAAAA =', id);
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+onMounted(async () => {
+  // 初始加载
+  await loadMarkdown();
+  getTitle();
+});
 </script>
 
 <template>
-  <!-- 1.使用github-markdown-css -->
-  <div v-html="markdownContent" class="markdown-body" ref="mdContentRef"></div>
-  <!-- 2.纯手搓样式 -->
-  <!-- <div v-html="markdownContent" class="markdown-body"></div> -->
+  <div class="markdown-container">
+    <!-- 左侧Markdown内容 -->
+    <div v-html="markdownContent" class="markdown-body" :class="{ 'full-width': isSmallScreen }" ref="mdContentRef"></div>
+
+    <!-- 右侧标题目录，在小屏幕下隐藏 -->
+    <div class="toc-container" v-if="headings.length > 0 && !isSmallScreen">
+      <div class="toc-title">目录</div>
+      <div class="toc-items">
+        <div v-for="(heading, index) in headings" :key="index" class="toc-item" :class="`level-${heading.level}`"
+          @click="scrollToHeading(heading.id)">
+          {{ heading.text }}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss">
@@ -80,4 +136,73 @@ getTitle();
   }
 }
 */
+
+.markdown-container {
+  display: flex;
+  position: relative;
+
+  .markdown-body {
+    flex: 1;
+    max-width: calc(100% - 320px); // 预留右侧目录的空间
+    
+    &.full-width {
+      max-width: 100%; // 在小屏幕下占据全宽
+    }
+  }
+
+  .toc-container {
+    position: sticky;
+    top: 0;
+    width: 300px;
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-left: 1px solid #eaecef;
+    margin-left: 20px;
+
+    .toc-title {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 8px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eaecef;
+    }
+
+    .toc-items {
+      .toc-item {
+        cursor: pointer;
+        margin: 4px 0;
+        color: #0366d6;
+        word-break: break-word;
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+        &.level-1 {
+          font-weight: bold;
+          margin-left: 0;
+        }
+
+        &.level-2 {
+          margin-left: 5px;
+        }
+
+        &.level-3 {
+          margin-left: 10px;
+          font-size: 0.95em;
+        }
+
+        &.level-4,
+        &.level-5,
+        &.level-6 {
+          margin-left: 15px;
+          font-size: 0.9em;
+          color: #586069;
+        }
+      }
+    }
+  }
+}
 </style>
