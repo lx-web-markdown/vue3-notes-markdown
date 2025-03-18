@@ -2,8 +2,7 @@
 import { marked, Renderer } from 'marked';
 import hljs from 'highlight.js';
 // 引入markdown样式
-import 'highlight.js/styles/atom-one-dark.css' 
-// import "highlight.js/styles/1c-light.css"; // 引入高亮样式 这里我用的是sublime样式
+import 'highlight.js/styles/atom-one-light.css'
 
 // 创建一个自定义 Renderer 实例
 const customRenderer = new Renderer();
@@ -48,9 +47,18 @@ customRenderer.image = (item: any): string => {
  */
 customRenderer.code = (item: any) => {  
   // console.log("customRenderer.code", item);
-  const validLanguage = item.lang ? item.lang : 'plaintext';
+  let validLanguage = item.lang || 'plaintext';
+
+  // 特殊处理vue文件
+  if (item.lang === 'vue') {
+    validLanguage = 'html';
+  } else if (item.lang) {
+    // 检查语言是否支持
+    validLanguage = hljs.getLanguage(item.lang) ? item.lang : 'plaintext';
+  }
+
   const highlightedCode = hljs.highlight(item.text, { language: validLanguage }).value;
-  return `<pre><code class="hljs language-${validLanguage}">${highlightedCode}</code></pre>`;
+  return `<pre><code class="language-${validLanguage}">${highlightedCode}</code></pre>`;
 };
 
 // 创建 marked 配置对象
@@ -61,22 +69,6 @@ const markedConfig = {
   breaks: true,      // 将换行符转换为 <br>
   pedantic: false,   // 不使用严格模式
   sanitize: false,   // 原始输出，允许HTML标签
-  // 代码高亮配置
-  highlight: (code: string, lang: string): string => {
-    // 如果指定了语言且该语言受支持
-    const validLanguage = lang ? lang : 'plaintext';
-    console.log("validLanguage", validLanguage, lang);
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(code, { language: lang }).value;
-      } catch (e) {
-        console.error('代码高亮错误:', e);
-      }
-    }
-    // 如果没有指定语言或语言不受支持，使用普通文本
-    return hljs.highlight(code, { language: 'plaintext' }).value;
-  },
-  langPrefix: 'hljs language-', // 添加到代码块 class 的前缀
 };
 
 
