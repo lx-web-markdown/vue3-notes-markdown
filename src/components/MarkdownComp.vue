@@ -87,7 +87,6 @@ function getTitle() {
 
 // 点击目录项跳转到对应标题
 function scrollToHeading(id: string) {
-  console.log('AAAAA =', id);
   const element = document.getElementById(id);
   if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
@@ -103,8 +102,11 @@ onMounted(async () => {
 
 <template>
   <div class="markdown-container">
-    <!-- 左侧Markdown内容 -->
-    <div v-html="markdownContent" class="markdown-body" :class="{ 'full-width': isSmallScreen }" ref="mdContentRef"></div>
+    <!-- 1.左侧Markdown内容 -->
+    <div v-html="markdownContent" class="markdown-body" :class="{ 'full-width': isSmallScreen }" ref="mdContentRef">
+    </div>
+    <!-- 2.纯手搓样式 -->
+    <!-- <div v-html="markdownContent" class="markdown-body"></div> -->
 
     <!-- 右侧标题目录，在小屏幕下隐藏 -->
     <div class="toc-container" v-if="headings.length > 0 && !isSmallScreen">
@@ -144,7 +146,7 @@ onMounted(async () => {
   .markdown-body {
     flex: 1;
     max-width: calc(100% - 320px); // 预留右侧目录的空间
-    
+
     &.full-width {
       max-width: 100%; // 在小屏幕下占据全宽
     }
