@@ -1,52 +1,47 @@
 // src/utils/markedConfig.ts
 import { marked, Renderer } from 'marked';
 import hljs from 'highlight.js';
-// 引入markdown样式
-import 'highlight.js/styles/atom-one-light.css'
+// 引入高亮样式
+import 'highlight.js/styles/atom-one-light.css';
 
-// 创建一个自定义 Renderer 实例
+// 创建自定义 Renderer 实例
 const customRenderer = new Renderer();
-
 
 /**
  * 自定义渲染器 - 标题定制
+ * 支持标题内的markdown链接语法
  */
 customRenderer.heading = (item: any) => {
-  // console.log("customRenderer.heading", item);
-  // 匹配[]()
+  // 匹配[]()链接语法
   const regex = /\[(.*?)\]\((.*?)\)/g;
-  // 匹配到的每个匹配项，替换为链接
   const replaced = item.text.replace(regex, (match: any, text: any, url: any) => {
-    // console.log("match =", match, text, url);
-    // 打开新页面
     return `<a href="${url}" target="_blank">${text}</a>`;
   });
-  // return `<h${item.depth}>${replaced}</h${item.depth}>`;
+  
+  // 添加id属性，支持锚点跳转
   return `<h${item.depth} id="${item.text.toLowerCase().replace(/[^\w]+/g, '-')}">${replaced}</h${item.depth}>`;
 };
 
 /**
- * 自定义渲染器 - 链接，打开新页签
+ * 自定义渲染器 - 链接，默认打开新页签
  */
 customRenderer.link = (item: any): string => {
-  // console.log("customRenderer.link", item);
   return `<a href="${item.href}" title="${item.title || ''}" target="_blank" rel="noopener noreferrer">${item.text}</a>`;
 };
 
 /**
- * 自定义渲染器 - 图片，打开新页签
+ * 自定义渲染器 - 图片，点击可在新页签打开
  */
 customRenderer.image = (item: any): string => {
-  // console.log("customRenderer.image", item);
-  return `<a href="${item.href}" title="${item.title || ''}" target="_blank" rel="noopener noreferrer"><img src="${item.href}" alt="${item.title || ''}" /></a>`;
+  return `<a href="${item.href}" title="${item.title || ''}" target="_blank" rel="noopener noreferrer">
+    <img src="${item.href}" alt="${item.title || ''}" />
+  </a>`;
 };
 
 /**
- * 自定义渲染器 - 代码片段
- * 注意：如果使用了 highlight 选项，这个方法可能不会被调用
+ * 自定义渲染器 - 代码片段高亮
  */
 customRenderer.code = (item: any) => {  
-  // console.log("customRenderer.code", item);
   let validLanguage = item.lang || 'plaintext';
 
   // 特殊处理vue文件
@@ -64,16 +59,19 @@ customRenderer.code = (item: any) => {
 // 创建 marked 配置对象
 const markedConfig = {
   renderer: customRenderer,
-  // 基本配置
   gfm: true,         // 启用 GitHub Flavored Markdown
   breaks: true,      // 将换行符转换为 <br>
   pedantic: false,   // 不使用严格模式
   sanitize: false,   // 原始输出，允许HTML标签
 };
 
-
-// 应用配置 - 使用类型断言绕过类型检查
+// 应用配置
 marked.setOptions(markedConfig as any);
 
 // 导出配置好的 marked 实例
 export default marked;
+
+// 导出一个便捷的渲染函数
+export function renderMarkdown(content: string): string | Promise<string> {
+  return marked.parse(content);
+}
