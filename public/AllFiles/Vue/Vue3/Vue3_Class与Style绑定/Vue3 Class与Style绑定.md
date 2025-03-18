@@ -1,8 +1,6 @@
 [Vue3 Class 与 Style 绑定 - 官网](https://cn.vuejs.org/guide/essentials/class-and-style)
 
-```js
-let a = 1;
-```
+
 
 # 速览
 

@@ -1,0 +1,12 @@
+.el-button-group {
+  .el-dropdown {
+    .el-button {
+      border-left-color: #dcdfe6;
+    }
+  }
+}
+// view列表点击当前列高亮背景色自定义
+.el-table__body tr.current-row > td {
+  background-color: red;
+//   color: ;
+}

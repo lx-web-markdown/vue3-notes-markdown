@@ -129,7 +129,7 @@ PDFJS.getDocument(pdfUrl).promise.then((pdfDoc) => {
 
 * [pdfjs](https://www.npmjs.com/package/pdfjs)
 
-```shell
+```
 $ npm install pdfjs
 ```
 

@@ -15,14 +15,6 @@ onMounted(() => {
     初始化时间: new Date().toLocaleString()
   });
 
-  // 天气信息
-  console.log('天气信息:', {
-    temperature: '25°C',
-    weather: '晴',
-    humidity: '65%',
-    wind: '东南风 3级'
-  });
-
   // 设置页面标题
   document.title = translate('appTitle') || '';
 });

@@ -102,6 +102,9 @@ onMounted(async () => {
 
 <template>
   <div class="markdown-container">
+    <!-- 回到顶部 -->
+    <el-backtop target=".markdown-body" :right="50" :bottom="50" />
+
     <!-- 1.左侧Markdown内容 -->
     <div v-html="markdownContent" class="markdown-body" :class="{ 'full-width': isSmallScreen }" ref="mdContentRef">
     </div>

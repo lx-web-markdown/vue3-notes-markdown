@@ -10,11 +10,11 @@ const allRouters = [
   },
   {
     path: "/",
-    redirect: "/notelist/vue3",
+    redirect: "/notelist/work-doc",
   },
   {
     path: "/notelist",
-    redirect: "/notelist/vue3",
+    redirect: "/notelist/work-doc",
     component: () => import("@/views/VueHome/index.vue"),
     children: [
       {
@@ -40,6 +40,10 @@ const allRouters = [
       {
         path: "vue3",
         name: "Vue3Home",
+        component: () => import("@/views/VueHome/MKMainView/index.vue"),
+      },
+      {
+        path: "work-doc",
         component: () => import("@/views/VueHome/MKMainView/index.vue"),
       },
     ],

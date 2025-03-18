@@ -20,9 +20,11 @@ const route = useRoute();
 const dataSrouce = ref<Tree[]>([]);
 
 watch(() => route.fullPath, () => {  
-  let tempFilePath = '/FileListTXT/fileList_Vue3.txt';
+  let tempFilePath = '/FileListTXT/fileList_前端文档.txt';
   // 根据路由，来区分不同的文件加载
-  if (route.fullPath.indexOf("vue2") !== -1) {
+  if (route.fullPath.indexOf("work-doc") !== -1) {
+    tempFilePath = '/FileListTXT/fileList_前端文档.txt';
+  } else if (route.fullPath.indexOf("vue2") !== -1) {
     tempFilePath = '/FileListTXT/fileList_Vue2.txt';
   } else if (route.fullPath.indexOf("vue3") !== -1) {
     tempFilePath = '/FileListTXT/fileList_Vue3.txt';
@@ -58,7 +60,7 @@ const getFileList = async (_fileListPath: string) => {
   }
 };
 
-getFileList('/FileListTXT/fileList_Vue3.txt');
+getFileList('/FileListTXT/fileList_前端文档.txt');
 
 const handleNodeClick = (item: Tree) => {
   // console.log("handleNodeClick", item);

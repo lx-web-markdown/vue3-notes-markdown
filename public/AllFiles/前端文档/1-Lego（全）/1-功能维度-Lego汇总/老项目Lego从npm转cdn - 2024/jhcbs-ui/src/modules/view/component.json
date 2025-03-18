@@ -1,0 +1,17 @@
+{
+  "name": "View",
+  "title": "View插件",
+  "description": "该插件负责渲染XX",
+  "version": "0.0.1",
+  "author": "",
+  "category": "subApp",
+  "sceneType": "View",
+  "repository": "",
+  "source": [],
+  "screenshot": [],
+  "dependencies": {},
+  "devDependencies": {},
+  "publishTime": "",
+  "updateTime": "",
+  "pluginSystemVersion": "1.0.0"
+}

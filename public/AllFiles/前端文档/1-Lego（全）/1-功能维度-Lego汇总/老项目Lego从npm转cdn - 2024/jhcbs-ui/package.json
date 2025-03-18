@@ -1,0 +1,63 @@
+{
+  "name": "plugin-view",
+  "version": "1.0.0",
+  "private": true,
+  "route": "/csafety-jhcbs/platform",
+  "scripts": {
+    "i": "fnm exec --using=12 npm i",
+    "dev": "fnm exec --using=12 npm run serve",
+    "b": "fnm exec --using=12 npm run build",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "build-with-analyzer": "cross-env ENABLE_WEBPACK_ANALYZER=1 vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "build-mod": "pack-mod build"
+  },
+  "dependencies": {
+    "@commonbox/utils": "^0.1.20",
+    "@qpaas/vue-plugin-global": "1.1.27",
+    "@qycloud/lego": "^23.12.1",
+    "@qycloud/cube": "^23.12.1",
+    "core-js": "^2.6.12",
+    "d3": "^5.9.7",
+    "jsencrypt": "^3.2.1",
+    "lodash": "^4.17.11",
+    "tinycolor2": "^1.4.1",
+    "vue": "^2.6.10",
+    "vue-router": "^3.1.6",
+    "vuedraggable": "^2.23.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
+    "@qpaas/pack-mod-cli": "latest",
+    "@vue/cli-plugin-babel": "^3.4.0",
+    "@vue/cli-plugin-eslint": "^3.4.0",
+    "@vue/cli-service": "^3.4.0",
+    "babel-eslint": "^10.0.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "moment-locales-webpack-plugin": "^1.0.7",
+    "node-sass": "^4.14.1",
+    "postcss-load-config": "^2.1.0",
+    "sass-loader": "^7.1.0",
+    "vue-svg-loader": "^0.12.0",
+    "vue-template-compiler": "^2.6.10",
+    "webpack-bundle-analyzer": "^3.1.0"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "engines": {
+    "node": ">= 8.12.0 <13"
+  }
+}
