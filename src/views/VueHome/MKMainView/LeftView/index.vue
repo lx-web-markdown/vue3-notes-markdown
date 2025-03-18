@@ -60,11 +60,34 @@ const getFileList = async (_fileListPath: string) => {
   }
 };
 
-getFileList('/FileListTXT/fileList_前端文档.txt');
+// 根据路由获取具体的数据
+const getFileByRoute = () => {
+  let tempFilePath = '/FileListTXT/fileList_前端文档.txt';
+  // 根据路由，来区分不同的文件加载
+  if (route.fullPath.indexOf("work-doc") !== -1) {
+    tempFilePath = '/FileListTXT/fileList_前端文档.txt';
+  } else if (route.fullPath.indexOf("vue2") !== -1) {
+    tempFilePath = '/FileListTXT/fileList_Vue2.txt';
+  } else if (route.fullPath.indexOf("vue3") !== -1) {
+    tempFilePath = '/FileListTXT/fileList_Vue3.txt';
+  } else if (route.fullPath.indexOf("html") !== -1) {
+    tempFilePath = '/FileListTXT/fileList_HTML.txt';
+  } else if (route.fullPath.indexOf("css") !== -1) {
+    tempFilePath = '/FileListTXT/fileList_CSS.txt';
+  } else if (route.fullPath.indexOf("js") !== -1) {
+    tempFilePath = '/FileListTXT/fileList_JS.txt';
+  }
+  console.log("route.fullPath", route.fullPath);
+  console.log("tempFilePath", tempFilePath);
+  //
+  getFileList(tempFilePath);
+}
+
+getFileByRoute();
 
 const handleNodeClick = (item: Tree) => {
-  // console.log("handleNodeClick", item);
-  if (item.type === "file") {
+  console.log("handleNodeClick", item);
+  if (item.type === ".md") {
     // 发射事件
     myBus.emit("showFilePath", item);
   }

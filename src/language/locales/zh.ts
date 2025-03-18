@@ -7,6 +7,7 @@ const zh = {
   },
   common: {
     changeLanguage: '切换语言',
+    content: '目录',
   }
 }
 

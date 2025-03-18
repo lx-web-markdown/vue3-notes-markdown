@@ -39,7 +39,9 @@ const loadMarkdown = async () => {
     const response = await fetch(props.markdownFilePath);
     if (response.ok) {
       const text = await response.text();
-      markdownContent.value = await renderMarkdown(text);
+      // 在markdown内容后面添加一个高度为80px的div，用于占位
+      markdownContent.value = await renderMarkdown(text) + '<div style="height: 80px; background-color: transparent;"></div>';
+      console.log("markdownContent.value = ", markdownContent.value);
     } else {
       console.error("Failed to load markdown file:", response.status);
     }
@@ -113,7 +115,7 @@ onMounted(async () => {
 
     <!-- 右侧标题目录，在小屏幕下隐藏 -->
     <div class="toc-container" v-if="headings.length > 0 && !isSmallScreen">
-      <div class="toc-title">目录</div>
+      <div class="toc-title">{{ $t("common.content") }}</div>
       <div class="toc-items">
         <div v-for="(heading, index) in headings" :key="index" class="toc-item" :class="`level-${heading.level}`"
           @click="scrollToHeading(heading.id)">

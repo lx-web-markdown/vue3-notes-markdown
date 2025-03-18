@@ -73,7 +73,7 @@ const getAllFilesInPublicDir_Core = async (_filePath, _level) => {
       if (item !== ".DS_Store") {
         // console.log("===> isFile =", itemPath, extname);
         result.push({
-          type: "file",
+          type: extname || "file",
           name: item,
           levle: _level,
           fullPath: itemPath,

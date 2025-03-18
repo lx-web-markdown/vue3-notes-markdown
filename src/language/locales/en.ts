@@ -7,6 +7,7 @@ const en = {
   },
   common: {
     changeLanguage: 'change Language',
+    content: 'Content',
   }
 }
 

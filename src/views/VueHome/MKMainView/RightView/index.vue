@@ -14,7 +14,7 @@ watch(() => route.fullPath, () => {
 });
 
 myBus.on("showFilePath", (data: any) => {
-  if (data.type === "file") {
+  if (data.type === ".md") {
     let result = data.fullPath.replace("./public", "");
     console.log("Event Received:", data, data.fullPath);
     console.log("markdownFilePath = ", result);
