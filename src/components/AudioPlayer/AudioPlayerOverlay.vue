@@ -222,5 +222,5 @@ const handleVolumeClick = (event: MouseEvent) => {
 </template>
 
 <style scoped lang="scss">
-@import './style.scss';
+@use './style.scss';
 </style> 
