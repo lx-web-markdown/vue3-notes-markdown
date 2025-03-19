@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useRoute } from 'vue-router';
-import MarkdownView from "@/components/MarkdownComp.vue";
+import MarkdownView from "@/components/MarkdownComp/MarkdownComp.vue";
 import About from "./AboutView/index.vue";
 import myBus from "@/utils/myBus.ts";
 
@@ -14,11 +14,9 @@ watch(() => route.fullPath, () => {
 });
 
 myBus.on("showFilePath", (data: any) => {
-  if (data.type === ".md") {
-    let result = data.fullPath.replace("./public", "");
-    console.log("Event Received:", data, data.fullPath);
-    console.log("markdownFilePath = ", result);
-    markdownFilePath.value = result;
+  if (data.type === ".md" && data.fullPath.endsWith(".md")) {
+    console.log("markdownFilePath = ", data.fullPath);
+    markdownFilePath.value = data.fullPath;
   }
 });
 </script>

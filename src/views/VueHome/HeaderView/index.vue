@@ -101,7 +101,7 @@ const openMKViewr = (command: string) => {
             <el-dropdown-item command="JS">JS</el-dropdown-item>
             <el-dropdown-item command="Vue2">Vue2</el-dropdown-item>
             <el-dropdown-item command="Vue3">Vue3</el-dropdown-item>
-            <el-dropdown-item command="work-doc">工作文档</el-dropdown-item>
+            <el-dropdown-item command="work-doc">工作随笔</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

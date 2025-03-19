@@ -8,7 +8,7 @@ const { changeLanguage } = useLanguage()
 
 export default function useHooks() {
   onMounted(() => {
-    console.log('useHooks')
+    // console.log('useHooks');
   })
 
   const handleDropdownCommand = (command: string | number | object) => {

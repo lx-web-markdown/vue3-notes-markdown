@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 // 各子模块的路由
 import Router404 from './404/index.ts';
+import DemoRouter from './demo-router/index.ts';
+
 // 路由配置
 const allRouters = [
   // 重定向
@@ -55,6 +57,7 @@ const allRouters = [
   },
   // ******************* 404 ********************
   ...Router404,
+  ...DemoRouter,
 ];
 
 /**

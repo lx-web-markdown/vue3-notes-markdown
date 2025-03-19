@@ -1,105 +1,45 @@
+<!--
+  LeftView组件 - 文件树侧边栏
+  
+  用于显示文件树结构，根据路由加载不同类型的文件列表
+  当点击Markdown文件时，会触发showFilePath事件
+-->
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { watch, onMounted } from "vue";
 import { useRoute } from 'vue-router';
-import myBus from "@/utils/myBus.ts";
+import { useFileTree } from './composables/useFileTree';
 
-interface Tree {
-  name: string;
-  type: string;
-  level: number;
-  fullPath: string;
-  children?: Tree[];
-}
+// 使用可组合函数来处理文件树相关逻辑
+const { 
+  fileTree, 
+  loadFileTreeByRoute,
+  handleNodeClick 
+} = useFileTree();
 
+// 树形控件配置
 const defaultProps = {
   children: "children",
   label: "name",
 };
 
+// 监听路由变化，加载相应文件树
 const route = useRoute();
-const dataSrouce = ref<Tree[]>([]);
-
-watch(() => route.fullPath, () => {  
-  let tempFilePath = '/FileListTXT/fileList_前端文档.txt';
-  // 根据路由，来区分不同的文件加载
-  if (route.fullPath.indexOf("work-doc") !== -1) {
-    tempFilePath = '/FileListTXT/fileList_前端文档.txt';
-  } else if (route.fullPath.indexOf("vue2") !== -1) {
-    tempFilePath = '/FileListTXT/fileList_Vue2.txt';
-  } else if (route.fullPath.indexOf("vue3") !== -1) {
-    tempFilePath = '/FileListTXT/fileList_Vue3.txt';
-  } else if (route.fullPath.indexOf("html") !== -1) {
-    tempFilePath = '/FileListTXT/fileList_HTML.txt';
-  } else if (route.fullPath.indexOf("css") !== -1) {
-    tempFilePath = '/FileListTXT/fileList_CSS.txt';
-  } else if (route.fullPath.indexOf("js") !== -1) {
-    tempFilePath = '/FileListTXT/fileList_JS.txt';
-  }
-  console.log("route.fullPath", route.fullPath);
-  console.log("tempFilePath", tempFilePath);
-  //
-  getFileList(tempFilePath);
+watch(() => route.fullPath, () => {
+  loadFileTreeByRoute(route.fullPath);
 });
 
-const getFileList = async (_fileListPath: string) => {
-  try {
-    const response = await fetch(_fileListPath); // 根据 public 下的路径加载文件
-    if (response.ok) {
-      const text = await response.text();
-      const fileList = JSON.parse(text);
-      if (text && fileList && fileList.length > 0) {
-        dataSrouce.value = fileList;
-      } else {
-        throw new Error("Failed to load fileList.txt");
-      }
-    } else {
-      console.error("Failed to load markdown file:", response.status);
-    }
-  } catch (error) {
-    console.error("Error loading markdown file:", error);
-  }
-};
-
-// 根据路由获取具体的数据
-const getFileByRoute = () => {
-  let tempFilePath = '/FileListTXT/fileList_前端文档.txt';
-  // 根据路由，来区分不同的文件加载
-  if (route.fullPath.indexOf("work-doc") !== -1) {
-    tempFilePath = '/FileListTXT/fileList_前端文档.txt';
-  } else if (route.fullPath.indexOf("vue2") !== -1) {
-    tempFilePath = '/FileListTXT/fileList_Vue2.txt';
-  } else if (route.fullPath.indexOf("vue3") !== -1) {
-    tempFilePath = '/FileListTXT/fileList_Vue3.txt';
-  } else if (route.fullPath.indexOf("html") !== -1) {
-    tempFilePath = '/FileListTXT/fileList_HTML.txt';
-  } else if (route.fullPath.indexOf("css") !== -1) {
-    tempFilePath = '/FileListTXT/fileList_CSS.txt';
-  } else if (route.fullPath.indexOf("js") !== -1) {
-    tempFilePath = '/FileListTXT/fileList_JS.txt';
-  }
-  console.log("route.fullPath", route.fullPath);
-  console.log("tempFilePath", tempFilePath);
-  //
-  getFileList(tempFilePath);
-}
-
-getFileByRoute();
-
-const handleNodeClick = (item: Tree) => {
-  console.log("handleNodeClick", item);
-  if (item.type === ".md") {
-    // 发射事件
-    myBus.emit("showFilePath", item);
-  }
-};
+// 组件挂载时初始加载
+onMounted(() => {
+  loadFileTreeByRoute(route.fullPath);
+});
 </script>
 
 <template>
   <div class="left-sidebar">
     <el-scrollbar class="scrollbar-container">
       <el-tree
-        style="max-width: 600px"
-        :data="dataSrouce"
+        class="file-tree"
+        :data="fileTree"
         :props="defaultProps"
         @node-click="handleNodeClick"
       />
@@ -108,21 +48,5 @@ const handleNodeClick = (item: Tree) => {
 </template>
 
 <style scoped lang="scss">
-.left-sidebar {
-  width: 100%;
-  height: 100%;
-  background-color: #FFF;
-
-  .scrollbar-container {
-    // border-right: 1px solid green;
-    background-color: transparent;
-    height: var(--lx-main-container-height);
-
-    .scrollbar-item {
-      height: 30px;
-      width: 100%;
-      border-bottom: 1px solid yellowgreen;
-    }
-  }
-}
+@use './style.scss';
 </style>
