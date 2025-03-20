@@ -1,14 +1,22 @@
 <template>
   <router-view />
-  
+
   <!-- 音频播放器浮层 -->
-  <AudioPlayerOverlay 
-    :visible="playerVisible" 
+  <AudioPlayerOverlay
+    :visible="playerVisible"
     :audio-info="currentAudio"
     :settings="playerSettings"
     @close="handlePlayerClose"
     @status-change="handleStatusChange"
   />
+
+  <!-- 视频播放器浮层 -->
+  <!-- <VideoPlayerOverlay
+    v-if="localVideoUrl"
+    ref="localVideoRef"
+    :src="localVideoUrl"
+    :isLocalFile="true"
+  /> -->
 </template>
 
 <script lang="ts" setup>
@@ -24,7 +32,7 @@ const playerSettings: PlayerSettings = {
   autoplay: true,
   volume: 0.6,
   showVolumeControl: true,
-  loop: false
+  loop: false,
 };
 
 // 获取音频服务中的状态
@@ -46,7 +54,7 @@ onMounted(() => {
   console.log('系统信息:', {
     语言: currentLocale.value,
     页面标题: translate('appTitle'),
-    初始化时间: new Date().toLocaleString()
+    初始化时间: new Date().toLocaleString(),
   });
 
   // 设置页面标题

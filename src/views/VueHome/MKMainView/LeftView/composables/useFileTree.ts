@@ -100,6 +100,9 @@ export function useFileTree() {
     } else if (item.type === '.mp3' || item.fullPath.endsWith('.mp3')) {
       // 如果是MP3文件，使用音频服务处理
       audioService.handleMp3Click(item.fullPath);
+    } else if (item.type === '.mp4' || item.fullPath.endsWith('.mp4')) {
+      // 如果是MP4文件，使用视频服务处理
+      // videoService.handleMp4Click(item.fullPath);
     }
   };
 

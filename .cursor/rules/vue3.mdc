@@ -8,3 +8,5 @@ alwaysApply: false
 
 - You can @ files here
 - You can use markdown but dont have to
+
+vue3 + ts + scss
