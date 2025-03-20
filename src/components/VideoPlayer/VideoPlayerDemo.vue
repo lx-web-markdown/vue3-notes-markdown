@@ -6,7 +6,7 @@
     <div class="demo-block">
       <h3>在线视频</h3>
       <button class="play-button" @click="openOnlineVideo">播放在线视频</button>
-      <VideoPlayer 
+      <VideoPlayerOverlay 
         ref="onlineVideoRef" 
         src="http://vjs.zencdn.net/v/oceans.mp4" 
       />
@@ -31,7 +31,7 @@
       >
         播放本地视频
       </button>
-      <VideoPlayer 
+      <VideoPlayerOverlay 
         v-if="localVideoUrl" 
         ref="localVideoRef"
         :src="localVideoUrl" 
@@ -43,10 +43,10 @@
 
 <script setup lang="ts">
 import { ref, onUnmounted } from 'vue'
-import VideoPlayer from './VideoPlayer.vue'
+import VideoPlayerOverlay from './VideoPlayerOverlay.vue'
 
-const onlineVideoRef = ref<InstanceType<typeof VideoPlayer> | null>(null)
-const localVideoRef = ref<InstanceType<typeof VideoPlayer> | null>(null)
+const onlineVideoRef = ref<InstanceType<typeof VideoPlayerOverlay> | null>(null)
+const localVideoRef = ref<InstanceType<typeof VideoPlayerOverlay> | null>(null)
 const localVideoUrl = ref('')
 
 // 打开在线视频
