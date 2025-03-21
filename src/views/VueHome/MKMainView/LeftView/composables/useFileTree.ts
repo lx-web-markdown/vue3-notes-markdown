@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import myBus from '@/utils/myBus';
 import { audioService } from '@/components/AudioPlayer/audioService';
+import { videoService } from '@/components/VideoPlayer/videoService';
 import type { Tree, FilePathMapping } from './types';
 
 /**
@@ -103,6 +104,7 @@ export function useFileTree() {
     } else if (item.type === '.mp4' || item.fullPath.endsWith('.mp4')) {
       // 如果是MP4文件，使用视频服务处理
       // videoService.handleMp4Click(item.fullPath);
+      videoService.playVideo(item.fullPath);
     }
   };
 

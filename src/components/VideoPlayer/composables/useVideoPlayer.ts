@@ -2,7 +2,6 @@ import { ref, computed } from 'vue'
 
 export interface VideoPlayerOverlayProps {
   src: string
-  isLocalFile?: boolean
 }
 
 export function useVideoPlayerOverlay(props: VideoPlayerOverlayProps) {
@@ -11,9 +10,6 @@ export function useVideoPlayerOverlay(props: VideoPlayerOverlayProps) {
   const isPlaying = ref(false)
 
   const videoSrc = computed(() => {
-    if (props.isLocalFile && props.src.startsWith('blob:')) {
-      return props.src
-    }
     return props.src
   })
 

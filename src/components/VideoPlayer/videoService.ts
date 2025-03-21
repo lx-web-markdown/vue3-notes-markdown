@@ -1,163 +1,125 @@
-import { ref } from 'vue'
-import type { Ref } from 'vue'
-import type VideoPlayerOverlay from './VideoPlayerOverlay.vue'
+import { ref } from 'vue';
+import type { Ref } from 'vue';
+import type VideoPlayerOverlay from './VideoPlayerOverlay.vue';
 
 // 视频播放器实例类型
-type VideoPlayerInstance = InstanceType<typeof VideoPlayerOverlay> | null
+export type VideoPlayerInstance = {
+  // 来自HTMLVideoElement的属性和方法
+  currentTime: number;
+  duration: number;
+  volume: number;
+  muted: boolean;
+  play: () => Promise<void>;
+  pause: () => void;
+  // 其他可能需要的方法
+  open?: () => void;
+  close?: () => void;
+  toggle?: () => void;
+};
 
 // 视频播放状态
 interface VideoState {
-  isPlaying: boolean
-  currentTime: number
-  duration: number
-  volume: number
-  isMuted: boolean
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+  volume: number;
+  isMuted: boolean;
 }
 
 class VideoService {
-  // 存储视频播放器实例的引用
-  private onlineVideoRef: Ref<VideoPlayerInstance> = ref(null)
-  private localVideoRef: Ref<VideoPlayerInstance> = ref(null)
-  
-  // 视频状态
-  private onlineVideoState = ref<VideoState>({
-    isPlaying: false,
-    currentTime: 0,
-    duration: 0,
-    volume: 1,
-    isMuted: false
-  })
-  
-  private localVideoState = ref<VideoState>({
-    isPlaying: false,
-    currentTime: 0,
-    duration: 0,
-    volume: 1,
-    isMuted: false
-  })
+  // 单例实例
+  private static instance: VideoService;
 
-  // 设置视频引用
-  setOnlineVideoRef(ref: Ref<VideoPlayerInstance>) {
-    this.onlineVideoRef = ref
+  // 存储视频播放器实例的引用
+  private videoRef: Ref<VideoPlayerInstance | null> = ref(null);
+
+  // 视频状态
+  private videoState = ref<VideoState>({
+    isPlaying: false,
+    currentTime: 0,
+    duration: 0,
+    volume: 1,
+    isMuted: false,
+  });
+
+  // 私有构造函数，防止外部实例化
+  private constructor() {
+    console.log('VideoService 实例化 - 单例！！');
   }
 
-  setLocalVideoRef(ref: Ref<VideoPlayerInstance>) {
-    this.localVideoRef = ref
+  // 获取单例实例的静态方法
+  public static getInstance(): VideoService {
+    if (!VideoService.instance) {
+      VideoService.instance = new VideoService();
+    }
+    return VideoService.instance;
+  }
+
+  // 设置视频引用
+  setVideoRef(ref: Ref<VideoPlayerInstance | null>) {
+    this.videoRef = ref;
   }
 
   // 播放视频
-  playOnlineVideo() {
-    this.onlineVideoRef.value?.play()
-    this.onlineVideoState.value.isPlaying = true
-  }
-
-  playLocalVideo() {
-    this.localVideoRef.value?.play()
-    this.localVideoState.value.isPlaying = true
-  }
-
-  // 同时播放两个视频
-  playAllVideos() {
-    this.playOnlineVideo()
-    this.playLocalVideo()
+  playVideo() {
+    console.log('playVideo', this.videoRef.value);
+    this.videoRef.value?.play();
+    this.videoState.value.isPlaying = true;
   }
 
   // 暂停视频
-  pauseOnlineVideo() {
-    this.onlineVideoRef.value?.pause()
-    this.onlineVideoState.value.isPlaying = false
-  }
-
-  pauseLocalVideo() {
-    this.localVideoRef.value?.pause()
-    this.localVideoState.value.isPlaying = false
-  }
-
-  // 同时暂停两个视频
-  pauseAllVideos() {
-    this.pauseOnlineVideo()
-    this.pauseLocalVideo()
+  pauseVideo() {
+    console.log('pauseVideo', this.videoRef.value);
+    this.videoRef.value?.pause();
+    this.videoState.value.isPlaying = false;
   }
 
   // 切换视频播放/暂停状态
-  toggleOnlineVideo() {
-    if (this.onlineVideoState.value.isPlaying) {
-      this.pauseOnlineVideo()
+  toggleVideo() {
+    if (this.videoState.value.isPlaying) {
+      this.pauseVideo();
     } else {
-      this.playOnlineVideo()
-    }
-  }
-
-  toggleLocalVideo() {
-    if (this.localVideoState.value.isPlaying) {
-      this.pauseLocalVideo()
-    } else {
-      this.playLocalVideo()
+      this.playVideo();
     }
   }
 
   // 设置视频音量
-  setOnlineVideoVolume(volume: number) {
-    if (this.onlineVideoRef.value) {
-      this.onlineVideoRef.value.volume = volume
-      this.onlineVideoState.value.volume = volume
-    }
-  }
-
-  setLocalVideoVolume(volume: number) {
-    if (this.localVideoRef.value) {
-      this.localVideoRef.value.volume = volume
-      this.localVideoState.value.volume = volume
+  setVideoVolume(volume: number) {
+    if (this.videoRef.value) {
+      this.videoRef.value.volume = volume;
+      this.videoState.value.volume = volume;
     }
   }
 
   // 静音/取消静音
-  muteOnlineVideo(mute: boolean) {
-    if (this.onlineVideoRef.value) {
-      this.onlineVideoRef.value.muted = mute
-      this.onlineVideoState.value.isMuted = mute
-    }
-  }
-
-  muteLocalVideo(mute: boolean) {
-    if (this.localVideoRef.value) {
-      this.localVideoRef.value.muted = mute
-      this.localVideoState.value.isMuted = mute
+  muteVideo(mute: boolean) {
+    if (this.videoRef.value) {
+      this.videoRef.value.muted = mute;
+      this.videoState.value.isMuted = mute;
     }
   }
 
   // 获取视频状态
-  getOnlineVideoState() {
-    return this.onlineVideoState
-  }
-
-  getLocalVideoState() {
-    return this.localVideoState
+  getVideoState() {
+    return this.videoState;
   }
 
   // 跳转到指定时间
-  seekOnlineVideo(time: number) {
-    if (this.onlineVideoRef.value) {
-      this.onlineVideoRef.value.currentTime = time
-      this.onlineVideoState.value.currentTime = time
+  seekVideo(time: number) {
+    if (this.videoRef.value) {
+      this.videoRef.value.currentTime = time;
+      this.videoState.value.currentTime = time;
     }
   }
 
-  seekLocalVideo(time: number) {
-    if (this.localVideoRef.value) {
-      this.localVideoRef.value.currentTime = time
-      this.localVideoState.value.currentTime = time
-    }
-  }
-
-  // 同步两个视频的进度
-  syncVideos() {
-    if (this.onlineVideoRef.value && this.localVideoRef.value) {
-      const onlineTime = this.onlineVideoRef.value.currentTime
-      this.seekLocalVideo(onlineTime)
+  // 更新视频状态
+  updateVideoState() {
+    if (this.videoRef.value) {
+      this.videoState.value.currentTime = this.videoRef.value.currentTime;
+      this.videoState.value.duration = this.videoRef.value.duration;
     }
   }
 }
 
-// 创建单例实例
-export const videoService = new VideoService()
+// 导出单例实例
+export const videoService = VideoService.getInstance();

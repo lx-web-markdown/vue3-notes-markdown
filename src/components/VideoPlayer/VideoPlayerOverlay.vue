@@ -3,14 +3,13 @@
     <div class="floating-window-overlay" @click.self="close">
       <div class="floating-window">
         <div class="video-wrapper">
-          <video 
-            ref="videoRef" 
-            :src="videoSrc" 
-            @play="isPlaying = true" 
+          <video
+            ref="videoRef"
+            :src="videoSrc"
+            @play="isPlaying = true"
             @pause="isPlaying = false"
-            @ended="isPlaying = false" 
-            controls 
-            :class="{ 'local-file': isLocalFile }"
+            @ended="isPlaying = false"
+            controls
           >
             您的浏览器不支持 HTML5 视频播放
           </video>
@@ -22,31 +21,24 @@
 </template>
 
 <script setup lang="ts">
-import { defineExpose, h, resolveComponent } from 'vue'
-import { useVideoPlayerOverlay, type VideoPlayerOverlayProps } from './composables/useVideoPlayer'
+import { defineExpose } from 'vue';
+import { useVideoPlayerOverlay, type VideoPlayerOverlayProps } from './composables/useVideoPlayer';
 
 interface Props extends VideoPlayerOverlayProps {}
 
 const props = withDefaults(defineProps<Props>(), {
-  isLocalFile: false
-})
+  src: '',
+});
 
-const {
-  videoRef,
-  showFloatingWindow,
-  isPlaying,
-  videoSrc,
-  open,
-  close,
-  toggle
-} = useVideoPlayerOverlay(props)
+const { videoRef, showFloatingWindow, isPlaying, videoSrc, open, close, toggle } =
+  useVideoPlayerOverlay(props);
 
 // 曝光组件方法
 defineExpose({
   open,
   close,
-  toggle
-})
+  toggle,
+});
 </script>
 
 <style scoped lang="scss">

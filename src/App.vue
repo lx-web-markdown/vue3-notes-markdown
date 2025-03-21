@@ -11,18 +11,18 @@
   />
 
   <!-- 视频播放器浮层 -->
-  <!-- <VideoPlayerOverlay
-    v-if="localVideoUrl"
-    ref="localVideoRef"
-    :src="localVideoUrl"
-    :isLocalFile="true"
-  /> -->
+  <VideoPlayerOverlay
+    ref="videoPlayerRef"
+    :src="videoUrl"
+    :isLocalFile="isLocalVideo"
+  />
 </template>
 
 <script lang="ts" setup>
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref, onBeforeUnmount } from 'vue';
 import useLanguage from '@/language/hooks/useLanguage';
 import { AudioPlayerOverlay, audioService } from '@/components/AudioPlayer';
+import { VideoPlayerOverlay, videoService, type VideoPlayerInstance } from '@/components/VideoPlayer';
 import type { PlayerSettings } from '@/components/AudioPlayer';
 
 const { currentLocale, translate } = useLanguage();
@@ -49,6 +49,23 @@ const handleStatusChange = (status: string) => {
   console.log('播放状态变化:', status);
 };
 
+// 视频播放器相关
+const videoPlayerRef = ref<VideoPlayerInstance | null>(null);
+const videoUrl = ref('');
+const isLocalVideo = ref(false);
+
+// 设置视频URL
+const setVideoSource = (url: string, isLocal: boolean = false) => {
+  videoUrl.value = url;
+  isLocalVideo.value = isLocal;
+};
+
+// 示例：播放视频
+const playVideo = (url: string, isLocal: boolean = false) => {
+  setVideoSource(url, isLocal);
+  videoService.playVideo();
+};
+
 onMounted(() => {
   // 系统初始化日志
   console.log('系统信息:', {
@@ -59,6 +76,24 @@ onMounted(() => {
 
   // 设置页面标题
   document.title = translate('appTitle') || '';
+  
+  // 初始化videoService
+  videoService.setVideoRef(videoPlayerRef);
+});
+
+onBeforeUnmount(() => {
+  // 清理视频播放器资源
+  videoService.pauseVideo();
+});
+
+// 导出视频播放控制方法
+defineExpose({
+  playVideo,
+  pauseVideo: videoService.pauseVideo,
+  toggleVideo: videoService.toggleVideo,
+  setVideoVolume: videoService.setVideoVolume,
+  muteVideo: videoService.muteVideo,
+  seekVideo: videoService.seekVideo
 });
 </script>
 

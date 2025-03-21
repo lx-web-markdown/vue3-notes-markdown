@@ -26,12 +26,7 @@
       <button class="play-button" @click="openLocalVideo" :disabled="!localVideoUrl">
         播放本地视频
       </button>
-      <VideoPlayerOverlay
-        v-if="localVideoUrl"
-        ref="localVideoRef"
-        :src="localVideoUrl"
-        :isLocalFile="true"
-      />
+      <VideoPlayerOverlay v-if="localVideoUrl" ref="localVideoRef" :src="localVideoUrl" />
     </div>
   </div>
 </template>
