@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import myBus from '@/utils/myBus';
-import { audioService } from '@/services/audioService';
+import { audioService } from '@/components/AudioPlayer/audioService';
 import type { Tree, FilePathMapping } from './types';
 
 /**

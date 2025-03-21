@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import type { Ref } from 'vue'
-import type VideoPlayerOverlay from '../components/VideoPlayer/VideoPlayerOverlay.vue'
+import type VideoPlayerOverlay from './VideoPlayerOverlay.vue'
 
 // 视频播放器实例类型
 type VideoPlayerInstance = InstanceType<typeof VideoPlayerOverlay> | null
