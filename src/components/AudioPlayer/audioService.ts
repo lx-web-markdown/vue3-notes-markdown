@@ -89,7 +89,7 @@ class AudioService {
 
     // 否则拼接基础路径
     // 注意: 这里假设音频文件放在public目录下的audio文件夹中
-    return `/audio/${relativePath}`;
+    return `/${relativePath}`;
   }
 
   /**

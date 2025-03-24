@@ -22,7 +22,8 @@
 
 <script setup lang="ts">
 import { defineExpose } from 'vue';
-import { useVideoPlayerOverlay, type VideoPlayerOverlayProps } from './composables/useVideoPlayer';
+import { useVideoPlayerOverlay } from './composables/useVideoPlayer';
+import type { VideoPlayerOverlayProps } from './types';
 
 interface Props extends VideoPlayerOverlayProps {}
 

@@ -10,23 +10,23 @@ import { audioService } from './index';
 // 示例音频文件列表
 const audioFiles = ref([
   {
-    name: '示例音频1.mp3',
+    name: '远程示例 - 音频1.mp3',
     path: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
     isRemote: true
   },
   {
-    name: '示例音频2.mp3',
+    name: '远程示例 - 音频2.mp3',
     path: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
     isRemote: true
   },
   {
-    name: '示例音频3.mp3',
+    name: '远程示例 - 音频3.mp3',
     path: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
     isRemote: true
   },
   {
-    name: '本地示例.mp3',
-    path: '/audio/example.mp3',
+    name: '本地示例 - 周传雄黄昏.mp3',
+    path: '周传雄黄昏.mp3',
     isRemote: false
   }
 ]);

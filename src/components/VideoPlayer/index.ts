@@ -4,7 +4,7 @@
  */
 import VideoPlayerOverlay from './VideoPlayerOverlay.vue';
 import { videoService } from './videoService';
-import type { VideoPlayerInstance } from './videoService';
+import type { VideoInfo } from './types';
 
 export {
   VideoPlayerOverlay,
@@ -12,7 +12,7 @@ export {
 };
 
 // 导出类型
-export type { VideoPlayerInstance };
+export type { VideoInfo };
 
 // 默认导出
 export default VideoPlayerOverlay; 

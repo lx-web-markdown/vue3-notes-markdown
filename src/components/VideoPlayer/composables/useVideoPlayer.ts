@@ -1,8 +1,5 @@
 import { ref, computed } from 'vue'
-
-export interface VideoPlayerOverlayProps {
-  src: string
-}
+import type { VideoPlayerOverlayProps } from '../types';
 
 export function useVideoPlayerOverlay(props: VideoPlayerOverlayProps) {
   const videoRef = ref<HTMLVideoElement | null>(null)
