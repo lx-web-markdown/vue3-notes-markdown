@@ -11,31 +11,24 @@
   />
 
   <!-- 视频播放器浮层 -->
-  <!-- <VideoPlayerOverlay
-    ref="videoPlayerRef"
-    :src="videoPlayer.url.value"
-  /> -->
-
   <VideoPlayerOverlay
-    :visible="videoPlayer.visible.value"
-    :video-info="videoPlayer.currentVideo.value"
-    @close="videoPlayer.handleClose"
-    @status-change="videoPlayer.handleStatusChange"
+    ref="videoPlayerRef"
+    :video-info="videoPlayer.currentVideo.value || { videoSrc: '', author: '', title: '', duration: 0, isLocal: false }"
   />
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onBeforeUnmount, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import useLanguage from '@/language/hooks/useLanguage';
 import { AudioPlayerOverlay } from '@/components/AudioPlayer'; 
-import { VideoPlayerOverlay, type VideoPlayerInstance } from '@/components/VideoPlayer';
+import { VideoPlayerOverlay, videoService } from '@/components/VideoPlayer';
 import useAudioPlayer from '@/app/composables/useAudioPlayer';
 import useVideoPlayer from '@/app/composables/useVideoPlayer';
 
 const { currentLocale, translate } = useLanguage();
 const audioPlayer = useAudioPlayer();
 const videoPlayer = useVideoPlayer();
-const videoPlayerRef = ref<VideoPlayerInstance | null>(null);
+const videoPlayerRef = ref<InstanceType<typeof VideoPlayerOverlay> | null>(null);
 
 onMounted(() => {
   // 系统初始化日志
@@ -49,13 +42,9 @@ onMounted(() => {
   document.title = translate('appTitle') || '';
 
   // 设置视频播放器引用
-  videoPlayer.setPlayerRef(videoPlayerRef);
+  videoService.setVideoRef(videoPlayerRef);
 });
 
-onBeforeUnmount(() => {
-  // 清理视频播放器资源
-  videoPlayer.pause();
-});
 </script>
 
 <style>

@@ -6,14 +6,34 @@
     <div class="demo-block">
       <h3>在线视频</h3>
       <button class="play-button" @click="openOnlineVideo">播放在线视频</button>
-      <VideoPlayerOverlay ref="onlineVideoRef" src="http://vjs.zencdn.net/v/oceans.mp4" />
+      <!-- <VideoPlayerOverlay ref="onlineVideoRef" src="http://vjs.zencdn.net/v/oceans.mp4" /> -->
+      <VideoPlayerOverlay
+        ref="onlineVideoRef"
+        :video-info="{
+          videoSrc: 'http://vjs.zencdn.net/v/oceans.mp4',
+          author: '',
+          title: '',
+          duration: 0,
+          isLocal: false,
+        }"
+      />
     </div>
 
     <!-- 按钮触发在线视频播放 -->
     <div class="demo-block">
       <h3>项目public目录下的视频</h3>
       <button class="play-button" @click="openLocalVideo_public">播放视频</button>
-      <VideoPlayerOverlay ref="localVideoRef_public" src="/AllFiles/工作随笔/1692945402485.mp4" />
+      <!-- <VideoPlayerOverlay ref="localVideoRef_public" src="/AllFiles/工作随笔/1692945402485.mp4" /> -->
+      <VideoPlayerOverlay
+        ref="localVideoRef_public"
+        :video-info="{
+          videoSrc: '/AllFiles/工作随笔/1692945402485.mp4',
+          author: '',
+          title: '',
+          duration: 0,
+          isLocal: false,
+        }"
+      />
     </div>
 
     <!-- 本地视频示例 -->
@@ -26,7 +46,13 @@
       <button class="play-button" @click="openLocalVideo" :disabled="!localVideoUrl">
         播放本地视频
       </button>
-      <VideoPlayerOverlay v-if="localVideoUrl" ref="localVideoRef" :src="localVideoUrl" />
+      <!-- <VideoPlayerOverlay v-if="localVideoUrl" ref="localVideoRef" :src="localVideoUrl" /> -->
+      <VideoPlayerOverlay
+        v-if="localVideoUrl"
+        ref="localVideoRef"
+        :visible="true"
+        :video-info="{ videoSrc: localVideoUrl, author: '', title: '', duration: 0, isLocal: true }"
+      />
     </div>
   </div>
 </template>
@@ -42,17 +68,17 @@ const localVideoUrl = ref('');
 
 // 打开在线视频
 const openOnlineVideo = () => {
-  onlineVideoRef.value?.open();
+  onlineVideoRef.value?.openVideo();
 };
 
 // 打开本地视频
 const openLocalVideo = () => {
-  localVideoRef.value?.open();
+  localVideoRef.value?.openVideo();
 };
 
 // 打开本地视频
 const openLocalVideo_public = () => {
-  localVideoRef_public.value?.open();
+  localVideoRef_public.value?.openVideo();
 };
 
 const handleFileUpload = (event: any) => {

@@ -103,7 +103,7 @@ export function useFileTree() {
       audioService.handleMp3Click(item.fullPath);
     } else if (item.type === '.mp4' || item.fullPath.endsWith('.mp4')) {
       // 如果是MP4文件，使用视频服务处理
-      // videoService.handleMp4Click(item.fullPath);
+      console.log('item.fullPath', item.fullPath);
       videoService.playVideo(item.fullPath);
     }
   };

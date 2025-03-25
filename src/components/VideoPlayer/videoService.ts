@@ -1,13 +1,14 @@
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 import type { VideoInfo } from './types';
+import VideoPlayerOverlay from './VideoPlayerOverlay.vue';
 
 class VideoService {
   // 单例实例
   private static instance: VideoService;
 
   // 存储视频播放器实例的引用
-  private videoRef: Ref<HTMLVideoElement | null> = ref(null);
+  private videoRef: Ref<InstanceType<typeof VideoPlayerOverlay> | null> = ref(null);
 
   // 视频状态
   private currentVideo = ref<VideoInfo | null>(null);
@@ -29,55 +30,45 @@ class VideoService {
   }
 
   // 设置视频引用
-  setVideoRef(ref: Ref<HTMLVideoElement | null>) {
+  setVideoRef(ref: any) {
     this.videoRef = ref;
+    console.log('setVideoRef', this.videoRef.value);
   }
 
   // 播放视频
-  playVideo() {
-    console.log('playVideo', this.videoRef.value);
+  playVideo(url: string, isLocalFile: boolean = false, title?: string, author?: string) {
+    console.log('playVideo', this.videoRef.value, url);
 
     // 创建音频信息对象
     const videoInfo: VideoInfo = {
-      videoSrc: '',
-      author: '',
-      title: '',
-      isPlaying: false,
+      videoSrc: url,
+      author: author || '',
+      title: title || '',
       duration: 0,
-      isLocal: false,
+      isLocal: isLocalFile,
     };
 
     // 更新当前音频和可见性
     this.currentVideo.value = videoInfo;
     this.playerVisible.value = true;
+    this.videoRef.value?.openVideo();
   }
 
-  // 暂停视频
-  pauseVideo() {
+  // 关闭播放器
+  closePlayer() {
     console.log('pauseVideo', this.videoRef.value);
-    this.videoRef.value?.pause();
-    if (this.currentVideo.value) {
-      this.currentVideo.value.isPlaying = false;
-    }
-  }
-
-  // 切换视频播放/暂停状态
-  toggleVideo() {
-    if (this.currentVideo.value?.isPlaying) {
-      this.pauseVideo();
-    } else {
-      this.playVideo();
-    }
+    this.videoRef.value?.closeVideo();
+    this.playerVisible.value = false;
   }
 
   // 获取视频信息
   getCurrentVideo() {
-    return this.currentVideo.value;
+    return this.currentVideo;
   }
 
   // 获取播放器可见性
   getPlayerVisible() {
-    return this.playerVisible.value;
+    return this.playerVisible;
   }
 }
 

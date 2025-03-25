@@ -2,49 +2,50 @@ import { ref, computed } from 'vue'
 import type { VideoPlayerOverlayProps } from '../types';
 
 export function useVideoPlayerOverlay(props: VideoPlayerOverlayProps) {
-  const videoRef = ref<HTMLVideoElement | null>(null)
-  const showFloatingWindow = ref(false)
-  const isPlaying = ref(false)
+  const cur_videoRef = ref<HTMLVideoElement | null>(null)
+  const cur_showFloatingWindow = ref(false)
+  const cur_isPlaying = ref(false)  
 
-  const videoSrc = computed(() => {
-    return props.src
+  const cur_videoSrc = computed(() => {
+    return props.videoInfo.videoSrc
   })
 
   // 打开视频播放窗口
-  const open = () => {
-    showFloatingWindow.value = true
+  const openVideo = () => {
+    cur_showFloatingWindow.value = true
     setTimeout(() => {
-      if (videoRef.value) {
-        videoRef.value.play()
+      if (cur_videoRef.value) {
+        cur_videoRef.value.play()
+        cur_isPlaying.value = true
       }
     }, 100)
   }
 
   // 关闭视频播放窗口
-  const close = () => {
-    if (videoRef.value) {
-      videoRef.value.pause()
+  const closeVideo = () => {
+    if (cur_videoRef.value) {
+      cur_videoRef.value.pause()
     }
-    showFloatingWindow.value = false
-    isPlaying.value = false
+    cur_showFloatingWindow.value = false
+    cur_isPlaying.value = false
   }
 
   // 切换视频播放窗口状态
-  const toggle = () => {
-    if (showFloatingWindow.value) {
-      close()
+  const toggleVideo = () => {
+    if (cur_showFloatingWindow.value) {
+      closeVideo()
     } else {
-      open()
+      openVideo()
     }
   }
 
   return {
-    videoRef,
-    showFloatingWindow,
-    isPlaying,
-    videoSrc,
-    open,
-    close,
-    toggle
+    cur_videoRef,
+    cur_showFloatingWindow,
+    cur_isPlaying,
+    cur_videoSrc,
+    openVideo,
+    closeVideo,
+    toggleVideo
   }
 } 
