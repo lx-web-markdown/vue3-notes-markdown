@@ -216,6 +216,7 @@ const downloadFromUrl_Axios = () => {
   frontDownload_Core('/public/AllFiles/工作随笔/2023年度套餐方案.xlsx', 'my-xxx.xlsx');
 };
 
+// 方式八：使用form表单下载
 function downloadFile_Form() {
   var form = document.createElement('form');
   form.setAttribute('action', '/public/AllFiles/工作随笔/2023年度套餐方案.xlsx');
