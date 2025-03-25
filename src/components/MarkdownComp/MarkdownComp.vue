@@ -83,7 +83,7 @@ function getTitle() {
         level
       });
     });
-    console.log('目录已更新:', headings.value);
+    console.log('MarkdownComp - Title目录已更新:', headings.value);
   }
 }
 

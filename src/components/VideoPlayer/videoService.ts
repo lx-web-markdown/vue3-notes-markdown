@@ -32,13 +32,10 @@ class VideoService {
   // 设置视频引用
   setVideoRef(ref: any) {
     this.videoRef = ref;
-    console.log('setVideoRef', this.videoRef.value);
   }
 
   // 播放视频
   playVideo(url: string, isLocalFile: boolean = false, title?: string, author?: string) {
-    console.log('playVideo', this.videoRef.value, url);
-
     // 创建音频信息对象
     const videoInfo: VideoInfo = {
       videoSrc: url,
@@ -56,7 +53,6 @@ class VideoService {
 
   // 关闭播放器
   closePlayer() {
-    console.log('pauseVideo', this.videoRef.value);
     this.videoRef.value?.closeVideo();
     this.playerVisible.value = false;
   }
