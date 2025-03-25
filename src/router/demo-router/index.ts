@@ -9,6 +9,11 @@ const routers = [
     name: "VideoPlayerDemo",
     component: () => import("@/components/VideoPlayer/VideoPlayerDemo.vue")
   },
+  {
+    path: "/download-demo",
+    name: "DownloadDemo",
+    component: () => import("@/views/OtherView/download-demo.vue")
+  }
 ];
 
 export default routers;
