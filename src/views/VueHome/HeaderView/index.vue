@@ -6,15 +6,16 @@ export default {
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
-// import { ElMessage } from 'element-plus'
 // router
 import { useRoute, useRouter } from "vue-router";
 // hooks
 import useHooks from "./hooks/useHooks";
 // language
 import useLanguage from "@/language/hooks/useLanguage";
+// 引入主题切换组件
+import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
 //
-const { handleDropdownCommand, changeTheme } = useHooks();
+const { handleDropdownCommand } = useHooks();
 const { currentLocale } = useLanguage();
 
 // router
@@ -106,22 +107,8 @@ const openMKViewr = (command: string) => {
         </template>
       </el-dropdown>
 
-      <!-- 主题色 -->
-      <el-dropdown class="el-dropdown-cls" @command="handleDropdownCommand">
-        <span class="el-dropdown-link">
-          {{ $t("navi.theme") }}
-          <el-icon class="el-icon--right">
-            <arrow-down />
-          </el-icon>
-        </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="light">白天模式</el-dropdown-item>
-            <el-dropdown-item command="night">夜晚模式</el-dropdown-item>
-            <el-dropdown-item command="system">跟随系统</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+      <!-- 主题切换器 -->
+      <ThemeSwitcher />
 
       <!-- language -->
       <el-dropdown class="el-dropdown-cls" @command="handleDropdownCommand">

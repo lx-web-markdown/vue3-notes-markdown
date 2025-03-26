@@ -8,6 +8,12 @@ const en = {
   common: {
     changeLanguage: 'change Language',
     content: 'Content',
+  },
+  theme: {
+    system: 'System',
+    light: 'Light Mode',
+    dark: 'Dark Mode',
+    settings: 'Theme Settings'
   }
 }
 

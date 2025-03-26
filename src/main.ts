@@ -5,6 +5,7 @@ import App from './app/App.vue'
 import router from './router'
 // CSS
 import '@/assets/styles/index.scss'
+import '@/assets/styles/theme.scss'
 // element-plus
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'

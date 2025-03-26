@@ -1,16 +1,10 @@
-import { onMounted } from 'vue'
 import { ElNotification, ElMessage } from 'element-plus'
 // i18n
 import useLanguage from '@/language/hooks/useLanguage'
-import { useThemeStore } from '@/stores/themeStore'
 //
 const { changeLanguage } = useLanguage()
 
 export default function useHooks() {
-  onMounted(() => {
-    // console.log('useHooks');
-  })
-
   const handleDropdownCommand = (command: string | number | object) => {
     console.log(command)
     switch (command) {
