@@ -1,55 +1,82 @@
 // 定义应用颜色变量
+
+// 亮色模式 - 默认
 :root {
-  // 亮色模式 - 默认
+  // 背景色系列 - 从浅到深
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
   --bg-tertiary: #e9ecef;
-  
+
+  // 文字色系列 - 从浅到深
   --text-primary: #212529;
   --text-secondary: #495057;
   --text-tertiary: #6c757d;
-  
+
+  // 边框和分割线
   --border-color: #dee2e6;
   --divider-color: #e9ecef;
-  
+
+  // 主题色
   --primary-color: #3498db;
   --primary-color-hover: #2980b9;
   --danger-color: #e74c3c;
   --success-color: #2ecc71;
   --warning-color: #f39c12;
   --info-color: #3498db;
-  
+
+  // 阴影
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  
+
+  // 特殊颜色
+  --scrollbar-thumb: #e9ecef;
+  --scrollbar-track: #f8f9fa;
+  --selection-bg: rgba(34, 193, 195, 0.3);
+
   // 过渡动画
   --transition-default: all 0.3s ease;
 }
 
 // 暗黑模式
 html.dark {
-  --bg-primary: #121212;
-  --bg-secondary: #1e1e1e;
-  --bg-tertiary: #2d2d2d;
-  
-  --text-primary: #e9ecef;
-  --text-secondary: #ced4da;
-  --text-tertiary: #adb5bd;
-  
-  --border-color: #2d2d2d;
-  --divider-color: #2d2d2d;
-  
-  --primary-color: #3498db;
-  --primary-color-hover: #2980b9;
-  --danger-color: #e74c3c;
-  --success-color: #2ecc71;
-  --warning-color: #f39c12;
-  --info-color: #3498db;
-  
+  // 背景色系列 - 从深到浅
+  --bg-primary: #121212; // 主背景色
+  --bg-secondary: #1e1e1e; // 次要背景色
+  --bg-tertiary: #252525; // 第三级背景色
+  --bg-elevated: #2d2d2d; // 提升层次的背景色
+  --bg-card: #1a1a1a; // 卡片背景色
+
+  // 文字色系列
+  --text-primary: #e2e2e2; // 主要文字颜色
+  --text-secondary: #aaaaaa; // 次要文字颜色
+  --text-tertiary: #777777; // 第三级文字颜色
+  --text-disabled: #555555; // 禁用状态文字颜色
+
+  // 边框和分割线
+  --border-color: #333333; // 边框颜色
+  --divider-color: #2c2c2c; // 分割线颜色
+
+  // 主题色
+  --primary-color: #3b82f6; // 主题色
+  --primary-color-hover: #2563eb; // 主题色悬停状态
+  --primary-color-active: #1d4ed8; // 主题色激活状态
+
+  // 功能色
+  --danger-color: #ef4444; // 危险/错误色
+  --success-color: #10b981; // 成功色
+  --warning-color: #f59e0b; // 警告色
+  --info-color: #3b82f6; // 信息色
+
+  // 阴影
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+
+  // 特殊颜色
+  --scrollbar-thumb: #424242; // 滚动条颜色
+  --scrollbar-track: #1e1e1e; // 滚动条轨道颜色
+  --selection-bg: rgba(59, 130, 246, 0.3); // 文本选择背景色
 }
 
 // 通用样式应用
@@ -59,24 +86,31 @@ body {
   transition: var(--transition-default);
 }
 
-// 自定义组件的暗黑模式样式
-.card {
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-sm);
-}
+// 暗黑模式下的滚动条样式
+html.dark {
+  // 滚动条样式
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
 
-.btn {
-  background-color: var(--bg-tertiary);
-  color: var(--text-primary);
-  
-  &.btn-primary {
-    background-color: var(--primary-color);
-    color: #ffffff;
-    
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 5px;
+
     &:hover {
-      background-color: var(--primary-color-hover);
+      background-color: #4f4f4f;
     }
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-track);
+  }
+
+  // 文本选择样式
+  ::selection {
+    background-color: var(--selection-bg);
+    color: var(--text-primary);
   }
 }
 
@@ -87,33 +121,60 @@ html.dark {
     background-color: var(--bg-secondary);
     color: var(--text-primary);
   }
-  
+
   .el-input__inner {
     background-color: var(--bg-secondary);
     border-color: var(--border-color);
     color: var(--text-primary);
   }
-  
+
   .el-card {
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-card);
     border-color: var(--border-color);
     color: var(--text-primary);
   }
-  
+
   .el-menu {
     background-color: var(--bg-secondary);
     border-color: var(--border-color);
   }
-  
+
   .el-menu-item {
     color: var(--text-secondary);
-    
+
     &:hover {
       background-color: var(--bg-tertiary);
     }
-    
+
     &.is-active {
       color: var(--primary-color);
+    }
+  }
+
+  // 下拉菜单
+  .el-dropdown-menu {
+    background-color: var(--bg-elevated);
+    border-color: var(--border-color);
+
+    .el-dropdown-menu__item {
+      color: var(--text-primary);
+
+      &:hover {
+        background-color: var(--bg-tertiary);
+      }
+    }
+  }
+
+  // 弹出框
+  .el-dialog {
+    background-color: var(--bg-secondary);
+
+    .el-dialog__title {
+      color: var(--text-primary);
+    }
+
+    .el-dialog__body {
+      color: var(--text-secondary);
     }
   }
 }

@@ -1,19 +1,19 @@
 <script lang="ts">
 export default {
-  name: "HeaderView",
+  name: 'HeaderView',
 };
 </script>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch } from 'vue';
 // router
-import { useRoute, useRouter } from "vue-router";
+import { useRoute, useRouter } from 'vue-router';
 // hooks
-import useHooks from "./hooks/useHooks";
+import useHooks from './hooks/useHooks';
 // language
-import useLanguage from "@/language/hooks/useLanguage";
+import useLanguage from '@/language/hooks/useLanguage';
 // 引入主题切换组件
-import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
+import ThemeSwitcher from '@/components/ThemeSwitcher.vue';
 //
 const { handleDropdownCommand } = useHooks();
 const { currentLocale } = useLanguage();
@@ -23,53 +23,53 @@ const router = useRouter();
 const route = useRoute();
 
 const srcList = [
-  "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-  "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg",
-  "https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg",
-  "https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg",
-  "https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg",
-  "https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg",
-  "https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg",
+  'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+  'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
+  'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
+  'https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg',
+  'https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg',
+  'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
+  'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
 ];
 
-const currentLanguageName = ref("中文");
+const currentLanguageName = ref('中文');
 watch(currentLocale, (newValue: any) => {
-  newValue === "zh"
-    ? (currentLanguageName.value = "中文")
-    : (currentLanguageName.value = "English");
+  newValue === 'zh'
+    ? (currentLanguageName.value = '中文')
+    : (currentLanguageName.value = 'English');
 });
 
 onMounted(() => {
   //
-  console.log("currentIndex", currentLocale.value);
+  console.log('currentIndex', currentLocale.value);
 });
 
 const showLinks = () => {
-  router.push("/demo");
+  router.push('/demo');
 };
 
-const avatarClick = () => { };
+const avatarClick = () => {};
 
 const openMKViewr = (command: string) => {
   console.log(command);
   switch (command) {
-    case "HTML":
-      router.push("/notelist/html");
+    case 'HTML':
+      router.push('/notelist/html');
       break;
-    case "CSS":
-      router.push("/notelist/css");
+    case 'CSS':
+      router.push('/notelist/css');
       break;
-    case "JS":
-      router.push("/notelist/js");
+    case 'JS':
+      router.push('/notelist/js');
       break;
-    case "Vue2":
-      router.push("/notelist/vue2");
+    case 'Vue2':
+      router.push('/notelist/vue2');
       break;
-    case "Vue3":
-      router.push("/notelist/vue3");
+    case 'Vue3':
+      router.push('/notelist/vue3');
       break;
-    case "work-doc":
-      router.push("/notelist/work-doc");
+    case 'work-doc':
+      router.push('/notelist/work-doc');
       break;
     default:
       break;
@@ -82,7 +82,7 @@ const openMKViewr = (command: string) => {
     <div class="left-view">
       <img src="@/assets/images/common/favicon.jpeg" alt="" />
       <div class="title">
-        {{ $t("appTitle") }}
+        {{ $t('appTitle') }}
       </div>
     </div>
     <div class="right-view">
@@ -90,7 +90,7 @@ const openMKViewr = (command: string) => {
 
       <el-dropdown class="el-dropdown-cls" @command="openMKViewr">
         <span class="el-dropdown-link">
-          {{ $t("navi.books") }}
+          {{ $t('navi.books') }}
           <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon>
@@ -129,17 +129,28 @@ const openMKViewr = (command: string) => {
       </el-dropdown>
 
       <!-- avatar -->
-      <el-image class="avatar-cls" :src="srcList[0]" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2"
-        :preview-src-list="srcList" :initial-index="4" :z-index="9999" :preview-teleported="true" fit="cover"
-        @click="avatarClick" circle />
+      <el-image
+        class="avatar-cls"
+        :src="srcList[0]"
+        :zoom-rate="1.2"
+        :max-scale="7"
+        :min-scale="0.2"
+        :preview-src-list="srcList"
+        :initial-index="4"
+        :z-index="9999"
+        :preview-teleported="true"
+        fit="cover"
+        @click="avatarClick"
+        circle
+      />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@use "@/assets/styles/element-plus-styles/el-button-scoped.scss";
-@use "@/assets/styles/element-plus-styles/el-dropdown-scoped.scss";
-@use "@/assets/styles/element-plus-styles/el-switch-scoped.scss";
+@use '@/assets/styles/element-plus-styles/el-button-scoped.scss';
+@use '@/assets/styles/element-plus-styles/el-dropdown-scoped.scss';
+@use '@/assets/styles/element-plus-styles/el-switch-scoped.scss';
 </style>
 
 <style scoped lang="scss">
@@ -153,7 +164,7 @@ const openMKViewr = (command: string) => {
 
   width: 100%;
   height: var(--lx-header-height);
-  background-color: var(--lx-color-bg);
+  background-color: var(--bg-tertiary);
 
   .left-view {
     display: flex;
