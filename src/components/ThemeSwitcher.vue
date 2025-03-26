@@ -1,7 +1,7 @@
 <template>
   <div class="theme-switcher">
     <el-dropdown @command="handleThemeChange">
-      <el-button type="primary" size="small">
+      <el-button type="primary">
         <el-icon v-if="store.themeMode === ThemeMode.SYSTEM"><Monitor /></el-icon>
         <el-icon v-else-if="store.themeMode === ThemeMode.LIGHT"><Sunny /></el-icon>
         <el-icon v-else><Moon /></el-icon>
@@ -70,6 +70,7 @@ const handleThemeChange = (themeMode: ThemeMode) => {
   .el-button {
     display: flex;
     align-items: center;
+    padding: 2px 6px;
     
     .el-icon {
       margin-right: 4px;

@@ -1,0 +1,68 @@
+// Element Plus 暗黑模式适配
+html.dark {
+  .el-button--default {
+    border-color: var(--border-color);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+  }
+
+  .el-input__inner {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .el-card {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .el-menu {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+  }
+
+  .el-menu-item {
+    color: var(--text-secondary);
+
+    &:hover {
+      background-color: var(--bg-tertiary);
+    }
+
+    &.is-active {
+      color: var(--primary-color);
+    }
+  }
+
+  .el-dropdown {
+    color: var(--text-primary);
+  }
+
+  // 下拉菜单
+  .el-dropdown-menu {
+    background-color: var(--bg-elevated);
+    border-color: var(--border-color);
+
+    .el-dropdown-menu__item {
+      color: var(--text-primary);
+
+      &:hover {
+        background-color: var(--bg-tertiary);
+      }
+    }
+  }
+
+  // 弹出框
+  .el-dialog {
+    background-color: var(--bg-secondary);
+
+    .el-dialog__title {
+      color: var(--text-primary);
+    }
+
+    .el-dialog__body {
+      color: var(--text-secondary);
+    }
+  }
+}

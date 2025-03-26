@@ -86,7 +86,7 @@ const openMKViewr = (command: string) => {
       </div>
     </div>
     <div class="right-view">
-      <el-button @click="showLinks" link>链接</el-button>
+      <el-button @click="showLinks" link>DEMO</el-button>
 
       <el-dropdown class="el-dropdown-cls" @command="openMKViewr">
         <span class="el-dropdown-link">

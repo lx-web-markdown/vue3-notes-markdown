@@ -1,3 +1,4 @@
 @use './reset';
 @use './constant';
-@use './theme';
+@use './theme/theme.scss';
+@use './theme/element-plus-theme.scss';
