@@ -80,3 +80,17 @@ export function generateKey() {
   // 每次都生成一个独特的 key
   return Date.now() + Math.random();
 }
+
+
+
+/**
+ * 下载文件
+ * @param url 文件URL
+ * @param filename 文件名
+ */
+export function downloadFile(url: string, filename: string) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+}
