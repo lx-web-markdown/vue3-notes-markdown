@@ -23,11 +23,11 @@
     <div class="demo-block">
       <h3>项目public目录下的视频</h3>
       <button class="play-button" @click="openLocalVideo_public">播放视频</button>
-      <!-- <VideoPlayerOverlay ref="localVideoRef_public" src="/AllFiles/工作随笔/1692945402485.mp4" /> -->
+      <!-- <VideoPlayerOverlay ref="localVideoRef_public" src="/AllFiles/所有文件类型/1692945402485.mp4" /> -->
       <VideoPlayerOverlay
         ref="localVideoRef_public"
         :video-info="{
-          videoSrc: '/AllFiles/工作随笔/1692945402485.mp4',
+          videoSrc: '/AllFiles/所有文件类型/1692945402485.mp4',
           author: '',
           title: '',
           duration: 0,

@@ -13,7 +13,7 @@
 import { ref } from 'vue';
 import VueOfficePdf from '@vue-office/pdf';
 
-const pdf = ref('/AllFiles/工作随笔/手写签名文档.pdf');
+const pdf = ref('/AllFiles/所有文件类型/手写签名文档.pdf');
 
 const renderedHandler = () => {
   console.log('渲染完成');

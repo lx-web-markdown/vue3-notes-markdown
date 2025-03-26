@@ -46,13 +46,13 @@ const selectedFileType = ref('docx');
 const fileUrl = computed(() => {
   switch (selectedFileType.value) {
     case 'docx':
-      return '/AllFiles/工作随笔/互联网信息服务备案登记表.dotx';
+      return '/AllFiles/所有文件类型/互联网信息服务备案登记表.dotx';
     case 'xlsx':
-      return '/AllFiles/工作随笔/2023年度套餐方案.xlsx';
+      return '/AllFiles/所有文件类型/2023年度套餐方案.xlsx';
     case 'pdf':
-      return '/AllFiles/工作随笔/手写签名文档.pdf';
+      return '/AllFiles/所有文件类型/手写签名文档.pdf';
     case 'pptx':
-      return '/AllFiles/工作随笔/我的PPT.pptx';
+      return '/AllFiles/所有文件类型/我的PPT.pptx';
     default:
       return '';
   }

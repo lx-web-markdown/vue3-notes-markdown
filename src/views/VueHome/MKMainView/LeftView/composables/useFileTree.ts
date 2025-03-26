@@ -13,7 +13,7 @@ export function useFileTree() {
 
   // 路由与文件路径的映射关系
   const routeToFilePath: FilePathMapping = {
-    'work-doc': '/FileListTXT/fileList_工作随笔.txt',
+    'work-doc': '/FileListTXT/fileList_所有文件类型.txt',
     vue2: '/FileListTXT/fileList_Vue2.txt',
     vue3: '/FileListTXT/fileList_Vue3.txt',
     html: '/FileListTXT/fileList_HTML.txt',
@@ -27,7 +27,7 @@ export function useFileTree() {
    * @returns 文件列表路径
    */
   const getFilePathByRoute = (routePath: string): string => {
-    // 默认为工作随笔
+    // 默认为所有文件类型
     let filePath = routeToFilePath['work-doc'];
 
     // 遍历映射关系找到匹配的路径

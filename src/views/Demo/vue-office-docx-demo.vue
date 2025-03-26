@@ -11,7 +11,7 @@ import VueOfficeDocx from '@vue-office/docx';
 //引入相关样式
 import '@vue-office/docx/lib/index.css';
 
-const docx = ref('/AllFiles/工作随笔/互联网信息服务备案登记表.dotx');
+const docx = ref('/AllFiles/所有文件类型/互联网信息服务备案登记表.dotx');
 
 const rendered = (e: any) => {
   console.log(e);

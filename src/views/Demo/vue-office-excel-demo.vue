@@ -16,7 +16,7 @@ import VueOfficeExcel from '@vue-office/excel';
 //引入相关样式
 import '@vue-office/excel/lib/index.css';
 
-const excel = ref('/AllFiles/工作随笔/2023年度套餐方案.xlsx');
+const excel = ref('/AllFiles/所有文件类型/2023年度套餐方案.xlsx');
 
 const renderedHandler = () => {
   console.log('渲染完成');

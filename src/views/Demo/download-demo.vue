@@ -8,7 +8,7 @@
         <p>使用HTML的a标签download属性直接下载文件</p>
         <a
           class="download-link"
-          href="/public/AllFiles/工作随笔/2023年度套餐方案.xlsx"
+          href="/public/AllFiles/所有文件类型/2023年度套餐方案.xlsx"
           download="download.xlsx"
         >
           <span class="icon">📥</span>下载Excel文件
@@ -93,7 +93,7 @@ const downloadFile = () => {
     downloadMessage.value = '文件下载中...';
     downloadStatus.value = 'info';
 
-    const url = '/public/AllFiles/工作随笔/2023年度套餐方案.xlsx';
+    const url = '/public/AllFiles/所有文件类型/2023年度套餐方案.xlsx';
     const a = document.createElement('a');
     a.href = url;
     a.download = '2023年度套餐方案.xlsx';
@@ -119,7 +119,7 @@ const downloadFile = () => {
 
 // 方式三：新窗口打开文件
 const openFileInNewTab = () => {
-  const url = '/public/AllFiles/工作随笔/2023年度套餐方案.xlsx';
+  const url = '/public/AllFiles/所有文件类型/2023年度套餐方案.xlsx';
   window.open(url, '_blank');
 
   downloadMessage.value = '文件已在新窗口打开';
@@ -168,7 +168,7 @@ async function downloadFromUrl_Core(url: string, filename: string) {
 // 下载URL文件
 const downloadFromUrl = async () => {
   // 使用示例
-  downloadFromUrl_Core('/public/AllFiles/工作随笔/2023年度套餐方案.xlsx', 'my-xxx.xlsx');
+  downloadFromUrl_Core('/public/AllFiles/所有文件类型/2023年度套餐方案.xlsx', 'my-xxx.xlsx');
 };
 
 // 下载Base64文件的核心函数
@@ -213,13 +213,13 @@ function frontDownload_Core(fileUrl: string, fileName: string) {
 }
 
 const downloadFromUrl_Axios = () => {
-  frontDownload_Core('/public/AllFiles/工作随笔/2023年度套餐方案.xlsx', 'my-xxx.xlsx');
+  frontDownload_Core('/public/AllFiles/所有文件类型/2023年度套餐方案.xlsx', 'my-xxx.xlsx');
 };
 
 // 方式八：使用form表单下载
 function downloadFile_Form() {
   var form = document.createElement('form');
-  form.setAttribute('action', '/public/AllFiles/工作随笔/2023年度套餐方案.xlsx');
+  form.setAttribute('action', '/public/AllFiles/所有文件类型/2023年度套餐方案.xlsx');
   form.setAttribute('method', 'get');
   form.setAttribute('target', '_blank');
   form.setAttribute('style', 'display:none');

@@ -13,7 +13,7 @@
 import { ref } from 'vue';
 import VueOfficePptx from '@vue-office/pptx';
 
-const pptx = ref('/AllFiles/工作随笔/我的PPT.pptx');
+const pptx = ref('/AllFiles/所有文件类型/我的PPT.pptx');
 
 const renderedHandler = () => {
   console.log('渲染完成');
