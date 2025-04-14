@@ -26,13 +26,19 @@ export default defineConfig({
   build: {
     commonjsOptions: {
       include: [/node_modules/, /@vue-office\/excel/, /@vue-office\/docx/, /@vue-office\/pptx/, /@vue-office\/pdf/],
-      transformMixedEsModules: true
+      transformMixedEsModules: true,
+      esmExternals: true
     },
     rollupOptions: {
       external: ['vue-demi'],
       output: {
         manualChunks: {
-          'vue-office': ['@vue-office/excel']
+          'vue-office': [
+            '@vue-office/excel',
+            '@vue-office/docx',
+            '@vue-office/pptx',
+            '@vue-office/pdf'
+          ]
         }
       }
     }
