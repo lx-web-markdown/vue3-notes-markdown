@@ -17,30 +17,5 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
-    dedupe: ['vue']
-  },
-  optimizeDeps: {
-    include: ['@vue-office/excel', '@vue-office/docx', '@vue-office/pptx', '@vue-office/pdf'],
-    exclude: ['vue-demi']
-  },
-  build: {
-    commonjsOptions: {
-      include: [/node_modules/, /@vue-office\/excel/, /@vue-office\/docx/, /@vue-office\/pptx/, /@vue-office\/pdf/],
-      transformMixedEsModules: true,
-      esmExternals: true
-    },
-    rollupOptions: {
-      external: ['vue-demi'],
-      output: {
-        manualChunks: {
-          'vue-office': [
-            '@vue-office/excel',
-            '@vue-office/docx',
-            '@vue-office/pptx',
-            '@vue-office/pdf'
-          ]
-        }
-      }
-    }
   },
 })
