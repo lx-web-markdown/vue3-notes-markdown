@@ -23,6 +23,11 @@ const routers = [
     path: "/pdf-viewer-demo",
     name: "PdfViewerDemo",
     component: () => import("@/views/Demo/pdfViewer-demo.vue")
+  },
+  {
+    path: "/image-viewer-demo",
+    name: "ImageViewerDemo",
+    component: () => import("@/components/ImageViewer/ImageViewerDemo.vue")
   }
 ];
 

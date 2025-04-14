@@ -5,6 +5,8 @@ import App from './app/App.vue'
 import router from './router'
 // CSS
 import '@/assets/styles/index.scss'
+// fontawesome
+import '@fortawesome/fontawesome-free/css/all.css'
 // element-plus
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'

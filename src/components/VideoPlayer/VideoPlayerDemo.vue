@@ -10,6 +10,9 @@
       <VideoPlayerOverlay
         ref="onlineVideoRef"
         :video-info="{
+          // 'https://gitee.com/xishanlin/assets-repo/raw/master/family-party/2021/9001.mp4',
+          // 'http://vjs.zencdn.net/v/oceans.mp4',
+          // '/video/BV1GWojYDEo3/?share_source=copy_web&vd_source=04fb61a4554e1825b30291198c2e11ab',
           videoSrc: 'http://vjs.zencdn.net/v/oceans.mp4',
           author: '',
           title: '',
