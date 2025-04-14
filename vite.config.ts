@@ -18,4 +18,12 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  optimizeDeps: {
+    include: ['@vue-office/excel'],
+  },
+  build: {
+    commonjsOptions: {
+      include: [/@vue-office\/excel/, /node_modules/],
+    },
+  },
 })
