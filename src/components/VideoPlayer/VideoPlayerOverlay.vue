@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineExpose } from 'vue';
 import { useVideoPlayerOverlay } from './composables/useVideoPlayer';
 import type { VideoPlayerOverlayProps } from './types';
 // import type { VideoInfo } from './types';
