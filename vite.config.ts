@@ -19,11 +19,11 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['@vue-office/excel'],
+    include: ['@vue-office/excel', '@vue-office/docx', '@vue-office/pptx', '@vue-office/pdf'],
   },
   build: {
     commonjsOptions: {
-      include: [/@vue-office\/excel/, /node_modules/],
+      include: [/node_modules/, /@vue-office\/excel/, /@vue-office\/docx/, /@vue-office\/pptx/, /@vue-office\/pdf/],
     },
   },
 })
