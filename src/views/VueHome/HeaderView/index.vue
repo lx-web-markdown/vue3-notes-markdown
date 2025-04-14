@@ -13,7 +13,7 @@ import useHooks from './hooks/useHooks';
 // language
 import useLanguage from '@/language/hooks/useLanguage';
 // 引入主题切换组件
-import ThemeSwitcher from '@/components/ThemeSwitcher.vue';
+import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher.vue';
 //
 const { handleDropdownCommand } = useHooks();
 const { currentLocale } = useLanguage();
