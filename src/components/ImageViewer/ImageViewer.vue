@@ -1,7 +1,10 @@
 <template>
   <div class="image-viewer-container" v-if="visible" @click.self="handleClose">
     <div class="image-viewer-wrapper" 
-         :style="{ transform: `scale(${scale}) rotate(${rotation}deg)` }">
+         :style="{ 
+           transform: `scale(${scale}) rotate(${rotation}deg)`,
+           marginBottom: isMultiple ? '160px' : '80px'
+         }">
       <!-- 单图模式 -->
       <img v-if="!isMultiple" 
            :src="currentImage" 
@@ -17,17 +20,37 @@
              class="image-viewer-img"
              @mousewheel="handleMouseWheel"
              @dragstart.prevent>
-        <div class="image-viewer-thumbnails" v-if="images.length > 1">
-          <img v-for="(img, index) in images"
-               :key="index"
-               :src="img"
-               :class="['thumbnail', { active: index === currentIndex }]"
-               @click="currentIndex = index">
-        </div>
       </template>
     </div>
 
-    <!-- 控制按钮 - 移到wrapper外部 -->
+    <!-- 缩略图预览 -->
+    <div class="image-viewer-thumbnails-container" v-if="isMultiple && images.length > 1">
+      <button 
+        class="thumbnail-scroll-button left"
+        @click="scrollToStart"
+        :disabled="isAtStart"
+        title="滚动到开始">
+        <i class="fas fa-angle-double-left"></i>
+      </button>
+      
+      <div class="image-viewer-thumbnails" ref="thumbnailsRef">
+        <img v-for="(img, index) in images"
+             :key="index"
+             :src="img"
+             :class="['thumbnail', { active: index === currentIndex }]"
+             @click="currentIndex = index">
+      </div>
+
+      <button 
+        class="thumbnail-scroll-button right"
+        @click="scrollToEnd"
+        :disabled="isAtEnd"
+        title="滚动到结束">
+        <i class="fas fa-angle-double-right"></i>
+      </button>
+    </div>
+
+    <!-- 控制按钮 -->
     <div class="image-viewer-actions">
       <button @click="zoomOut" title="缩小">
         <i class="fas fa-search-minus"></i>
@@ -41,13 +64,15 @@
       <button @click="rotateRight" title="向右旋转">
         <i class="fas fa-redo"></i>
       </button>
-      <button v-if="isMultiple && currentIndex > 0" 
+      <button v-if="isMultiple" 
               @click="prev" 
+              :disabled="currentIndex <= 0"
               title="上一张">
         <i class="fas fa-chevron-left"></i>
       </button>
-      <button v-if="isMultiple && currentIndex < images.length - 1" 
+      <button v-if="isMultiple" 
               @click="next" 
+              :disabled="currentIndex >= images.length - 1"
               title="下一张">
         <i class="fas fa-chevron-right"></i>
       </button>
@@ -59,7 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 
 interface Props {
   visible: boolean
@@ -81,6 +106,37 @@ const emit = defineEmits(['update:visible'])
 const scale = ref(1)
 const rotation = ref(0)
 const currentIndex = ref(props.initialIndex)
+const thumbnailsRef = ref<HTMLDivElement>()
+const isAtStart = ref(true)
+const isAtEnd = ref(false)
+
+// 监听 initialIndex 的变化
+watch(() => props.initialIndex, (newIndex) => {
+  currentIndex.value = newIndex
+})
+
+// 监听 visible 的变化，当关闭时重置状态
+watch(() => props.visible, (newVisible) => {
+  if (!newVisible) {
+    scale.value = 1
+    rotation.value = 0
+    currentIndex.value = props.initialIndex
+  }
+})
+
+// 监听当前索引变化，自动滚动缩略图
+watch(currentIndex, (newIndex) => {
+  if (!thumbnailsRef.value) return
+  const thumbnails = thumbnailsRef.value.querySelectorAll('.thumbnail')
+  const currentThumb = thumbnails[newIndex]
+  if (currentThumb) {
+    currentThumb.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center'
+    })
+  }
+})
 
 // 计算属性
 const isMultiple = computed(() => Array.isArray(props.images) && props.images.length > 0)
@@ -128,11 +184,44 @@ const next = () => {
 
 const handleClose = () => {
   emit('update:visible', false)
-  // 重置状态
-  scale.value = 1
-  rotation.value = 0
-  currentIndex.value = props.initialIndex
 }
+
+// 滚动到开始
+const scrollToStart = () => {
+  if (!thumbnailsRef.value) return
+  thumbnailsRef.value.scrollTo({
+    left: 0,
+    behavior: 'smooth'
+  })
+}
+
+// 滚动到结束
+const scrollToEnd = () => {
+  if (!thumbnailsRef.value) return
+  thumbnailsRef.value.scrollTo({
+    left: thumbnailsRef.value.scrollWidth - thumbnailsRef.value.clientWidth,
+    behavior: 'smooth'
+  })
+}
+
+// 监听滚动位置更新按钮状态
+const updateScrollButtons = () => {
+  if (!thumbnailsRef.value) return
+  const { scrollLeft, scrollWidth, clientWidth } = thumbnailsRef.value
+  isAtStart.value = scrollLeft <= 0
+  isAtEnd.value = Math.ceil(scrollLeft + clientWidth) >= scrollWidth
+}
+
+// 监听缩略图容器的滚动事件
+onMounted(() => {
+  thumbnailsRef.value?.addEventListener('scroll', updateScrollButtons)
+  // 初始化按钮状态
+  updateScrollButtons()
+})
+
+onUnmounted(() => {
+  thumbnailsRef.value?.removeEventListener('scroll', updateScrollButtons)
+})
 </script>
 
 <style scoped>
@@ -156,13 +245,13 @@ const handleClose = () => {
 
 .image-viewer-img {
   max-width: 90vw;
-  max-height: 80vh;
+  max-height: calc(80vh - var(--margin-bottom, 0px)); /* 使用CSS变量动态计算高度 */
   object-fit: contain;
 }
 
 .image-viewer-actions {
   position: fixed;
-  bottom: 40px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -170,7 +259,7 @@ const handleClose = () => {
   background-color: rgba(0, 0, 0, 0.5);
   padding: 10px;
   border-radius: 8px;
-  z-index: 10000; /* 确保控制按钮始终在最上层 */
+  z-index: 10000;
 }
 
 .image-viewer-actions button {
@@ -191,17 +280,72 @@ const handleClose = () => {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.image-viewer-thumbnails {
+.image-viewer-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.image-viewer-actions button:disabled:hover {
+  background-color: transparent;
+}
+
+.image-viewer-thumbnails-container {
   position: fixed;
-  bottom: 100px; /* 调整缩略图位置，避免与控制按钮重叠 */
+  bottom: 90px;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 10000;
+  max-width: 80vw;
+}
+
+.image-viewer-thumbnails {
   display: flex;
   gap: 8px;
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 8px;
-  z-index: 10000;
+  overflow-x: auto;
+  justify-content: flex-start;
+  align-items: center;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  max-width: calc(80vw - 100px); /* 减去两个按钮的宽度和间距 */
+}
+
+.thumbnail-scroll-button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.thumbnail-scroll-button:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.thumbnail-scroll-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.thumbnail-scroll-button.left {
+  margin-right: -5px;
+}
+
+.thumbnail-scroll-button.right {
+  margin-left: -5px;
 }
 
 .thumbnail {
@@ -212,6 +356,7 @@ const handleClose = () => {
   border: 2px solid transparent;
   border-radius: 4px;
   transition: all 0.3s;
+  flex-shrink: 0; /* 防止缩略图被压缩 */
 }
 
 .thumbnail.active {
