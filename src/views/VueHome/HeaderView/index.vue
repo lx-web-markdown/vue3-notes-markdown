@@ -14,23 +14,13 @@ import useHooks from './hooks/useHooks';
 import useLanguage from '@/language/hooks/useLanguage';
 // 引入主题切换组件
 import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher.vue';
-//
+import { Tools, Grid, Orange } from '@element-plus/icons-vue'
+
 const { handleDropdownCommand } = useHooks();
 const { currentLocale } = useLanguage();
 
 // router
 const router = useRouter();
-const route = useRoute();
-
-// const srcList = [
-//   'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-//   'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-//   'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-//   'https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg',
-//   'https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg',
-//   'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
-//   'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
-// ];
 
 const currentLanguageName = ref('中文');
 watch(currentLocale, (newValue: any) => {
@@ -39,19 +29,15 @@ watch(currentLocale, (newValue: any) => {
     : (currentLanguageName.value = 'English');
 });
 
-onMounted(() => {
-  //
-  console.log('currentIndex', currentLocale.value);
-});
-
 const showLinks = () => {
   router.push('/demo');
 };
 
-const avatarClick = () => {};
+const showTools = () => {
+  router.push('/tools');
+};
 
 const openMKViewr = (command: string) => {
-  console.log(command);
   switch (command) {
     case 'HTML':
       router.push('/notelist/html');
@@ -86,11 +72,11 @@ const openMKViewr = (command: string) => {
       </div>
     </div>
     <div class="right-view">
-      <el-button @click="showLinks" link>DEMO</el-button>
-
+      <!-- 笔记 -->
       <el-dropdown class="el-dropdown-cls" @command="openMKViewr">
         <span class="el-dropdown-link">
-          {{ $t('navi.books') }}
+          <!-- {{ $t('navi.books') }} -->
+          更多文档
           <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon>
@@ -107,13 +93,15 @@ const openMKViewr = (command: string) => {
         </template>
       </el-dropdown>
 
-      <!-- 主题切换器 -->
-      <ThemeSwitcher />
+      <!-- DEMO -->
+      <el-button @click="showLinks" :icon="Orange" link>DEMO</el-button>
+      
+      <!-- 工具集合 -->
+      <el-button @click="showTools" :icon="Grid" link>工具集合</el-button>
 
       <!-- language -->
       <el-dropdown class="el-dropdown-cls" @command="handleDropdownCommand">
         <span class="el-dropdown-link">
-          <!-- {{ $t('common.changeLanguage') }} -->
           {{ currentLanguageName }}
           <el-icon class="el-icon--right">
             <arrow-down />
@@ -128,21 +116,8 @@ const openMKViewr = (command: string) => {
         </template>
       </el-dropdown>
 
-      <!-- avatar -->
-      <!-- <el-image
-        class="avatar-cls"
-        :src="srcList[0]"
-        :zoom-rate="1.2"
-        :max-scale="7"
-        :min-scale="0.2"
-        :preview-src-list="srcList"
-        :initial-index="4"
-        :z-index="9999"
-        :preview-teleported="true"
-        fit="cover"
-        @click="avatarClick"
-        circle
-      /> -->
+      <!-- 主题切换器 -->
+      <ThemeSwitcher />
     </div>
   </div>
 </template>
@@ -161,7 +136,6 @@ const openMKViewr = (command: string) => {
 .main-view {
   display: flex;
   justify-content: space-between;
-
   width: 100%;
   height: var(--lx-header-height);
   background-color: var(--bg-tertiary);
@@ -174,7 +148,6 @@ const openMKViewr = (command: string) => {
     img {
       height: 80%;
       aspect-ratio: 1 / 1;
-      /* 宽高比为 1:1 */
       background-color: rebeccapurple;
       border-radius: 50%;
       margin-top: calc(var(--header-height) * 0.1);
@@ -190,7 +163,7 @@ const openMKViewr = (command: string) => {
   .right-view {
     display: flex;
     justify-content: right;
-    align-items: center; // 垂直居中
+    align-items: center;
     gap: 15px;
     margin-right: 20px;
 
@@ -199,40 +172,10 @@ const openMKViewr = (command: string) => {
         cursor: pointer;
       }
 
-      height: 100%;
-
       .el-dropdown-link {
-        display: flex;
-        align-items: center;
-        height: 100%;
-        font-weight: 600;
-
-        .el-icon--right {
-          margin-left: 5px;
-        }
-
-        .el-icon {
-          height: 16px;
-          width: 16px;
-          line-height: 100%;
-
-          svg {
-            height: 100%;
-            width: 100%;
-          }
-        }
+        color: #000;
+        font-weight: 900;
       }
-    }
-
-    .avatar-cls {
-      width: 40px;
-      height: 40px;
-      border: 0px;
-      border-radius: 50%;
-      // background-image: url('@/assets/images/common/avatar.jpeg');
-      // background-repeat: no-repeat;
-      // background-size: cover;
-      // background-position: center center;
     }
   }
 }
