@@ -60,6 +60,7 @@
             :deep="jsonViewerConfig.deep"
             :show-length="jsonViewerConfig.showLength"
             :show-line="jsonViewerConfig.showLine"
+            :show-line-number="jsonViewerConfig.showLineNumber"
             :show-double-quotes="jsonViewerConfig.showDoubleQuotes"
             :selectable-type="jsonViewerConfig.selectableType"
             class="json-viewer"
@@ -72,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 import VueJsonPretty from 'vue-json-pretty';
 import 'vue-json-pretty/lib/styles.css';
 import { ElMessage } from 'element-plus';
@@ -84,19 +85,22 @@ const outputJson = ref('');
 const currentTool = ref('');
 
 // JSON查看器配置
-const jsonViewerConfig = {
+const jsonViewerConfig = reactive({
   showLength: true,
   showLine: true,
   showDoubleQuotes: true,
-  selectableType: '' as const, // 通过添加 as const 类型断言，我们告诉 TypeScript 这是一个字面量类型而不是普通的字符串类型，这样就解决了类型错误。
-  deep: 1, // 默认深度为1，只显示第一层
-};
+  selectableType: '' as const,
+  deep: 1,
+  showLineNumber: false,
+});
 
 // 工具列表
 const tools = [
   { name: 'format', title: '格式化', icon: 'fas fa-align-left' },
   { name: 'collapse', title: '折叠', icon: 'fas fa-compress-alt' },
   { name: 'expand', title: '展开', icon: 'fas fa-expand-alt' },
+  { name: 'toggleLine', title: '垂直对齐线', icon: 'fas fa-grip-lines-vertical' },
+  { name: 'toggleLineNumber', title: '显示行号', icon: 'fas fa-list-ol' },
   // { name: 'escape', title: '转义', icon: 'fas fa-quote-right' },
   // { name: 'unescape', title: '去除转义', icon: 'fas fa-quote-left' },
   // { name: 'toObject', title: '转对象', icon: 'fas fa-cube' },
@@ -119,20 +123,20 @@ const handleConvert = (toolName: string) => {
     if (toolName === 'format') {
       const parsedJson = JSON.parse(inputJson.value);
       outputJson.value = parsedJson;
+    } else if (toolName === 'collapse') {
+      outputJson.value = JSON.parse(inputJson.value);
+      jsonViewerConfig.deep = 1;
+    } else if (toolName === 'expand') {
+      outputJson.value = JSON.parse(inputJson.value);
+      jsonViewerConfig.deep = Infinity;
+    } else if (toolName === 'toggleLine') {
+      jsonViewerConfig.showLine = !jsonViewerConfig.showLine;
+    } else if (toolName === 'toggleLineNumber') {
+      jsonViewerConfig.showLineNumber = !jsonViewerConfig.showLineNumber;
     }
   } catch (error) {
-    console.error('JSON解析错误:', error);
-    ElMessage.error('JSON解析错误');
-  }
-
-  if (toolName === 'collapse') {
-    outputJson.value = JSON.parse(inputJson.value);
-    jsonViewerConfig.deep = 1; // 设置深度为1，只显示第一层
-  }
-
-  if (toolName === 'expand') {
-    outputJson.value = JSON.parse(inputJson.value);
-    jsonViewerConfig.deep = Infinity; // 设置深度为无限，完全展开
+    console.error('JSON操作错误:', error);
+    ElMessage.error('操作错误');
   }
 };
 
@@ -306,6 +310,40 @@ const clearOutput = () => {
       &:hover {
         background-color: rgba(0, 0, 0, 0.05);
       }
+    }
+
+    .vjs-key {
+      color: #881391;
+    }
+
+    .vjs-value {
+      &.vjs-value-string {
+        color: #268bd2;
+      }
+
+      &.vjs-value-number {
+        color: #d33682;
+      }
+
+      &.vjs-value-boolean {
+        color: #cb4b16;
+      }
+
+      &.vjs-value-null {
+        color: #dc322f;
+      }
+    }
+
+    .vjs-tree__brackets {
+      color: #93a1a1;
+    }
+
+    .vjs-tree__comma {
+      color: #93a1a1;
+    }
+
+    .vjs-tree__colon {
+      color: #93a1a1;
     }
   }
 }

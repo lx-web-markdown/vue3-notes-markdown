@@ -19,7 +19,10 @@
             <i :class="tool.icon"></i>
           </div>
           <div class="tool-info">
-            <h3 class="tool-title">{{ tool.title }}</h3>
+            <h3 class="tool-title">
+              {{ tool.title }}
+              <span v-if="tool.isDeprecated" class="deprecated-tag">未完成</span>
+            </h3>
             <p class="tool-desc">{{ tool.description }}</p>
           </div>
         </router-link>
@@ -34,6 +37,7 @@ interface Tool {
   description: string
   path: string
   icon: string
+  isDeprecated: boolean
 }
 
 interface Category {
@@ -53,19 +57,22 @@ const categories: Category[] = [
         title: 'JSON转换',
         description: 'JSON格式化、压缩、转义等功能',
         path: '/tools/json-conversion',
-        icon: 'fas fa-code'
+        icon: 'fas fa-code',
+        isDeprecated: false
       },
       {
         title: 'XML转换',
         description: 'XML格式化、压缩、校验等功能',
         path: '/tools/xml-conversion',
-        icon: 'fas fa-file-code'
+        icon: 'fas fa-file-code',
+        isDeprecated: true
       },
       {
         title: '时间转换',
         description: '时间戳转换、格式化等功能',
         path: '/tools/time-conversion',
-        icon: 'fas fa-clock'
+        icon: 'fas fa-clock',
+        isDeprecated: true
       }
     ]
   },
@@ -78,19 +85,22 @@ const categories: Category[] = [
         title: 'Base64',
         description: 'Base64编码解码、图片转换',
         path: '/tools/base64',
-        icon: 'fas fa-file-image'
+        icon: 'fas fa-file-image',
+        isDeprecated: true
       },
       {
         title: 'URL编码',
         description: 'URL编码解码转换',
         path: '/tools/url-encode',
-        icon: 'fas fa-link'
+        icon: 'fas fa-link',
+        isDeprecated: true
       },
       {
         title: 'Unicode',
         description: 'Unicode编码解码转换',
         path: '/tools/unicode',
-        icon: 'fas fa-font'
+        icon: 'fas fa-font',
+        isDeprecated: true
       }
     ]
   },
@@ -103,19 +113,22 @@ const categories: Category[] = [
         title: 'UUID生成',
         description: '生成UUID/GUID',
         path: '/tools/uuid-generator',
-        icon: 'fas fa-fingerprint'
+        icon: 'fas fa-fingerprint',
+        isDeprecated: true
       },
       {
         title: '随机密码',
         description: '生成随机密码',
         path: '/tools/password-generator',
-        icon: 'fas fa-key'
+        icon: 'fas fa-key',
+        isDeprecated: true
       },
       {
         title: '二维码',
         description: '生成/解析二维码',
         path: '/tools/qrcode',
-        icon: 'fas fa-qrcode'
+        icon: 'fas fa-qrcode',
+        isDeprecated: true
       }
     ]
   }
@@ -202,6 +215,18 @@ const categories: Category[] = [
         font-weight: 500;
         color: #2c3e50;
         margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .deprecated-tag {
+          font-size: 12px;
+          padding: 2px 6px;
+          background-color: #fef0f0;
+          color: #f56c6c;
+          border-radius: 4px;
+          font-weight: normal;
+        }
       }
 
       .tool-desc {
