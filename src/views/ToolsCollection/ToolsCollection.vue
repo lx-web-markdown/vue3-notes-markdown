@@ -128,7 +128,7 @@ const categories: Category[] = [
         description: '生成/解析二维码',
         path: '/tools/generate-qr-code',
         icon: 'fas fa-qrcode',
-        isDeprecated: true
+        isDeprecated: false
       }
     ]
   }
