@@ -251,28 +251,35 @@ const updateQRCode = async () => {
       const logoX = (size.value - logoWidth) / 2
       const logoY = (size.value - logoHeight) / 2
 
-      // 先清除图标区域
-      ctx.fillStyle = backgroundColor.value
-      ctx.fillRect(logoX, logoY, logoWidth, logoHeight)
+      // 创建临时 canvas 用于绘制圆形图标
+      const tempCanvas = document.createElement('canvas')
+      tempCanvas.width = logoWidth
+      tempCanvas.height = logoHeight
+      const tempCtx = tempCanvas.getContext('2d')
+      
+      if (tempCtx) {
+        // 清除临时画布
+        tempCtx.clearRect(0, 0, logoWidth, logoHeight)
+        
+        if (logoRounded.value) {
+          // 绘制圆形裁剪路径
+          tempCtx.beginPath()
+          tempCtx.arc(
+            logoWidth / 2,
+            logoHeight / 2,
+            logoWidth / 2,
+            0,
+            Math.PI * 2
+          )
+          tempCtx.closePath()
+          tempCtx.clip()
+        }
 
-      // 绘制图标
-      if (logoRounded.value) {
-        ctx.save()
-        ctx.beginPath()
-        ctx.arc(
-          logoX + logoWidth / 2,
-          logoY + logoHeight / 2,
-          logoWidth / 2,
-          0,
-          Math.PI * 2
-        )
-        ctx.clip()
-      }
+        // 在临时画布上绘制图标
+        tempCtx.drawImage(logoImage.value, 0, 0, logoWidth, logoHeight)
 
-      ctx.drawImage(logoImage.value, logoX, logoY, logoWidth, logoHeight)
-
-      if (logoRounded.value) {
-        ctx.restore()
+        // 将临时画布的内容绘制到主画布上
+        ctx.drawImage(tempCanvas, logoX, logoY)
       }
     }
   } catch (error) {
