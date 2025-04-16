@@ -100,14 +100,14 @@ const categories: Category[] = [
         description: 'URL编码解码转换',
         path: '/tools/url-encode',
         icon: 'fas fa-link',
-        isDeprecated: true
+        isDeprecated: false
       },
       {
         title: 'Unicode',
         description: 'Unicode编码解码转换',
         path: '/tools/unicode',
         icon: 'fas fa-font',
-        isDeprecated: true
+        isDeprecated: false
       }
     ]
   },

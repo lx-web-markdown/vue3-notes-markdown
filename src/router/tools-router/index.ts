@@ -25,6 +25,16 @@ const toolsRouters = [
     component: () => import('@/views/ToolsCollection/Base64/Base64.vue'),
   },
   {
+    path: '/tools/url-encode',
+    name: 'URLEncode',
+    component: () => import('@/views/ToolsCollection/URLEncode/URLEncode.vue'),
+  },
+  {
+    path: '/tools/unicode',
+    name: 'Unicode',
+    component: () => import('@/views/ToolsCollection/Unicode/Unicode.vue'),
+  },
+  {
     path: '/tools/unix-time',
     name: 'UnixTime',
     component: () => import('@/views/ToolsCollection/UnixTime/UnixTime.vue'),
