@@ -25,7 +25,7 @@ console.log("===> publicDir =", publicDir, tempOutputFile);
  */
 const getAllFilesInPublicDir_Core = async (_filePath, _level) => {
   const files = await fs.readdirSync(_filePath);
-  console.log("===> files =", files);
+  // console.log("===> files =", files);
   const result = [];
 
   for (let index = 0; index < files.length; index++) {
@@ -94,7 +94,7 @@ const getAllFilesInPublicDir = async (_filePath, _outputFilePath) => {
     // 具有文件名，内容和回调函数的writeFile函数
     fs.writeFile(_outputFilePath, JSON.stringify(res), function (err) {
       if (err) throw err;
-      console.log("File is created successfully.");
+      // console.log("File is created successfully.");
     });
   } else {
     console.error("获取文件列表失败！！！");
@@ -124,7 +124,7 @@ const processMarkdownFiles = async (dirPath, baseDir) => {
       }
     }
 
-    console.log(`处理完成目录: ${dirPath}`);
+    // console.log(`处理完成目录: ${dirPath}`);
   } catch (error) {
     console.error(`处理目录 ${dirPath} 时出错:`, error);
   }
@@ -148,10 +148,10 @@ const replaceImagePathsInMarkdown = async (filePath, baseDir) => {
     const fileDir = path.dirname(filePath);
     const relativePath = path.relative(baseDir, fileDir);
 
-    console.log("AA===> filePath =", filePath);
-    console.log("AA===> baseDir =", baseDir);
-    console.log("AA===> fileDir =", fileDir);
-    console.log("AA===> relativePath =", relativePath);
+    // console.log("AA===> filePath =", filePath);
+    // console.log("AA===> baseDir =", baseDir);
+    // console.log("AA===> fileDir =", fileDir);
+    // console.log("AA===> relativePath =", relativePath);
 
     // 使用正则表达式匹配Markdown中的图片语法 ![alt](path)
     // const imgRegex = /!\[(.*?)\]\((\.\/.*?)\)/g;
@@ -167,9 +167,9 @@ const replaceImagePathsInMarkdown = async (filePath, baseDir) => {
     while ((match = imgRegex.exec(content)) !== null) {
       const [fullMatch, altText, imgPath] = match;
 
-      console.log("===> fullMatch =", fullMatch);
-      console.log("===> altText =", altText);
-      console.log("===> imgPath =", imgPath);
+      // console.log("===> fullMatch =", fullMatch);
+      // console.log("===> altText =", altText);
+      // console.log("===> imgPath =", imgPath);
 
       // 只处理相对路径的图片（以./开头）
       if (imgPath.startsWith('./')) {
@@ -208,7 +208,7 @@ const replaceImagePathsInMarkdown = async (filePath, baseDir) => {
     // 如果有修改，写回文件
     if (modified) {
       fs.writeFileSync(filePath, newContent, 'utf8');
-      console.log(`已更新图片路径: ${filePath}`);
+      // console.log(`已更新图片路径: ${filePath}`);
     }
   } catch (error) {
     console.error(`处理文件 ${filePath} 时出错:`, error);
@@ -239,18 +239,18 @@ const processAllFileListsInPublic = async () => {
   // 遍历处理每个目录
   for (const config of dirConfigs) {
     const outputFilePath = `./public/FileListTXT/fileList_${config.name}.txt`;
-    console.log(`处理目录: ${config.path} -> ${outputFilePath}`);
+    // console.log(`处理目录: ${config.path} -> ${outputFilePath}`);
     await getAllFilesInPublicDir(config.path, outputFilePath);
   }
   
-  console.log("所有文件列表生成完成！");
+  // console.log("所有文件列表生成完成！");
 };
 
 
 // 处理所有目录下的Markdown文件，替换图片路径
 const processAllMarkdownInPublic = async () => {
   const publicPath = "./public";
-  console.log("开始处理所有Markdown文件中的图片路径...");
+  // console.log("开始处理所有Markdown文件中的图片路径...");
 
   // MY NEED DO
   // 处理各个目录

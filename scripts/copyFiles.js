@@ -16,7 +16,7 @@ const allFilesPath = path.resolve(__dirname, '../public/AllFiles');
  */
 function ensureDirectoryExists(dirPath) {
   if (!fs.existsSync(dirPath)) {
-    console.log(`创建目录: ${dirPath}`);
+    // console.log(`创建目录: ${dirPath}`);
     fs.mkdirSync(dirPath, { recursive: true });
   }
 }
@@ -27,11 +27,11 @@ function ensureDirectoryExists(dirPath) {
  */
 function emptyDirectory(dirPath) {
   if (!fs.existsSync(dirPath)) {
-    console.log(`目录不存在，无需清空: ${dirPath}`);
+    // console.log(`目录不存在，无需清空: ${dirPath}`);
     return;
   }
 
-  console.log(`清空目录: ${dirPath}`);
+  // console.log(`清空目录: ${dirPath}`);
   const files = fs.readdirSync(dirPath);
   
   for (const file of files) {
@@ -55,6 +55,11 @@ function emptyDirectory(dirPath) {
  * @param {string} dest 目标路径
  */
 function copyFileOrDirectory(src, dest) {
+  // 如果是 code-demo 文件夹，则跳过
+  if (path.basename(src) === 'code-demo' || path.basename(src) === 'my-code-demo') {
+    return;
+  }
+
   const stat = fs.statSync(src);
   
   if (stat.isDirectory()) {
@@ -74,7 +79,7 @@ function copyFileOrDirectory(src, dest) {
   } else {
     // 复制文件
     fs.copyFileSync(src, dest);
-    console.log(`复制文件: ${src} -> ${dest}`);
+    // console.log(`复制文件: ${src} -> ${dest}`);
   }
 }
 
@@ -95,9 +100,9 @@ function main() {
       const files = fs.readdirSync(publicOriginPath);
       
       if (files.length === 0) {
-        console.log(`警告: public_origin 目录为空，没有文件可复制`);
+        // console.log(`警告: public_origin 目录为空，没有文件可复制`);
       } else {
-        console.log(`开始从 ${publicOriginPath} 复制文件到 ${allFilesPath}`);
+        // console.log(`开始从 ${publicOriginPath} 复制文件到 ${allFilesPath}`);
         
         // 复制 public_origin 中的所有文件到 public/AllFiles
         for (const file of files) {
@@ -107,7 +112,7 @@ function main() {
           copyFileOrDirectory(srcPath, destPath);
         }
         
-        console.log('文件复制完成！');
+        // console.log('文件复制完成！');
       }
     } else {
       console.log(`错误: public_origin 目录不存在`);
