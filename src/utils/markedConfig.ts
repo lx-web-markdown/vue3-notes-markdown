@@ -46,8 +46,12 @@ customRenderer.link = (item: any): string => {
  * 自定义渲染器 - 图片，点击可在新页签打开
  */
 customRenderer.image = (item: any): string => {
+  /**
+   * 1. 添加了 crossorigin="anonymous" 属性，允许图片进行跨域加载
+   * 2. 添加了 referrerpolicy="no-referrer" 属性，防止因 referrer 政策导致的加载限制
+   */
   return `<a href="${item.href}" title="${item.title || ''}" target="_blank" rel="noopener noreferrer">
-    <img src="${item.href}" alt="${item.title || ''}" />
+    <img src="${item.href}" alt="${item.title || ''}" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </a>`;
 };
 
