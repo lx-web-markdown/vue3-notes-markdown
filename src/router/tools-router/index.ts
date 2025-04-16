@@ -20,6 +20,11 @@ const toolsRouters = [
     component: () => import('@/views/ToolsCollection/JSON_XML/JSON_XML.vue'),
   },
   {
+    path: '/tools/base64',
+    name: 'Base64',
+    component: () => import('@/views/ToolsCollection/Base64/Base64.vue'),
+  },
+  {
     path: '/tools/unix-time',
     name: 'UnixTime',
     component: () => import('@/views/ToolsCollection/UnixTime/UnixTime.vue'),

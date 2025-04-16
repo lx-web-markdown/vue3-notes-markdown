@@ -93,7 +93,7 @@ const categories: Category[] = [
         description: 'Base64编码解码、图片转换',
         path: '/tools/base64',
         icon: 'fas fa-file-image',
-        isDeprecated: true
+        isDeprecated: false
       },
       {
         title: 'URL编码',
