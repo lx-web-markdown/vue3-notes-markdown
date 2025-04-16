@@ -20,6 +20,11 @@ const toolsRouters = [
     component: () => import('@/views/ToolsCollection/JSON_XML/JSON_XML.vue'),
   },
   {
+    path: '/tools/unix-time',
+    name: 'UnixTime',
+    component: () => import('@/views/ToolsCollection/UnixTime/UnixTime.vue'),
+  },
+  {
     path: '/tools/generate-uuid',
     name: 'GenerateUUID',
     component: () => import('@/views/ToolsCollection/GenerateUUID/GenerateUUID.vue'),

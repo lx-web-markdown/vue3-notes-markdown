@@ -77,9 +77,9 @@ const categories: Category[] = [
       {
         title: '时间转换',
         description: '时间戳转换、格式化等功能',
-        path: '/tools/time-conversion',
+        path: '/tools/unix-time',
         icon: 'fas fa-clock',
-        isDeprecated: true
+        isDeprecated: false
       }
     ]
   },
