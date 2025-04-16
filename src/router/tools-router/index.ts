@@ -30,9 +30,9 @@ const toolsRouters = [
     component: () => import('@/views/ToolsCollection/GenerateUUID/GenerateUUID.vue'),
   },
   {
-    path: '/tools/generate-qr-code',
-    name: 'GenerateQRCode',
-    component: () => import('@/views/ToolsCollection/GenerateQRCode/GenerateQRCode.vue'),
+    path: '/tools/qr-code',
+    name: 'QRCode',
+    component: () => import('@/views/ToolsCollection/QRCode/QRCodeTool.vue'),
   },
 ]
 

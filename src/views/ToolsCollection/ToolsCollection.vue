@@ -133,10 +133,10 @@ const categories: Category[] = [
       {
         title: '二维码',
         description: '生成/解析二维码',
-        path: '/tools/generate-qr-code',
+        path: '/tools/qr-code',
         icon: 'fas fa-qrcode',
         isDeprecated: false
-      }
+      },
     ]
   }
 ]
