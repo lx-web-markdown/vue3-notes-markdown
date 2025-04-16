@@ -54,18 +54,25 @@ const categories: Category[] = [
     icon: 'fas fa-exchange-alt',
     tools: [
       {
-        title: 'JSON转换',
+        title: 'JSON格式化',
         description: 'JSON格式化、压缩、转义等功能',
-        path: '/tools/json-conversion',
+        path: '/tools/json-format',
         icon: 'fas fa-code',
         isDeprecated: false
       },
       {
-        title: 'XML转换',
+        title: 'XML格式化',
         description: 'XML格式化、压缩、校验等功能',
-        path: '/tools/xml-conversion',
+        path: '/tools/xml-format',
         icon: 'fas fa-file-code',
-        isDeprecated: true
+        isDeprecated: false
+      },
+      {
+        title: 'JSON_XML相互转化',
+        description: 'JSON_XML相互转化',
+        path: '/tools/json-xml',
+        icon: 'fas fa-file-code',
+        isDeprecated: false
       },
       {
         title: '时间转换',
@@ -112,9 +119,9 @@ const categories: Category[] = [
       {
         title: 'UUID生成',
         description: '生成UUID/GUID',
-        path: '/tools/uuid-generator',
+        path: '/tools/generate-uuid',
         icon: 'fas fa-fingerprint',
-        isDeprecated: true
+        isDeprecated: false
       },
       {
         title: '随机密码',

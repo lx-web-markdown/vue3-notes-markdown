@@ -1,5 +1,5 @@
 <template>
-  <div class="json-conversion">
+  <div class="json-format">
     <div class="editor-container">
       <!-- 左侧编辑器 -->
       <div class="editor-panel">
@@ -193,7 +193,7 @@ const clearOutput = () => {
 </script>
 
 <style lang="scss" scoped>
-.json-conversion {
+.json-format {
   padding: 20px;
   height: calc(100vh - 100px);
   background-color: #fff;
