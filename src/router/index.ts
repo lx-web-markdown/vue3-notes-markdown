@@ -20,6 +20,12 @@ const allRouters = [
     redirect: "/notelist/work-doc",
     component: () => import("@/views/VueHome/index.vue"),
     children: [
+      // MY NEED DO
+      {
+        path: "book-how-to-write-high-quality-front-end-code",
+        name: "BookHowToWriteHighQualityFrontEndCodeHome",
+        component: () => import("@/views/VueHome/MKMainView/index.vue"),
+      },
       {
         path: "html",
         name: "HTMLHome",

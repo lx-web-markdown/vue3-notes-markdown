@@ -37,8 +37,12 @@ const showTools = () => {
   router.push('/tools');
 };
 
+// MY NEED DO
 const openMKViewr = (command: string) => {
   switch (command) {
+    case 'book-how-to-write-high-quality-front-end-code':
+      router.push('/notelist/book-how-to-write-high-quality-front-end-code');
+      break;
     case 'HTML':
       router.push('/notelist/html');
       break;
@@ -83,6 +87,8 @@ const openMKViewr = (command: string) => {
         </span>
         <template #dropdown>
           <el-dropdown-menu>
+            <!-- MY NEED DO -->
+            <el-dropdown-item command="book-how-to-write-high-quality-front-end-code">《如何写出高质量的前端代码》</el-dropdown-item>
             <el-dropdown-item command="HTML">HTML</el-dropdown-item>
             <el-dropdown-item command="CSS">CSS</el-dropdown-item>
             <el-dropdown-item command="JS">JS</el-dropdown-item>
