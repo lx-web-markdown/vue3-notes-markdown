@@ -1,22 +1,30 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import MarkdownView from "@/components/MarkdownComp/MarkdownComp.vue";
-import About from "./AboutView/index.vue";
-import myBus from "@/utils/myBus.ts";
+import MarkdownView from '@/components/MarkdownComp/MarkdownComp.vue';
+import About from './AboutView/index.vue';
+import myBus from '@/utils/myBus.ts';
+import { ElMessage } from 'element-plus';
 
 const route = useRoute();
-const markdownFilePath = ref("");
+const markdownFilePath = ref('');
 
-watch(() => route.fullPath, () => {
-  // 清空markdownFilePath
-  markdownFilePath.value = '';
-});
+watch(
+  () => route.fullPath,
+  () => {
+    // 清空markdownFilePath
+    markdownFilePath.value = '';
+  }
+);
 
-myBus.on("showFilePath", (data: any) => {
-  if (data.type === ".md" && data.fullPath.endsWith(".md")) {
-    console.log("markdownFilePath = ", data.fullPath);
+myBus.on('showFilePath', (data: any) => {
+  if (data.type === '.md' && data.fullPath.endsWith('.md')) {
+    console.log('markdownFilePath = ', data.fullPath);
     markdownFilePath.value = data.fullPath;
+  }
+  // 其他文件类型
+  else {
+    ElMessage.warning('文件暂未支持！！！');
   }
 });
 </script>
@@ -32,7 +40,7 @@ myBus.on("showFilePath", (data: any) => {
 
 <style scoped lang="scss">
 .right-main-view {
-  background-color: #FFF;
+  background-color: #fff;
 
   .scrollbar-container {
     padding-left: 20px;

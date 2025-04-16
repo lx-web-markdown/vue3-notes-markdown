@@ -4,6 +4,7 @@ import { audioService } from '@/components/AudioPlayer/audioService';
 import { videoService } from '@/components/VideoPlayer/videoService';
 import type { Tree, FilePathMapping } from './types';
 import { downloadFile } from '@/utils/utils';
+import { ElMessage } from 'element-plus';
 /**
  * 文件树相关逻辑的可组合函数
  */
@@ -122,9 +123,10 @@ export function useFileTree() {
     ) {
       // 如果是ZIP文件，下载文件
       downloadFile(item.fullPath, item.name);
-    } else if (item.type === '.ppt' || item.type === '.pptx') {
-      // 如果是PPT文件，使用VueOfficePptx组件处理
-      myBus.emit('showFilePath', item);
+    }
+    // 其他文件类型
+    else {
+      ElMessage.warning('文件暂未支持！！！');
     }
   };
 
