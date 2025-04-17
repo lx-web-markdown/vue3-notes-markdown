@@ -49,11 +49,6 @@ const toolsRouters = [
     name: 'QRCode',
     component: () => import('@/views/ToolsCollection/QRCode/QRCodeTool.vue'),
   },
-  {
-    path: '/tools/xmind',
-    name: 'XmindViewer',
-    component: () => import('@/views/XmindView.vue'),
-  },
 ]
 
 export default toolsRouters;
