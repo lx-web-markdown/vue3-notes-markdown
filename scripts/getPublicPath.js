@@ -226,7 +226,7 @@ const replaceImagePathsInMarkdown = async (filePath, baseDir) => {
 const processAllFileListsInPublic = async () => {
   // 定义目录和输出文件的映射关系
   const dirConfigs = [
-    // MY NEED DO
+    // NEED TO DO
     { name: "《如何写出高质量的前端代码》", path: "./public/AllFiles/《如何写出高质量的前端代码》" },
     { name: "所有文件类型", path: "./public/AllFiles/所有文件类型" },
     { name: "HTML", path: "./public/AllFiles/HTML" },
@@ -252,7 +252,7 @@ const processAllMarkdownInPublic = async () => {
   const publicPath = "./public";
   // console.log("开始处理所有Markdown文件中的图片路径...");
 
-  // MY NEED DO
+  // NEED TO DO
   // 处理各个目录
   await processMarkdownFiles(`${publicPath}/AllFiles/《如何写出高质量的前端代码》`, publicPath);
   await processMarkdownFiles(`${publicPath}/AllFiles/所有文件类型`, publicPath);

@@ -37,7 +37,7 @@ const showTools = () => {
   router.push('/tools');
 };
 
-// MY NEED DO
+// NEED TO DO
 const openMKViewr = (command: string) => {
   switch (command) {
     case 'book-how-to-write-high-quality-front-end-code':
@@ -70,7 +70,7 @@ const openMKViewr = (command: string) => {
 <template>
   <div class="main-view">
     <div class="left-view">
-      <img src="@/assets/images/common/favicon.jpeg" alt="" />
+      <img src="@/assets/images/common/favicon.jpeg" alt="" @click="router.push('/')" style="cursor: pointer;" />
       <div class="title">
         {{ $t('appTitle') }}
       </div>
@@ -87,7 +87,7 @@ const openMKViewr = (command: string) => {
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <!-- MY NEED DO -->
+            <!-- NEED TO DO -->
             <el-dropdown-item command="book-how-to-write-high-quality-front-end-code">《如何写出高质量的前端代码》</el-dropdown-item>
             <el-dropdown-item command="HTML">HTML</el-dropdown-item>
             <el-dropdown-item command="CSS">CSS</el-dropdown-item>

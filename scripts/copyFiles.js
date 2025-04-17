@@ -56,7 +56,7 @@ function emptyDirectory(dirPath) {
  */
 function copyFileOrDirectory(src, dest) {
   // 如果是 code-demo 文件夹，则跳过
-  if (path.basename(src) === 'code-demo' || path.basename(src) === 'my-code-demo') {
+  if (path.basename(src).startsWith('code-demo') || path.basename(src).startsWith('my-code-demo')) {
     return;
   }
 

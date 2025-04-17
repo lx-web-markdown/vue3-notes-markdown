@@ -1,71 +1,39 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router';
 // 各子模块的路由
 import Router404 from './404/index.ts';
 import DemoRouter from './demo-router/index.ts';
 import ToolsRouter from './tools-router/index.ts';
+import NotelistRouter from './notelist-router/index.ts';
+import InterviewRouter from './interview-router/index.ts';
 
 // 路由配置
 const allRouters = [
   // 重定向
   {
-    path: "/index",
-    redirect: "/",
+    path: '/index',
+    redirect: '/',
   },
   {
-    path: "/",
-    redirect: "/notelist/work-doc",
-  },
-  {
-    path: "/notelist",
-    redirect: "/notelist/work-doc",
-    component: () => import("@/views/VueHome/index.vue"),
+    path: '/',
+    name: 'Home',
+    component: () => import('@/views/VueHome/index.vue'),
     children: [
-      // MY NEED DO
       {
-        path: "book-how-to-write-high-quality-front-end-code",
-        name: "BookHowToWriteHighQualityFrontEndCodeHome",
-        component: () => import("@/views/VueHome/MKMainView/index.vue"),
-      },
-      {
-        path: "html",
-        name: "HTMLHome",
-        component: () => import("@/views/VueHome/MKMainView/index.vue"),
-      },
-      {
-        path: "css",
-        name: "CSSHome",
-        component: () => import("@/views/VueHome/MKMainView/index.vue"),
-      },
-      {
-        path: "js",
-        name: "JSHome",
-        component: () => import("@/views/VueHome/MKMainView/index.vue"),
-      },
-      {
-        path: "vue2",
-        name: "Vue2Home",
-        component: () => import("@/views/VueHome/MKMainView/index.vue"),
-      },
-      {
-        path: "vue3",
-        name: "Vue3Home",
-        component: () => import("@/views/VueHome/MKMainView/index.vue"),
-      },
-      {
-        path: "work-doc",
-        component: () => import("@/views/VueHome/MKMainView/index.vue"),
+        path: '/',
+        component: () => import('@/views/VueHome/RouterMainView/RouterMainView.vue'),
       },
     ],
   },
   {
-    path: "/java-home",
-    name: "JavaHome",
-    component: () => import("@/views/JavaHome/index.vue")
+    path: '/java-home',
+    name: 'JavaHome',
+    component: () => import('@/views/JavaHome/index.vue'),
   },
-  // ******************* 404 ********************
   ...Router404,
   ...DemoRouter,
   ...ToolsRouter,
+  ...NotelistRouter,
+  ...InterviewRouter,
 ];
 
 /**
@@ -80,8 +48,8 @@ const router = createRouter({
  * 全局路由守卫，路由跳转前的拦截
  */
 router.beforeEach((to, from, next) => {
-  console.log("router from: ", from);
-  console.log("router to: ", to);
+  console.log('router from: ', from);
+  console.log('router to: ', to);
   next();
   /**
   // 登录校验

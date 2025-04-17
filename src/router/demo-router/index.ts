@@ -28,7 +28,12 @@ const routers = [
     path: "/image-viewer-demo",
     name: "ImageViewerDemo",
     component: () => import("@/components/ImageViewer/ImageViewerDemo.vue")
-  }
+  },
+  {
+    path: '/xmind-viewer-demo',
+    name: 'XmindViewerDemo',
+    component: () => import('@/views/Demo/XmindViewer-demo.vue'),
+  },
 ];
 
 export default routers;

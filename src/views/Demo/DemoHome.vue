@@ -56,6 +56,11 @@ const demoList = ref<DemoItem[]>([
     description: '图片查看器示例'
   },
   {
+    title: 'Xmind查看器',
+    path: '/xmind-viewer-demo',
+    description: 'Xmind查看器示例'
+  },
+  {
     title: 'Word文档查看',
     path: '/vue-office-docx-demo',
     description: 'Word文档(.docx)查看组件示例',
