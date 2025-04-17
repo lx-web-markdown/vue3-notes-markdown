@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HeaderView from "@/views/VueHome/HeaderView/index.vue";
+import HeaderView from "@/views/Home/HeaderView/HeaderView.vue";
 //
 // import { useRoute, useRouter } from 'vue-router'
 // const route = useRoute()

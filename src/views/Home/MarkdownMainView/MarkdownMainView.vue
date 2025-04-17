@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import LeftView from "./LeftView/index.vue";
-import RightView from "./RightView/index.vue";
+import LeftView from "./LeftView/LeftView.vue";
+import RightView from "./RightView/RightView.vue";
 
 const leftWidth = ref(250); // 左侧初始宽度
 const isResizing = ref(false);

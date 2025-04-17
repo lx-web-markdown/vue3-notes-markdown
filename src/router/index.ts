@@ -16,11 +16,11 @@ const allRouters = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/VueHome/index.vue'),
+    component: () => import('@/views/Home/Home.vue'),
     children: [
       {
         path: '/',
-        component: () => import('@/views/VueHome/RouterMainView/RouterMainView.vue'),
+        component: () => import('@/views/Home/RouterMainView/RouterMainView.vue'),
       },
     ],
   },

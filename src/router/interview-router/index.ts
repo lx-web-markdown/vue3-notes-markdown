@@ -1,7 +1,7 @@
 const interviewRouter = [
   {
     path: '/interview',
-    component: () => import('@/views/VueHome/RouterMainView/RouterMainView.vue'),
+    component: () => import('@/views/Home/RouterMainView/RouterMainView.vue'),
   },
 ]
 
