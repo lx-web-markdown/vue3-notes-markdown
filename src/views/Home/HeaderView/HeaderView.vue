@@ -16,11 +16,31 @@ import useLanguage from '@/language/hooks/useLanguage';
 import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher.vue';
 import { Tools, Grid, Orange } from '@element-plus/icons-vue'
 
+interface OriginInfo {
+  id: string;
+  name: string;
+  desc: string;
+  path: string;
+  routerPath: string;
+  fileListTxtPath: string;
+}
+
 const { handleDropdownCommand } = useHooks();
 const { currentLocale } = useLanguage();
 
 // router
 const router = useRouter();
+const menuItems = ref<OriginInfo[]>([]);
+
+onMounted(async () => {
+  try {
+    const response = await fetch('/OriginInfo.json');
+    const data = await response.json();
+    menuItems.value = data.originInfo;
+  } catch (error) {
+    console.error('Failed to load menu items:', error);
+  }
+});
 
 const currentLanguageName = ref('中文');
 watch(currentLocale, (newValue: any) => {
@@ -38,32 +58,13 @@ const showTools = () => {
 };
 
 // NEED TO DO
-const openMKViewr = (command: string) => {
-  switch (command) {
-    case 'book-how-to-write-high-quality-front-end-code':
-      router.push('/notelist/book-how-to-write-high-quality-front-end-code');
-      break;
-    case 'HTML':
-      router.push('/notelist/html');
-      break;
-    case 'CSS':
-      router.push('/notelist/css');
-      break;
-    case 'JS':
-      router.push('/notelist/js');
-      break;
-    case 'Vue2':
-      router.push('/notelist/vue2');
-      break;
-    case 'Vue3':
-      router.push('/notelist/vue3');
-      break;
-    case 'work-doc':
-      router.push('/notelist/work-doc');
-      break;
-    default:
-      break;
-  }
+const openMKViewr = (command: OriginInfo) => {
+  router.push({
+    name: 'NoteListContent',
+    params: {
+      id: command.id
+    }
+  });
 };
 </script>
 
@@ -87,14 +88,13 @@ const openMKViewr = (command: string) => {
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <!-- NEED TO DO -->
-            <el-dropdown-item command="book-how-to-write-high-quality-front-end-code">《如何写出高质量的前端代码》</el-dropdown-item>
-            <el-dropdown-item command="HTML">HTML</el-dropdown-item>
-            <el-dropdown-item command="CSS">CSS</el-dropdown-item>
-            <el-dropdown-item command="JS">JS</el-dropdown-item>
-            <el-dropdown-item command="Vue2">Vue2</el-dropdown-item>
-            <el-dropdown-item command="Vue3">Vue3</el-dropdown-item>
-            <el-dropdown-item command="work-doc">所有文件类型</el-dropdown-item>
+            <el-dropdown-item 
+              v-for="item in menuItems" 
+              :key="item.id" 
+              :command="item"
+            >
+              {{ item.name }}
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

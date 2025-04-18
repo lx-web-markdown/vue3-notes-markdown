@@ -17,6 +17,10 @@ const publicDir = path.resolve(__dirname, "public");
 const tempOutputFile = path.join(publicDir, "fileList.txt");
 console.log("===> publicDir =", publicDir, tempOutputFile);
 
+// 读取 OriginInfo.json 文件
+const originInfoPath = path.resolve("./public/OriginInfo.json");
+const originInfo = JSON.parse(fs.readFileSync(originInfoPath, 'utf8'));
+
 /**
  * 获取某个目录下的所有文件
  * @param {string} _filePath : 文件路径
@@ -224,45 +228,68 @@ const replaceImagePathsInMarkdown = async (filePath, baseDir) => {
  * 处理所有目录的文件列表生成
  */
 const processAllFileListsInPublic = async () => {
-  // 定义目录和输出文件的映射关系
-  const dirConfigs = [
-    // NEED TO DO
-    { name: "《如何写出高质量的前端代码》", path: "./public/AllFiles/《如何写出高质量的前端代码》" },
-    { name: "所有文件类型", path: "./public/AllFiles/所有文件类型" },
-    { name: "HTML", path: "./public/AllFiles/HTML" },
-    { name: "CSS", path: "./public/AllFiles/CSS" },
-    { name: "JS", path: "./public/AllFiles/JS" },
-    { name: "Vue2", path: "./public/AllFiles/Vue/Vue2" },
-    { name: "Vue3", path: "./public/AllFiles/Vue/Vue3" }
-  ];
-  
-  // 遍历处理每个目录
-  for (const config of dirConfigs) {
-    const outputFilePath = `./public/FileListTXT/fileList_${config.name}.txt`;
-    // console.log(`处理目录: ${config.path} -> ${outputFilePath}`);
-    await getAllFilesInPublicDir(config.path, outputFilePath);
+  try {
+    // 从 OriginInfo.json 生成目录配置
+    const dirConfigs = originInfo.originInfo.map(item => ({
+      name: item.name,
+      fileRealPath: path.resolve(item.fileRealPath),
+      fileListTxtPath: path.resolve(item.fileListTxtPath)
+    }));
+    
+    // 遍历处理每个目录
+    for (const config of dirConfigs) {
+      try {
+        // 确保目录存在
+        if (!fs.existsSync(config.fileRealPath)) {
+          console.log(`目录不存在，跳过处理: ${config.fileRealPath}`);
+          continue;
+        }
+
+        // 确保输出目录存在
+        const outputDir = path.dirname(config.fileListTxtPath);
+        if (!fs.existsSync(outputDir)) {
+          fs.mkdirSync(outputDir, { recursive: true });
+        }
+
+        console.log(`处理目录: ${config.fileRealPath} -> ${config.fileListTxtPath}`);
+        await getAllFilesInPublicDir(config.fileRealPath, config.fileListTxtPath);
+      } catch (err) {
+        console.error(`处理目录 ${config.fileRealPath} 时出错:`, err);
+      }
+    }
+  } catch (err) {
+    console.error("处理文件列表时出错:", err);
   }
-  
-  // console.log("所有文件列表生成完成！");
 };
 
 
 // 处理所有目录下的Markdown文件，替换图片路径
 const processAllMarkdownInPublic = async () => {
-  const publicPath = "./public";
-  // console.log("开始处理所有Markdown文件中的图片路径...");
+  try {
+    const publicPath = path.resolve("./public");
+    console.log("开始处理所有Markdown文件中的图片路径...");
 
-  // NEED TO DO
-  // 处理各个目录
-  await processMarkdownFiles(`${publicPath}/AllFiles/《如何写出高质量的前端代码》`, publicPath);
-  await processMarkdownFiles(`${publicPath}/AllFiles/所有文件类型`, publicPath);
-  await processMarkdownFiles(`${publicPath}/AllFiles/HTML`, publicPath);
-  await processMarkdownFiles(`${publicPath}/AllFiles/CSS`, publicPath);
-  await processMarkdownFiles(`${publicPath}/AllFiles/JS`, publicPath);
-  await processMarkdownFiles(`${publicPath}/AllFiles/Vue/Vue2`, publicPath);
-  await processMarkdownFiles(`${publicPath}/AllFiles/Vue/Vue3`, publicPath);
+    // 从 OriginInfo.json 获取所有目录并处理
+    for (const item of originInfo.originInfo) {
+      const dirPath = path.resolve(item.fileRealPath);
+      
+      // 确保目录存在
+      if (!fs.existsSync(dirPath)) {
+        console.log(`目录不存在，跳过处理: ${dirPath}`);
+        continue;
+      }
 
-  console.log("所有Markdown文件处理完成！");
+      try {
+        await processMarkdownFiles(dirPath, publicPath);
+      } catch (err) {
+        console.error(`处理目录 ${dirPath} 时出错:`, err);
+      }
+    }
+
+    console.log("所有Markdown文件处理完成！");
+  } catch (err) {
+    console.error("处理Markdown文件时出错:", err);
+  }
 };
 
 /** 

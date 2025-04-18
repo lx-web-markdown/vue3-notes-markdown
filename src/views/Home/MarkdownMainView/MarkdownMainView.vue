@@ -1,7 +1,24 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import LeftView from "./LeftView/LeftView.vue";
 import RightView from "./RightView/RightView.vue";
+
+interface Props {
+  id: string;
+}
+
+const props = defineProps<Props>();
+const currentId = ref(props.id);
+
+// 监听 props 变化
+watch(
+  () => props.id,
+  (newId) => {
+    currentId.value = newId;
+    // 这里可以添加加载对应笔记内容的逻辑
+    console.log('currentId = ', currentId.value);
+  }
+);
 
 const leftWidth = ref(250); // 左侧初始宽度
 const isResizing = ref(false);

@@ -12,7 +12,7 @@ import { useFileTree } from './composables/useFileTree';
 // 使用可组合函数来处理文件树相关逻辑
 const { 
   fileTree, 
-  loadFileTreeByRoute,
+  loadFileTreeById,
   handleNodeClick 
 } = useFileTree();
 
@@ -25,12 +25,19 @@ const defaultProps = {
 // 监听路由变化，加载相应文件树
 const route = useRoute();
 watch(() => route.fullPath, () => {
-  loadFileTreeByRoute(route.fullPath);
+  console.log('route.fullPath = ', route.fullPath);
+  // 接受参数的方式依然是：`$route.params.参数值`
+  console.log('route.params.id = ', route.params.id);
+  const paramId = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
+  loadFileTreeById(paramId || '');
 });
 
 // 组件挂载时初始加载
 onMounted(() => {
-  loadFileTreeByRoute(route.fullPath);
+  console.log('route.fullPath = ', route.fullPath);
+  // 从路由路径中提取ID
+  const paramId = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
+  loadFileTreeById(paramId || '');
 });
 </script>
 

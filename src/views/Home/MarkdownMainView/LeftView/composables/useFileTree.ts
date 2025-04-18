@@ -5,43 +5,59 @@ import { videoService } from '@/components/VideoPlayer/videoService';
 import type { Tree, FilePathMapping } from './types';
 import { downloadFile } from '@/utils/utils';
 import { ElMessage } from 'element-plus';
+import { de } from 'element-plus/es/locale/index.mjs';
+
+interface OriginInfo {
+  id: string;
+  name: string;
+  desc: string;
+  fileRealPath: string;
+  fileListTxtPath: string;
+}
+
+interface OriginInfoResponse {
+  originInfo: OriginInfo[];
+}
+
 /**
  * 文件树相关逻辑的可组合函数
  */
 export function useFileTree() {
   // 文件树数据
   const fileTree = ref<Tree[]>([]);
+  // 原始信息数据
+  const originInfoData = ref<OriginInfo[]>([]);
 
-  // NEED TO DO
-  // 路由与文件路径的映射关系
-  const routeToFilePath: FilePathMapping = {
-    'book-how-to-write-high-quality-front-end-code': '/FileListTXT/fileList_《如何写出高质量的前端代码》.txt',
-    'work-doc': '/FileListTXT/fileList_所有文件类型.txt',
-    vue2: '/FileListTXT/fileList_Vue2.txt',
-    vue3: '/FileListTXT/fileList_Vue3.txt',
-    html: '/FileListTXT/fileList_HTML.txt',
-    css: '/FileListTXT/fileList_CSS.txt',
-    js: '/FileListTXT/fileList_JS.txt',
+  /**
+   * 加载 OriginInfo.json 数据
+   */
+  const loadOriginInfo = async (): Promise<void> => {
+    try {
+      const response = await fetch('/OriginInfo.json');
+      if (!response.ok) {
+        throw new Error(`Failed to load OriginInfo.json: ${response.status}`);
+      }
+      const data: OriginInfoResponse = await response.json();
+      originInfoData.value = data.originInfo;
+    } catch (error) {
+      console.error('Error loading OriginInfo.json:', error);
+      originInfoData.value = [];
+    }
   };
 
   /**
-   * 根据路由获取对应的文件列表路径
-   * @param routePath 当前路由路径
+   * 根据路由 ID 获取对应的文件列表路径
+   * @param id 路由ID参数
    * @returns 文件列表路径
    */
-  const getFilePathByRoute = (routePath: string): string => {
-    // 默认为所有文件类型
-    let filePath = routeToFilePath['work-doc'];
-
-    // 遍历映射关系找到匹配的路径
-    for (const key in routeToFilePath) {
-      if (routePath.includes(key)) {
-        filePath = routeToFilePath[key];
-        break;
-      }
+  const getFilePathById = (id: string): string => {
+    const info = originInfoData.value.find(item => item.id === id);
+    if (!info) {
+      // 如果没找到对应的ID，返回所有文件类型的路径
+      const defaultInfo = originInfoData.value.find(item => item.name === '所有文件类型');
+      return defaultInfo?.fileListTxtPath || '';
     }
-
-    return filePath;
+    return info.fileListTxtPath;
   };
 
   /**
@@ -50,8 +66,9 @@ export function useFileTree() {
    */
   const loadFileList = async (filePath: string): Promise<void> => {
     try {
-      // console.log('Loading file list from:', filePath);
-      const response = await fetch(filePath);
+      // 移除路径开头的 ./public
+      const cleanPath = filePath.replace('./public', '');
+      const response = await fetch(cleanPath);
 
       if (!response.ok) {
         throw new Error(`Failed to load file: ${response.status}`);
@@ -65,7 +82,6 @@ export function useFileTree() {
       }
 
       fileTree.value = fileList;
-      // console.log('File list loaded successfully:', fileList.length, 'items');
     } catch (error) {
       console.error('Error loading file list:', error);
       fileTree.value = [];
@@ -73,12 +89,17 @@ export function useFileTree() {
   };
 
   /**
-   * 根据路由路径加载对应的文件树
-   * @param routePath 当前路由路径
+   * 根据路由ID加载对应的文件树
+   * @param id 路由ID参数
    */
-  const loadFileTreeByRoute = (routePath: string): void => {
-    const filePath = getFilePathByRoute(routePath);
-    loadFileList(filePath);
+  const loadFileTreeById = async (id: string): Promise<void> => {
+    if (originInfoData.value.length === 0) {
+      await loadOriginInfo();
+    }
+    const filePath = getFilePathById(id);
+    if (filePath) {
+      await loadFileList(filePath);
+    }
   };
 
   /**
@@ -92,6 +113,10 @@ export function useFileTree() {
     }
 
     console.log('Node clicked:', item);
+
+    // 移除完整系统路径前缀
+    // const fullPathWithoutPrefix = item.fullPath.replace('/Users/qiyeyun/Study/vue3-notes-markdown/public', '');
+    // item.fullPath = fullPathWithoutPrefix;
 
     // 移除public前缀
     let removePublic = item.fullPath.replace('./public', '');
@@ -132,7 +157,7 @@ export function useFileTree() {
 
   return {
     fileTree,
-    loadFileTreeByRoute,
+    loadFileTreeById,
     handleNodeClick,
   };
 }
