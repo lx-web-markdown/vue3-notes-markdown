@@ -232,8 +232,8 @@ const processAllFileListsInPublic = async () => {
     // 从 OriginInfo.json 生成目录配置
     const dirConfigs = originInfo.originInfo.map(item => ({
       name: item.name,
-      fileRealPath: path.resolve(item.fileRealPath),
-      fileListTxtPath: path.resolve(item.fileListTxtPath)
+      fileRealPath: item.fileRealPath, // path.resolve(item.fileRealPath),
+      fileListTxtPath: item.fileListTxtPath, // path.resolve(item.fileListTxtPath)
     }));
     
     // 遍历处理每个目录
