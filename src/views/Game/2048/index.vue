@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import Game2048 from '@/components/Game2048/Game2048.vue'
+import Game2048 from './components/2048.vue'
 
 const gameRef = ref<InstanceType<typeof Game2048> | null>(null)
 
