@@ -70,7 +70,7 @@ export function useSudoku() {
       hard: 55
     }[difficulty]
 
-    const puzzle = solution.map(row => [...row])
+    const puzzle: (number | null)[][] = solution.map(row => [...row])
     const positions = shuffle(Array.from({ length: 81 }, (_, i) => ({
       row: Math.floor(i / 9),
       col: i % 9

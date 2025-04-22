@@ -18,6 +18,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import game2048Image from '@/assets/images/games/2048.png'
+import memoryCardImage from '@/assets/images/games/memory-card.png'
+import sudokuImage from '@/assets/images/games/sudoku.png'
 
 interface Game {
   id: number
@@ -34,21 +37,21 @@ const games = ref<Game[]>([
     id: 1,
     name: '2048',
     description: '考验记忆力的趣味游戏',
-    coverUrl: '/images/games/2048.png',
+    coverUrl: game2048Image,
     route: '/game/2048'
   },
   {
     id: 2,
     name: '记忆翻牌',
     description: '考验记忆力的趣味游戏',
-    coverUrl: '/images/games/memory-card.png',
+    coverUrl: memoryCardImage,
     route: '/game/memory-card'
   },
   {
     id: 3,
     name: '数独',
     description: '经典数字益智游戏',
-    coverUrl: '/images/games/sudoku.png',
+    coverUrl: sudokuImage,
     route: '/game/sudoku'
   }
 ])
