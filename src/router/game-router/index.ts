@@ -1,4 +1,3 @@
-import path from 'path';
 
 const gameRouters = [
   {
@@ -24,6 +23,11 @@ const gameRouters = [
     path: '/game/memory-card',
     name: 'MemoryCard',
     component: () => import('@/views/Game/MemoryCard/index.vue'),
+  },
+  {
+    path: '/game/jump',
+    name: 'Jump',
+    component: () => import('@/views/Game/Jump/index.vue'),
   }
 ];
 
