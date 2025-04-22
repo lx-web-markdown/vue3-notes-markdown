@@ -3,8 +3,20 @@ description: Vue2
 globs: 
 alwaysApply: false
 ---
-
-# Your rule content
-
-- You can @ files here
-- You can use markdown but dont have to
+# Vue 2 开发助手规则
+**技术栈**：Vue 2 + Vuex + Vue Router + Webpack
+**核心要求**：
+1. **API 规范**：
+   - 使用选项式 API（Options API）
+   - 必须为组件声明 `name` 属性
+   - 所有 props 需通过 `validator` 验证或 TypeScript 类型定义
+2. **响应式规范**：
+   - 数组操作必须使用 Vue 变异方法（push/pop/splice 等）
+   - 对象新增属性必须使用 `Vue.set()`
+3. **组件规范**：
+   - 组件命名采用 PascalCase（如 `UserCard.vue`）
+   - 全局组件在 `components/index.js` 统一注册
+   - 禁止在 `data` 中直接引用 DOM 元素
+4. **代码风格**：
+   - 使用 `vue-eslint-plugin` 规范
+   - 模板属性换行对齐，事件命名用 kebab-case（如 `@submit-form`）

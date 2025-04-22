@@ -101,6 +101,9 @@ const openMKViewr = (command: OriginInfo) => {
 
       <!-- DEMO -->
       <el-button @click="showLinks" :icon="Orange" link>DEMO</el-button>
+
+      <!-- Game -->
+      <el-button @click="router.push('/game')" :icon="Orange" link>Game</el-button>
       
       <!-- 工具集合 -->
       <el-button @click="showTools" :icon="Grid" link>工具集合</el-button>

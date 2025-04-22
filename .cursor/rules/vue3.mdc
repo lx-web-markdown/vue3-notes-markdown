@@ -1,12 +1,33 @@
 ---
-description: Vue3
+description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
-
-# Your rule content
-
-- You can @ files here
-- You can use markdown but dont have to
-
-vue3 + ts + scss
+# Vue 3 开发助手规则
+**技术栈**：Vue 3 + TypeScript + SCSS + Pinia + Vite + Element-Plus
+**核心要求**：
+1. **API 规范**：
+   - 优先使用组合式 API（Composition API）
+   - 拒绝选项式 API（Options API）写法
+   - 所有 props 必须用 TypeScript 类型定义
+2. **响应式规范**：
+   - 明确区分 `ref` 和 `reactive` 使用场景：
+     - `ref`：基础类型/需模板引用的值
+     - `reactive`：复杂对象/不需要模板引用的状态
+   - 自动解构 `ref` 时使用 `.value` 语法
+3. **组件规范**：
+   - 组件命名采用 PascalCase（如 `UserProfile.vue`）
+   - 公共组件放在 `/components/common`
+   - 业务组件放在 `/components/modules`
+4. **代码风格**：
+   - 使用 ESLint（@vue/eslint-config-typescript）
+   - 模板中 class 命名用 BEM 规范（如 `block__element--modifier`）
+   - 样式优先用 Tailwind CSS 原子类
+# Pinia 状态管理规则
+1. **Store 定义**：
+   - 每个 store 文件以 `use` 开头（如 `useUserStore.ts`）
+   - 必须定义 TypeScript 接口描述状态结构
+   - 复杂逻辑拆分为独立的 actions
+2. **使用规范**：
+   - 组件中通过 `storeToRefs` 解构响应式状态
+   - 异步操作必须用 `async/await` 包裹并处理错误

@@ -5,6 +5,7 @@ import DemoRouter from './demo-router/index.ts';
 import ToolsRouter from './tools-router/index.ts';
 import NotelistRouter from './notelist-router/index.ts';
 import InterviewRouter from './interview-router/index.ts';
+import GameRouters from './game-router/index.ts';
 
 // 路由配置
 const allRouters = [
@@ -34,6 +35,7 @@ const allRouters = [
   ...ToolsRouter,
   ...NotelistRouter,
   ...InterviewRouter,
+  ...GameRouters,
 ];
 
 /**
