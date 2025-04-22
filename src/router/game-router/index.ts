@@ -19,6 +19,11 @@ const gameRouters = [
     path: '/game/sudoku',
     name: 'Sudoku',
     component: () => import('@/views/Game/Sudoku/index.vue'),
+  },
+  {
+    path: '/game/memory-card',
+    name: 'MemoryCard',
+    component: () => import('@/views/Game/MemoryCard/index.vue'),
   }
 ];
 
