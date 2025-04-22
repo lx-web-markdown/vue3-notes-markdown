@@ -80,12 +80,12 @@ const addNewTile = () => {
 
 // 计算 tile 的样式
 const getTileStyle = (tile: Tile) => {
-  const gap = 15; // 网格间隔为 15px
+  const cellSize = 'calc((100% - 45px) / 4)';
   const position = {
-    transform: `translate(
-      calc(${tile.col} * (100% + ${gap}px)),
-      calc(${tile.row} * (100% + ${gap}px))
-    )`,
+    top: `calc(${tile.row} * (${cellSize} + 15px))`,
+    left: `calc(${tile.col} * (${cellSize} + 15px))`,
+    width: cellSize,
+    height: cellSize,
   };
   return position;
 };
@@ -114,82 +114,100 @@ const moveTiles = (direction: 'up' | 'down' | 'left' | 'right') => {
     }
 
     // 确保正确的合并顺序
-    if (direction === 'right') positions.reverse();
-    if (direction === 'down') positions.sort((a, b) => b.row - a.row);
+    if (direction === 'right') {
+      positions.sort((a, b) => b.col - a.col);
+    } else if (direction === 'down') {
+      positions.sort((a, b) => b.row - a.row);
+    }
 
     return positions;
   };
 
-  // 获取给定位置的下一个位置和可能的目标方块
-  const getNextPosition = (row: number, col: number) => {
-    const vector = vectors[direction];
+  // 检查位置是否在边界内
+  const isWithinBounds = (row: number, col: number) => {
+    return row >= 0 && row < 4 && col >= 0 && col < 4;
+  };
+
+  // 获取给定位置的最远可移动位置
+  const getFarthestPosition = (row: number, col: number) => {
     let currentRow = row;
     let currentCol = col;
-    let nextRow = row + vector.row;
-    let nextCol = col + vector.col;
-    let foundTile = null;
+    const vector = vectors[direction];
 
-    // 找到最远的空位置或第一个遇到的方块
-    while (nextRow >= 0 && nextRow < 4 && nextCol >= 0 && nextCol < 4) {
-      const targetTile = tiles.value.find(t => t.row === nextRow && t.col === nextCol);
-      if (targetTile) {
-        foundTile = targetTile;
-        break;
-      }
-      currentRow = nextRow;
-      currentCol = nextCol;
-      nextRow += vector.row;
-      nextCol += vector.col;
-    }
+    do {
+      row = currentRow;
+      col = currentCol;
+      currentRow += vector.row;
+      currentCol += vector.col;
+    } while (
+      isWithinBounds(currentRow, currentCol) &&
+      !newTiles.some(t => t.row === currentRow && t.col === currentCol)
+    );
 
-    return {
-      farthestRow: currentRow,
-      farthestCol: currentCol,
-      nextTile: foundTile,
-    };
+    return { row, col };
   };
 
   // 执行移动
   const positions = getTraversalOrder();
+  
+  // 首先移动所有方块到最远位置
   positions.forEach(pos => {
     const tile = tiles.value.find(t => t.row === pos.row && t.col === pos.col);
     if (!tile) return;
 
-    const { farthestRow, farthestCol, nextTile } = getNextPosition(tile.row, tile.col);
+    const { row: farthestRow, col: farthestCol } = getFarthestPosition(tile.row, tile.col);
+    
+    newTiles.push({
+      ...tile,
+      row: farthestRow,
+      col: farthestCol,
+      isMerged: false,
+      isNew: false,
+    });
+  });
 
-    // 生成位置键，用于检查是否已合并
-    const currentPosKey = `${farthestRow},${farthestCol}`;
-    const nextPosKey = nextTile ? `${nextTile.row},${nextTile.col}` : null;
+  // 然后处理合并
+  const tilesToMerge: Tile[] = [];
+  newTiles.forEach(tile => {
+    const vector = vectors[direction];
+    const nextRow = tile.row + vector.row;
+    const nextCol = tile.col + vector.col;
+    
+    if (!isWithinBounds(nextRow, nextCol)) return;
 
-    if (nextTile && nextTile.value === tile.value && !mergedPositions.has(nextPosKey)) {
-      // 合并相同数值的块
-      mergedPositions.add(nextPosKey);
-      newTiles.push({
-        id: nextTileId++,
-        value: tile.value * 2,
-        row: nextTile.row,
-        col: nextTile.col,
-        isMerged: true,
-      });
-      score.value += tile.value * 2;
-    } else {
-      // 移动到最远位置
-      newTiles.push({
-        ...tile,
-        row: farthestRow,
-        col: farthestCol,
-        isMerged: false,
-        isNew: false,
-      });
+    const nextTile = newTiles.find(t => t.row === nextRow && t.col === nextCol);
+    if (nextTile && 
+        nextTile.value === tile.value && 
+        !tilesToMerge.includes(nextTile) && 
+        !tilesToMerge.includes(tile)) {
+      tilesToMerge.push(tile, nextTile);
     }
   });
+
+  // 执行合并
+  for (let i = 0; i < tilesToMerge.length; i += 2) {
+    const tile1 = tilesToMerge[i];
+    const tile2 = tilesToMerge[i + 1];
+    
+    newTiles = newTiles.filter(t => t !== tile1 && t !== tile2);
+    newTiles.push({
+      id: nextTileId++,
+      value: tile1.value * 2,
+      row: tile2.row,
+      col: tile2.col,
+      isMerged: true,
+    });
+    score.value += tile1.value * 2;
+  }
 
   // 更新游戏状态
   tiles.value = newTiles;
 
-  // 如果有变化，添加新的数字块
+  // 如果有变化，等待动画完成后添加新的数字块
   if (JSON.stringify(tiles.value) !== oldTiles) {
-    addNewTile();
+    setTimeout(() => {
+      addNewTile();
+    }, 250); // 等待移动(150ms)和合并(200ms)动画完成
   }
 
   // 检查游戏是否结束
@@ -353,15 +371,13 @@ defineExpose({
 
 .tile {
   position: absolute;
-  width: calc((100% - 45px) / 4);
-  height: calc((100% - 45px) / 4);
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 24px;
   font-weight: bold;
   border-radius: 3px;
-  transition: all 0.15s ease-in-out;
+  transition: top 0.15s ease-in-out, left 0.15s ease-in-out;
 
   &.tile-new {
     animation: tile-appear 0.2s ease-in-out;
@@ -374,9 +390,11 @@ defineExpose({
 
 @keyframes tile-appear {
   0% {
+    opacity: 0;
     transform: scale(0);
   }
   100% {
+    opacity: 1;
     transform: scale(1);
   }
 }
