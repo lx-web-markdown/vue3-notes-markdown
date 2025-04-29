@@ -87,7 +87,14 @@ const games = ref<Game[]>([
     name: '英文打字游戏',
     description: '提高英文打字速度和准确率',
     coverUrl: sudokuImage,
-    route: '/game/english-words'
+    route: '/game/english-typing'
+  },
+  {
+    id: 9,
+    name: '英语单词记忆',
+    description: '提高单词记忆',
+    coverUrl: sudokuImage,
+    route: '/game/english-spelling'
   }
 ])
 const navigateToGame = (game: Game) => {
