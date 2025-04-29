@@ -67,6 +67,13 @@ const games = ref<Game[]>([
     description: '消消乐',
     coverUrl: sudokuImage,
     route: '/game/popstar'
+  },
+  {
+    id: 6,
+    name: '贪吃蛇',
+    description: '经典贪吃蛇游戏',
+    coverUrl: sudokuImage,
+    route: '/game/snake'
   }
 ])
 

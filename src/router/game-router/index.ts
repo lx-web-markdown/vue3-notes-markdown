@@ -1,4 +1,3 @@
-
 const gameRouters = [
   {
     path: '/game',
@@ -33,6 +32,11 @@ const gameRouters = [
     path: '/game/popstar',
     name: 'PopStar',
     component: () => import('@/views/Game/PopStar/index.vue'),
+  },
+  {
+    path: '/game/snake',
+    name: 'Snake',
+    component: () => import('@/views/Game/Snake/index.vue'),
   }
 ];
 
