@@ -42,6 +42,15 @@ const gameRouters = [
     path: '/game/tetris',
     name: 'Tetris',
     component: () => import('@/views/Game/Tetris/index.vue'),
+  },
+  {
+    path: '/game/english-words',
+    name: 'EnglishTpying',
+    component: () => import('@/views/Game/EnglishTpying/index.vue'),
+    meta: {
+      title: '英文打字游戏',
+      keepAlive: true
+    }
   }
 ];
 

@@ -81,6 +81,13 @@ const games = ref<Game[]>([
     description: '经典俄罗斯方块游戏',
     coverUrl: sudokuImage,
     route: '/game/tetris'
+  },
+  {
+    id: 8,
+    name: '英文打字游戏',
+    description: '提高英文打字速度和准确率',
+    coverUrl: sudokuImage,
+    route: '/game/english-words'
   }
 ])
 const navigateToGame = (game: Game) => {
