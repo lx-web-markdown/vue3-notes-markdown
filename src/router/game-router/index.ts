@@ -37,6 +37,11 @@ const gameRouters = [
     path: '/game/snake',
     name: 'Snake',
     component: () => import('@/views/Game/Snake/index.vue'),
+  },
+  {
+    path: '/game/tetris',
+    name: 'Tetris',
+    component: () => import('@/views/Game/Tetris/index.vue'),
   }
 ];
 

@@ -74,9 +74,15 @@ const games = ref<Game[]>([
     description: '经典贪吃蛇游戏',
     coverUrl: sudokuImage,
     route: '/game/snake'
+  },
+  {
+    id: 7,
+    name: '俄罗斯方块',
+    description: '经典俄罗斯方块游戏',
+    coverUrl: sudokuImage,
+    route: '/game/tetris'
   }
 ])
-
 const navigateToGame = (game: Game) => {
   router.push(game.route)
 }
