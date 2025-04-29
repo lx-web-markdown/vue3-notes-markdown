@@ -28,6 +28,11 @@ const gameRouters = [
     path: '/game/jump',
     name: 'Jump',
     component: () => import('@/views/Game/Jump/index.vue'),
+  },
+  {
+    path: '/game/popstar',
+    name: 'PopStar',
+    component: () => import('@/views/Game/PopStar/index.vue'),
   }
 ];
 
