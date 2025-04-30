@@ -144,8 +144,8 @@
       <el-form label-position="top">
         <el-form-item label="默认打开方式">
           <el-radio-group v-model="settings.openMethod">
-            <el-radio :label="'new_tab'">新标签页</el-radio>
-            <el-radio :label="'embedded'">内嵌预览</el-radio>
+            <el-radio :value="'new_tab'">新标签页</el-radio>
+            <el-radio :value="'embedded'">内嵌预览</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="保存历史记录">
