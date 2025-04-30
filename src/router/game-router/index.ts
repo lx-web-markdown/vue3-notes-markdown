@@ -1,4 +1,7 @@
-const gameRouters = [
+import path from 'path';
+import type { RouteRecordRaw } from 'vue-router';
+
+const gameRouters: RouteRecordRaw[] = [
   {
     path: '/game',
     name: 'GameIndex',
@@ -58,6 +61,15 @@ const gameRouters = [
     component: () => import('@/views/Game/EnglishSpelling/index.vue'),
     meta: {
       title: '英文打字游戏',
+      keepAlive: true
+    }
+  },
+  {
+    path: '/game/gobang',
+    name: 'GoBang',
+    component: () => import('@/views/Game/GoBang/index.vue'),
+    meta: {
+      title: '五子棋对战',
       keepAlive: true
     }
   }

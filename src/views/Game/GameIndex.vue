@@ -102,6 +102,13 @@ const games = ref<Game[]>([
     description: '提高单词记忆',
     coverUrl: englishSpellingImage,
     route: '/game/english-spelling'
+  },
+  {
+    id: 10,
+    name: '五子棋（未完成）',
+    description: '五子棋',
+    coverUrl: englishSpellingImage,
+    route: '/game/gobang'
   }
 ])
 const navigateToGame = (game: Game) => {
