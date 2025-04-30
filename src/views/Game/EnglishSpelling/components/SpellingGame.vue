@@ -46,7 +46,7 @@
           :class="{
             'hidden-letter': letter === '_',
             'correct-letter': revealedIndices.includes(index),
-            'error-letter': errorIndices.includes(index)
+            'error-letter': errorIndices.includes(index),
           }"
         >
           {{ letter }}
@@ -56,19 +56,23 @@
         <div class="phonetic">[{{ currentWord.phonetic }}]</div>
         <div class="meaning">{{ currentWord.meaning }}</div>
       </div>
+
+      <div class="game-controls">
+        <button class="hint-button" @click="showHint" :disabled="!hasHiddenLetters">提示</button>
+        <button class="skip-button" @click="skipWord">换一个</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted, reactive } from 'vue';
-import { ElMessage } from 'element-plus';
 // 引入不同学习阶段的单词数据源
-import primaryWordList from '../dataSources/101';    // 小学阶段词汇
-import juniorWordList from '../dataSources/102';     // 初中阶段词汇
-import seniorWordList from '../dataSources/103';     // 高中阶段词汇
-import collegeWordList from '../dataSources/104';    // 大学阶段词汇
-import graduateWordList from '../dataSources/105';   // 研究生阶段词汇
+import primaryWordList from '../dataSources/101'; // 小学阶段词汇
+import juniorWordList from '../dataSources/102'; // 初中阶段词汇
+import seniorWordList from '../dataSources/103'; // 高中阶段词汇
+import collegeWordList from '../dataSources/104'; // 大学阶段词汇
+import graduateWordList from '../dataSources/105'; // 研究生阶段词汇
 
 interface Word {
   text: string;
@@ -77,24 +81,27 @@ interface Word {
 }
 
 // 游戏设置和状态
-const difficulty = ref<'easy' | 'medium' | 'hard'>('easy')
-const gameMode = ref<'timed' | 'endless'>('endless')
-const wordLevel = ref<'primary' | 'junior' | 'senior' | 'college' | 'graduate'>('primary')
-const score = ref(0)
-const accuracy = ref(100)
+const difficulty = ref<'easy' | 'medium' | 'hard'>('easy');
+const gameMode = ref<'timed' | 'endless'>('endless');
+const wordLevel = ref<'primary' | 'junior' | 'senior' | 'college' | 'graduate'>('primary');
+const accuracy = ref(100);
+
+// 计时相关
 const totalTime = 120; // 限时模式总时间（秒）
 let timer: NodeJS.Timeout | null = null;
-const timeLeft = ref(gameMode.value === 'timed' ? totalTime : 0)
+const timeLeft = ref(gameMode.value === 'timed' ? totalTime : 0);
 
 const gameState = reactive({
   completedWords: 0,
   bestScores: {
     timed: parseInt(localStorage.getItem('spelling-best-score-timed') || '0'),
-    endless: parseInt(localStorage.getItem('spelling-best-score-endless') || '0')
-  }
+    endless: parseInt(localStorage.getItem('spelling-best-score-endless') || '0'),
+  },
 });
 
-const bestScore = computed(() => gameState.bestScores[gameMode.value === 'timed' ? 'timed' : 'endless'])
+const bestScore = computed(
+  () => gameState.bestScores[gameMode.value === 'timed' ? 'timed' : 'endless']
+);
 
 // 根据难度和词库级别选择单词列表
 const wordList = computed<Word[]>(() => {
@@ -143,7 +150,6 @@ const emit = defineEmits<{
 // 游戏状态
 const currentWord = ref<Word>(wordList.value[0]);
 const previousWord = ref<Word | null>(null);
-const userInput = ref('');
 const totalAttempts = ref(0);
 const correctAttempts = ref(0);
 const gameOver = ref(false);
@@ -156,7 +162,7 @@ const hiddenIndices = ref<number[]>([]);
 const getHiddenLetterCount = (word: string) => {
   const length = word.length;
   let count = 0;
-  
+
   switch (difficulty.value) {
     case 'easy':
       count = Math.max(1, Math.floor(length * 0.3));
@@ -168,7 +174,7 @@ const getHiddenLetterCount = (word: string) => {
       count = Math.max(1, Math.floor(length * 0.7));
       break;
   }
-  
+
   // 确保隐藏的字母数不超过单词长度减1（至少保留一个字母显示）
   return Math.min(count, length - 1);
 };
@@ -178,7 +184,9 @@ const displayWord = computed(() => {
   const word = currentWord.value.text;
   return word
     .split('')
-    .map((letter, index) => (hiddenIndices.value.includes(index) && !revealedIndices.value.includes(index) ? '_' : letter))
+    .map((letter, index) =>
+      hiddenIndices.value.includes(index) && !revealedIndices.value.includes(index) ? '_' : letter
+    )
     .join('');
 });
 
@@ -190,18 +198,18 @@ const handleKeyDown = (e: KeyboardEvent) => {
   if (letter.length === 1 && letter.match(/[a-z]/)) {
     const word = currentWord.value.text.toLowerCase();
     const hiddenCount = getHiddenLetterCount(word);
-    
+
     // 找到当前需要填写的位置（第一个未填写的位置）
     let currentPosition = -1;
     const hiddenPositions = [];
-    
+
     // 获取所有需要填写的位置
     for (let i = 0; i < word.length; i++) {
       if (displayWord.value[i] === '_' && !revealedIndices.value.includes(i)) {
         hiddenPositions.push(i);
       }
     }
-    
+
     // 按顺序获取下一个需要填写的位置
     currentPosition = hiddenPositions[0];
 
@@ -217,9 +225,11 @@ const handleKeyDown = (e: KeyboardEvent) => {
         updateAccuracy(newAccuracy);
 
         // 检查是否完成当前单词
-        const allLettersRevealed = word.split('').every((_, index) => 
-          displayWord.value[index] !== '_' || revealedIndices.value.includes(index)
-        );
+        const allLettersRevealed = word
+          .split('')
+          .every(
+            (_, index) => displayWord.value[index] !== '_' || revealedIndices.value.includes(index)
+          );
 
         if (allLettersRevealed) {
           gameState.completedWords++;
@@ -227,7 +237,10 @@ const handleKeyDown = (e: KeyboardEvent) => {
           const currentMode = gameMode.value === 'timed' ? 'timed' : 'endless';
           if (gameState.completedWords > gameState.bestScores[currentMode]) {
             gameState.bestScores[currentMode] = gameState.completedWords;
-            localStorage.setItem(`spelling-best-score-${currentMode}`, gameState.completedWords.toString());
+            localStorage.setItem(
+              `spelling-best-score-${currentMode}`,
+              gameState.completedWords.toString()
+            );
           }
           emit('score-change', gameState.completedWords);
           setTimeout(() => {
@@ -254,28 +267,27 @@ const handleKeyDown = (e: KeyboardEvent) => {
 // 加载新单词
 const loadNewWord = () => {
   previousWord.value = currentWord.value;
-  
+
   // 过滤掉上一个单词，从剩余单词中随机选择
   const availableWords = wordList.value.filter(word => word.text !== previousWord.value?.text);
   const randomIndex = Math.floor(Math.random() * availableWords.length);
   currentWord.value = availableWords[randomIndex];
-  
-  userInput.value = '';
+
   revealedIndices.value = [];
   errorIndices.value = [];
-  
+
   // 重新生成固定的隐藏位置
   const word = currentWord.value.text;
   const hiddenCount = getHiddenLetterCount(word);
   const newHiddenIndices: number[] = [];
-  
+
   while (newHiddenIndices.length < hiddenCount) {
     const randomIndex = Math.floor(Math.random() * word.length);
     if (!newHiddenIndices.includes(randomIndex)) {
       newHiddenIndices.push(randomIndex);
     }
   }
-  
+
   hiddenIndices.value = newHiddenIndices;
 };
 
@@ -371,26 +383,93 @@ const updateScore = (newScore: number) => {
 
 // 更新准确率
 const updateAccuracy = (newAccuracy: number) => {
-  accuracy.value = Math.round(newAccuracy)
-  emit('accuracy-change', newAccuracy)
-}
+  accuracy.value = Math.round(newAccuracy);
+  emit('accuracy-change', newAccuracy);
+};
 
 // 更新时间
 const updateTime = (newTime: number) => {
-  timeLeft.value = newTime
-  emit('time-change', newTime)
-}
+  timeLeft.value = newTime;
+  emit('time-change', newTime);
+};
 
 // 游戏结束时的处理
-watch(() => gameOver.value, (newValue) => {
-  if (newValue) {
-    const currentMode = gameMode.value === 'timed' ? 'timed' : 'endless';
-    if (gameState.completedWords > gameState.bestScores[currentMode]) {
-      gameState.bestScores[currentMode] = gameState.completedWords;
-      localStorage.setItem(`spelling-best-score-${currentMode}`, gameState.completedWords.toString());
+watch(
+  () => gameOver.value,
+  newValue => {
+    if (newValue) {
+      const currentMode = gameMode.value === 'timed' ? 'timed' : 'endless';
+      if (gameState.completedWords > gameState.bestScores[currentMode]) {
+        gameState.bestScores[currentMode] = gameState.completedWords;
+        localStorage.setItem(
+          `spelling-best-score-${currentMode}`,
+          gameState.completedWords.toString()
+        );
+      }
     }
   }
+);
+
+// 检查是否还有隐藏的字母
+const hasHiddenLetters = computed(() => {
+  const word = currentWord.value.text;
+  return word
+    .split('')
+    .some((_, index) => displayWord.value[index] === '_' && !revealedIndices.value.includes(index));
 });
+
+// 显示提示（从左到右依次显示一个隐藏的字母）
+const showHint = () => {
+  const word = currentWord.value.text.toLowerCase();
+  let leftmostHiddenPosition = -1;
+
+  // 找到最左边的隐藏字母位置
+  for (let i = 0; i < word.length; i++) {
+    if (displayWord.value[i] === '_' && !revealedIndices.value.includes(i)) {
+      leftmostHiddenPosition = i;
+      break;
+    }
+  }
+
+  if (leftmostHiddenPosition !== -1) {
+    // 显示这个字母
+    revealedIndices.value.push(leftmostHiddenPosition);
+
+    // 更新正确率统计
+    correctAttempts.value++;
+    totalAttempts.value++;
+    const newAccuracy = (correctAttempts.value / totalAttempts.value) * 100;
+    updateAccuracy(newAccuracy);
+
+    // 检查是否完成当前单词
+    const allLettersRevealed = word
+      .split('')
+      .every(
+        (_, index) => displayWord.value[index] !== '_' || revealedIndices.value.includes(index)
+      );
+
+    if (allLettersRevealed) {
+      gameState.completedWords++;
+      const currentMode = gameMode.value === 'timed' ? 'timed' : 'endless';
+      if (gameState.completedWords > gameState.bestScores[currentMode]) {
+        gameState.bestScores[currentMode] = gameState.completedWords;
+        localStorage.setItem(
+          `spelling-best-score-${currentMode}`,
+          gameState.completedWords.toString()
+        );
+      }
+      emit('score-change', gameState.completedWords);
+      setTimeout(() => {
+        loadNewWord();
+      }, 1000);
+    }
+  }
+};
+
+// 跳过当前单词
+const skipWord = () => {
+  loadNewWord();
+};
 </script>
 
 <style scoped lang="scss">
@@ -501,26 +580,72 @@ watch(() => gameOver.value, (newValue) => {
   }
 }
 
-.new-game-button {
-  padding: 0.8rem 1.5rem;
-  background-color: #8f7a66;
-  color: white;
+.game-controls {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 800px;
+  background: white;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.hint-button,
+.skip-button {
+  padding: 1rem 2rem;
   border: none;
   border-radius: 8px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 120px;
+  justify-content: center;
 
-  &:hover {
-    background-color: #9f8a76;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  i {
+    font-size: 1.2rem;
+  }
+
+  &:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
-  &:active {
+  &:active:not(:disabled) {
     transform: translateY(0);
+  }
+}
+
+.hint-button {
+  background-color: #c9b458;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: #d9c468;
+  }
+}
+
+.skip-button {
+  background-color: #85c0f9;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: #95d0ff;
   }
 }
 
@@ -608,13 +733,16 @@ watch(() => gameOver.value, (newValue) => {
 }
 
 @keyframes shake {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
-  20%, 60% {
+  20%,
+  60% {
     transform: translateX(-5px);
   }
-  40%, 80% {
+  40%,
+  80% {
     transform: translateX(5px);
   }
 }
@@ -650,6 +778,25 @@ watch(() => gameOver.value, (newValue) => {
     .meaning {
       font-size: 1.4rem;
     }
+  }
+
+  .game-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .game-controls {
+    padding: 1rem;
+    flex-direction: row;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .hint-button,
+  .skip-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    min-width: 100px;
   }
 }
 </style>
