@@ -45,8 +45,8 @@ const gameRouters = [
   },
   {
     path: '/game/english-typing',
-    name: 'EnglishTpying',
-    component: () => import('@/views/Game/EnglishTpying/index.vue'),
+    name: 'EnglishTyping',
+    component: () => import('@/views/Game/EnglishTyping/index.vue'),
     meta: {
       title: '英文打字游戏',
       keepAlive: true

@@ -18,9 +18,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+// images
 import game2048Image from '@/assets/images/games/2048.png'
 import memoryCardImage from '@/assets/images/games/memory-card.png'
 import sudokuImage from '@/assets/images/games/sudoku.png'
+import englishTypingImage from '@/assets/images/games/english-typing.png'
+import englishSpellingImage from '@/assets/images/games/english-spelling.png'
+import jumpImage from '@/assets/images/games/jump.png'
+import popStarImage from '@/assets/images/games/pop-star.png'
+import tetrisImage from '@/assets/images/games/tetris.png'
+import snakeImage from '@/assets/images/games/snake.png'
 
 interface Game {
   id: number
@@ -58,42 +65,42 @@ const games = ref<Game[]>([
     id: 4,
     name: '跳一跳',
     description: '趣味游戏',
-    coverUrl: sudokuImage,
+    coverUrl: jumpImage,
     route: '/game/jump'
   },
   {
     id: 5,
     name: 'PopStar',
     description: '消消乐',
-    coverUrl: sudokuImage,
+    coverUrl: popStarImage,
     route: '/game/popstar'
   },
   {
     id: 6,
     name: '贪吃蛇',
     description: '经典贪吃蛇游戏',
-    coverUrl: sudokuImage,
+    coverUrl: snakeImage,
     route: '/game/snake'
   },
   {
     id: 7,
     name: '俄罗斯方块',
     description: '经典俄罗斯方块游戏',
-    coverUrl: sudokuImage,
+    coverUrl: tetrisImage,
     route: '/game/tetris'
   },
   {
     id: 8,
     name: '英文打字游戏',
     description: '提高英文打字速度和准确率',
-    coverUrl: sudokuImage,
+    coverUrl: englishTypingImage,
     route: '/game/english-typing'
   },
   {
     id: 9,
     name: '英语单词记忆',
     description: '提高单词记忆',
-    coverUrl: sudokuImage,
+    coverUrl: englishSpellingImage,
     route: '/game/english-spelling'
   }
 ])
