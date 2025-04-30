@@ -72,6 +72,15 @@ const gameRouters: RouteRecordRaw[] = [
       title: '五子棋对战',
       keepAlive: true
     }
+  },
+  {
+    path: '/game/chinese-chess',
+    name: 'ChineseChess',
+    component: () => import('@/views/Game/ChineseChess/index.vue'),
+    meta: {
+      title: '中国象棋',
+      keepAlive: true
+    }
   }
 ];
 

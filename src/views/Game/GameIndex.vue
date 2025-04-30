@@ -109,6 +109,13 @@ const games = ref<Game[]>([
     description: '五子棋',
     coverUrl: englishSpellingImage,
     route: '/game/gobang'
+  },
+  {
+    id: 11,
+    name: '中国象棋',
+    description: '中国象棋',
+    coverUrl: englishSpellingImage,
+    route: '/game/chinese-chess'
   }
 ])
 const navigateToGame = (game: Game) => {
