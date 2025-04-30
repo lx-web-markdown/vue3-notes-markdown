@@ -77,9 +77,9 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { ChessPiece, Position, PieceType, PieceColor } from '../types'
-import { initializeBoard, getPossibleMoves, makeMove, evaluatePosition } from '../gameLogic'
-import { getAIMove } from '../aiLogic'
+import type { ChessPiece, Position, PieceType, PieceColor } from '../composables/types'
+import { initializeBoard, getPossibleMoves, makeMove, evaluatePosition } from '../composables/gameLogic'
+import { getAIMove } from '../composables/aiLogic'
 
 const props = defineProps<{
   difficulty: 'easy' | 'medium' | 'hard'

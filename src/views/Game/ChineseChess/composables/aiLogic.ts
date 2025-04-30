@@ -1,4 +1,4 @@
-import type { ChessPiece, Position, Move, AIMove } from './types'
+import type { ChessPiece, Position, Move, AIMove } from '../types'
 import { getPossibleMoves, makeMove, evaluatePosition } from './gameLogic'
 
 // 极小化极大算法
