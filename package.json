@@ -8,6 +8,7 @@
     "dev:getOriginInfo": "node scripts/getOriginInfo.js",
     "dev:getPublicPath": "node scripts/getPublicPath.js",
     "dev:all": "node scripts/copyFiles.js && node scripts/getOriginInfo.js && node scripts/getPublicPath.js && vite --open",
+    "dev:host": "vite --open --host 192.168.1.101",
     "dev": "vite --open",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
