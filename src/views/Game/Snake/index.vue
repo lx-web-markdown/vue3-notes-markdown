@@ -1,65 +1,66 @@
 <template>
-  <div class="game-page" @click="focusClick">
-    <h1 class="game-title">贪吃蛇</h1>
-    <div class="game-instructions">
-      <h2>游戏说明：</h2>
-      <ul>
-        <li>使用方向键或 WASD 控制蛇的移动</li>
-        <li>吃到食物可以增加长度和分数</li>
-        <li>撞到墙壁或自己的身体则游戏结束</li>
-        <li>按空格键暂停/继续游戏</li>
-      </ul>
-    </div>
-    <div class="game-header">
-      <div class="scores">
-        <div class="score">分数: {{ score }}</div>
-        <div class="best-score">最高分: {{ bestScore }}</div>
+  <div class="full-bg" @click="focusClick">
+    <div class="game-page">
+      <h1 class="game-title">贪吃蛇</h1>
+      <div class="game-instructions">
+        <h2>游戏说明：</h2>
+        <ul>
+          <li>使用方向键或 WASD 控制蛇的移动</li>
+          <li>吃到食物可以增加长度和分数</li>
+          <li>撞到墙壁或自己的身体则游戏结束</li>
+          <li>按空格键暂停/继续游戏</li>
+        </ul>
       </div>
-      <button class="new-game-button" @click="startNewGame">新游戏</button>
+      <div class="game-header">
+        <div class="scores">
+          <div class="score">分数: {{ score }}</div>
+          <div class="best-score">最高分: {{ bestScore }}</div>
+        </div>
+        <button class="new-game-button" @click="startNewGame">新游戏</button>
+      </div>
+      <SnakeGame ref="gameRef" @score-change="updateScore" @game-over="handleGameOver" />
     </div>
-    <SnakeGame 
-      ref="gameRef"
-      @score-change="updateScore"
-      @game-over="handleGameOver"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import SnakeGame from './components/SnakeGame.vue'
+import { ref, onMounted, onUnmounted } from 'vue';
+import SnakeGame from './components/SnakeGame.vue';
 
-const score = ref(0)
-const bestScore = ref(parseInt(localStorage.getItem('snake-best-score') || '0'))
-const gameRef = ref<InstanceType<typeof SnakeGame> | null>(null)
+const score = ref(0);
+const bestScore = ref(parseInt(localStorage.getItem('snake-best-score') || '0'));
+const gameRef = ref<InstanceType<typeof SnakeGame> | null>(null);
 
 const updateScore = (newScore: number) => {
-  score.value = newScore
+  score.value = newScore;
   if (newScore > bestScore.value) {
-    bestScore.value = newScore
-    localStorage.setItem('snake-best-score', bestScore.value.toString())
+    bestScore.value = newScore;
+    localStorage.setItem('snake-best-score', bestScore.value.toString());
   }
-}
+};
 
 const handleGameOver = () => {
   setTimeout(() => {
-    alert(`游戏结束！\n最终得分：${score.value}`)
-  }, 300)
-}
+    alert(`游戏结束！\n最终得分：${score.value}`);
+  }, 300);
+};
 
 const startNewGame = () => {
-  gameRef.value?.resetGame()
-}
+  gameRef.value?.resetGame();
+};
 
 const focusClick = () => {
-  console.log('时间看看记录撒地方困了就睡');
-  
-  gameRef.value?.myFocus()
-}
-
+  gameRef.value?.myFocus();
+};
 </script>
 
 <style scoped lang="scss">
+
+.full-bg {
+  width: 100%;
+  height: auto;
+}
+
 .game-page {
   max-width: 800px;
   margin: 0 auto;
@@ -96,7 +97,7 @@ const focusClick = () => {
       position: relative;
 
       &:before {
-        content: "•";
+        content: '•';
         position: absolute;
         left: 0.5rem;
         color: #bbada0;
