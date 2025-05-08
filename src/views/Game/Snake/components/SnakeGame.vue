@@ -236,9 +236,13 @@ const handleKeydown = (event: KeyboardEvent) => {
     case ' ':
       event.preventDefault();
       if (!isGameOver.value) {
-        isPaused.value = !isPaused.value;
-        if (!isPaused.value && !gameLoop.value) {
+        if (isPaused.value) {
+          // 当前已暂停，恢复游戏
+          isPaused.value = false;
           gameStep();
+        } else {
+          // 当前未暂停，暂停游戏
+          isPaused.value = true;
         }
       }
       break;
@@ -249,6 +253,10 @@ const handleKeydown = (event: KeyboardEvent) => {
 const resetGame = () => {
   initGame();
 };
+
+const myFocus = () => {
+  gameContainer.value?.focus();
+}
 
 // 组件挂载
 onMounted(() => {
@@ -272,6 +280,7 @@ onUnmounted(() => {
 
 defineExpose({
   resetGame,
+  myFocus
 });
 </script>
 

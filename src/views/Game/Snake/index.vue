@@ -1,5 +1,5 @@
 <template>
-  <div class="game-page">
+  <div class="game-page" @click="focusClick">
     <h1 class="game-title">贪吃蛇</h1>
     <div class="game-instructions">
       <h2>游戏说明：</h2>
@@ -50,6 +50,13 @@ const handleGameOver = () => {
 const startNewGame = () => {
   gameRef.value?.resetGame()
 }
+
+const focusClick = () => {
+  console.log('时间看看记录撒地方困了就睡');
+  
+  gameRef.value?.myFocus()
+}
+
 </script>
 
 <style scoped lang="scss">
