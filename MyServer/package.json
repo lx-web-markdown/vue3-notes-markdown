@@ -1,0 +1,13 @@
+{
+  "name": "my-server",
+  "version": "1.0.0",
+  "description": "My Server",
+  "main": "wechat.js",
+  "type": "module",
+  "scripts": {
+    "start": "node wechat.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.2"
+  }
+}

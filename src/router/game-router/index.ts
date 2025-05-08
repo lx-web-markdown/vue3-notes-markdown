@@ -81,6 +81,15 @@ const gameRouters: RouteRecordRaw[] = [
       title: '中国象棋',
       keepAlive: true
     }
+  },
+  {
+    path: '/game/chat-room',
+    name: 'ChatRoom',
+    component: () => import('@/views/Game/ChatRoom/index.vue'),
+    meta: {
+      title: '聊天室',
+      keepAlive: true
+    }
   }
 ];
 
