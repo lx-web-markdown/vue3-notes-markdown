@@ -129,7 +129,7 @@ const copyUUIDs = async () => {
           color: white;
 
           &:hover {
-            background-color: darken(#00c58e, 10%);
+            background-color: #00c58d2e;
           }
         }
 
@@ -138,7 +138,7 @@ const copyUUIDs = async () => {
           color: #666;
 
           &:hover {
-            background-color: darken(#f5f5f5, 10%);
+            background-color: #f5f5f52d;
           }
         }
 
@@ -147,7 +147,7 @@ const copyUUIDs = async () => {
           color: #666;
 
           &:hover {
-            background-color: darken(#f5f5f5, 10%);
+            background-color: #f5f5f52d;
           }
         }
       }
