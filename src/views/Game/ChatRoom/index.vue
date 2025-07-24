@@ -1,11 +1,11 @@
 <template>
   <div class="chat-room">
-    <ChatRoomPanel />
+    <!-- <ChatRoomPanel /> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import ChatRoomPanel from './components/ChatRoomPanel.vue';
+// import ChatRoomPanel from './components/ChatRoomPanel.vue';
 </script>
 
 <style scoped lang="scss">
