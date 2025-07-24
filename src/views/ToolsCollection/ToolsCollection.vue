@@ -1,20 +1,15 @@
 <template>
   <div class="tools-collection">
     <h1 class="page-title">工具集合</h1>
-    
+
     <div class="tools-category" v-for="category in categories" :key="category.name">
       <h2 class="category-title">
         <i :class="category.icon"></i>
         {{ category.title }}
       </h2>
-      
+
       <div class="tools-grid">
-        <router-link
-          v-for="tool in category.tools"
-          :key="tool.path"
-          :to="tool.path"
-          class="tool-card"
-        >
+        <router-link v-for="tool in category.tools" :key="tool.path" :to="tool.path" class="tool-card">
           <div class="tool-icon">
             <i :class="tool.icon"></i>
           </div>
@@ -106,6 +101,13 @@ const categories: Category[] = [
         title: 'Unicode',
         description: 'Unicode编码解码转换',
         path: '/tools/unicode',
+        icon: 'fas fa-font',
+        isDeprecated: false
+      },
+      {
+        title: 'html转义',
+        description: 'html转义与反转义',
+        path: '/tools/html-convert',
         icon: 'fas fa-font',
         isDeprecated: false
       }

@@ -94,3 +94,21 @@ export function downloadFile(url: string, filename: string) {
   a.download = filename;
   a.click();
 }
+
+
+
+/**
+ * 复制到剪切板
+ * @param text 内容
+ * @returns 成功 or 失败
+ */
+export async function copyToClipboard(text: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+    console.log('文本已复制到剪贴板');
+    return true;
+  } catch (err) {
+    console.error('无法复制文本: ', err);
+    return false;
+  }
+}

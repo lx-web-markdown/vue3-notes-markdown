@@ -49,6 +49,11 @@ const toolsRouters = [
     name: 'QRCode',
     component: () => import('@/views/ToolsCollection/QRCode/QRCodeTool.vue'),
   },
+  {
+    path: '/tools/html-convert',
+    name: 'HtmlConvert',
+    component: () => import('@/views/ToolsCollection/HtmlConvert/html-convert.vue'),
+  },
 ]
 
 export default toolsRouters;
