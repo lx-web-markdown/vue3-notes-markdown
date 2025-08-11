@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import HeaderView from "@/views/Home/HeaderView/HeaderView.vue";
+import HeaderView from "./HeaderView/HeaderView.vue";
+import FooterView from "./FooterView/FooterView.vue";
 //
 // import { useRoute, useRouter } from 'vue-router'
 // const route = useRoute()
@@ -17,12 +18,16 @@ import HeaderView from "@/views/Home/HeaderView/HeaderView.vue";
       <!-- 路由窗口 -->
       <router-view />
     </el-container>
+    <el-footer>
+      <FooterView />
+    </el-footer>
   </el-container>
 
 </template>
 
 <style lang="scss" scoped>
 @import url('@/assets/styles/element-plus-styles/el-header-scoped.scss');
+@import url('@/assets/styles/element-plus-styles/el-footer-scoped.scss');
 @import url('@/assets/styles/element-plus-styles/el-main-scoped.scss');
 
 .home-container {
@@ -36,12 +41,14 @@ import HeaderView from "@/views/Home/HeaderView/HeaderView.vue";
     right: 0;
     z-index: 1000;
     background-color: var(--bg-tertiary);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
   }
 
   .home-container-main {
     background-color: #FFF;
     margin-top: var(--lx-header-height);
+
+    min-height: calc(100vh - 60px - 90px);
   }
 }
 </style>

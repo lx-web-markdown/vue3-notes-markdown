@@ -1,4 +1,4 @@
-const MarkdownMainView = () => import('@/views/Home/MarkdownMainView/MarkdownMainView.vue');
+const MarkdownMainView = () => import('@/components/MarkdownMainView/MarkdownMainView.vue');
 import type { RouteLocationNormalized } from 'vue-router';
 
 const notelistRouter = [

@@ -1,5 +1,3 @@
-import { demo } from "@/views/ToolsCollection/JSONFormat/demo"
-
 export interface RouteItem {
   path: string
   name: string
@@ -9,7 +7,7 @@ export interface RouteItem {
 
 export const routesList: RouteItem[] = [
   {
-    path: '/home',
+    path: '/css',
     name: '首页',
     description: '应用的主页面',
     icon: '🏠'

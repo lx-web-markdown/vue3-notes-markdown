@@ -6,6 +6,7 @@ import ToolsRouter from './tools-router/index.ts';
 import NotelistRouter from './notelist-router/index.ts';
 import InterviewRouter from './interview-router/index.ts';
 import GameRouters from './game-router/index.ts';
+import path from 'path';
 
 // 路由配置
 const allRouters = [
@@ -17,18 +18,22 @@ const allRouters = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/Home/Home.vue'),
+    component: () => import('@/views/layouts/Home.vue'),
     children: [
       {
         path: '/',
-        component: () => import('@/views/Home/RouterMainView/RouterMainView.vue'),
+        component: () => import('@/views/modules/Home/RouterMainView/RouterMainView.vue'),
       },
+      {
+        path: '/css',
+        component: () => import("@/views/modules/Home/CSSMainView/index.vue")
+      }
     ],
   },
   {
     path: '/java-home',
     name: 'JavaHome',
-    component: () => import('@/views/JavaHome/index.vue'),
+    component: () => import('@/views/modules/JavaHome/index.vue'),
   },
   ...Router404,
   ...DemoRouter,

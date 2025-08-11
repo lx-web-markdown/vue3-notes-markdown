@@ -2,7 +2,7 @@ const routers = [
   {
     path: "/404",
     name: "404",
-    component: () => import("@/views/OtherView/404.vue"),
+    component: () => import("@/views/modules/404/404.vue"),
   },
   {
     path: "/:pathMatch(.*)",

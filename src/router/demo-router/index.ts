@@ -1,8 +1,10 @@
+import CSSRouters from './css-demo'
+
 const routers = [
   {
     path: "/demo",
     name: "DemoHome",
-    component: () => import("@/views/Demo/DemoHome.vue")
+    component: () => import("@/views/modules/Demo/index.vue")
   },
   {
     path: "/audio-player-demo",
@@ -17,12 +19,12 @@ const routers = [
   {
     path: "/download-demo",
     name: "DownloadDemo",
-    component: () => import("@/views/Demo/download-demo.vue")
+    component: () => import("@/views/modules/Demo/download-demo.vue")
   },
   {
     path: "/pdf-viewer-demo",
     name: "PdfViewerDemo",
-    component: () => import("@/views/Demo/pdfViewer-demo.vue")
+    component: () => import("@/views/modules/Demo/pdfViewer-demo.vue")
   },
   {
     path: "/image-viewer-demo",
@@ -32,8 +34,9 @@ const routers = [
   {
     path: '/xmind-viewer-demo',
     name: 'XmindViewerDemo',
-    component: () => import('@/views/Demo/XmindViewer-demo.vue'),
+    component: () => import('@/views/modules/Demo/XmindViewer-demo.vue'),
   },
 ];
 
-export default routers;
+
+export default [...routers, ...CSSRouters];
